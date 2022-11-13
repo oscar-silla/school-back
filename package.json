@@ -1,0 +1,24 @@
+{
+  "name": "school-back",
+  "version": "1.0.0",
+  "description": "School Back Project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node build/index.js",
+    "dev": "ts-node-dev src/boot/index.ts",
+    "tsc": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Óscar Silla Adalid",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "4.17.14",
+    "typescript": "4.8.4"
+  },
+  "dependencies": {
+    "dotenv": "16.0.3",
+    "express": "4.18.2",
+    "mongodb": "4.11.0",
+    "ts-node-dev": "^2.0.0"
+  }
+}
