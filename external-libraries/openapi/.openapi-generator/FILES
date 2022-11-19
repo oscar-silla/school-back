@@ -1,0 +1,8 @@
+.openapi-generator-ignore
+apis/VideoApi.ts
+apis/index.ts
+index.ts
+models/VideoSourceType.ts
+models/VideoType.ts
+models/index.ts
+runtime.ts
