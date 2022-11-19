@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
-import example from "./controllers/example-controller";
+import video from "./controllers/video-controller";
 
-router.use("/example", example);
+router.use("/video", video);
 
 export default router;
