@@ -1,0 +1,117 @@
+swagger: "2.0"
+info:
+  title: School API
+  description: School API
+  version: 1.0.0
+  contact:
+    email: orscarsilla@outlook.com
+tags:
+  - name: video
+    description: Videos from school web page
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /video:
+    post:
+      tags:
+        - "video"
+      summary: "Create video"
+      description: "Create video"
+      operationId: "createVideo"
+      parameters:
+        - $ref: "#/parameters/videoBodyParam"
+      responses:
+        '201':
+          description: Created successfully.
+          schema:
+            $ref: '#/definitions/VideoType'
+        '400':
+          description: Bad request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not found.
+  /video/{id}:
+    get:
+      tags:
+        - "video"
+      summary: "Get an existing video"
+      description: "Get existing video by ObjectId."
+      operationId: "getVideo"
+      parameters:
+        - $ref: "#/parameters/idParam"
+      responses:
+        '200':
+          description: Created successfully.
+          schema:
+            $ref: '#/definitions/VideoType'
+        '400':
+          description: Bad request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not found.
+    patch:
+      tags:
+        - "video"
+      summary: "Modify an existing video"
+      description: "Modify 'src' from video."
+      operationId: "modifyVideo"
+      parameters:
+        - $ref: "#/parameters/idParam"
+        - $ref: "#/parameters/videoSourceBodyParam"
+      responses:
+        '200':
+          description: Created successfully.
+          schema:
+            $ref: '#/definitions/VideoType'
+        '400':
+          description: Bad request.
+        '401':
+          description: Unauthorized.
+        '404':
+          description: Not found.
+definitions:
+  VideoType:
+    type: object
+    properties:
+      ref:
+        type: string
+        format: string
+        example: home
+      src:
+        type: string
+        format: string
+        example: <iframe width="560" height="315" src="https://www.youtube.com/embed/d6q8T2jfjm0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  VideoSourceType:
+    type: object
+    properties:
+      src:
+        type: string
+        format: string
+        example: <iframe width="560" height="315" src="https://www.youtube.com/embed/d6q8T2jfjm0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+parameters:
+  idParam:
+    name: "_id"
+    description: "ObjectId param."
+    in: path
+    required: true
+    type: string
+    format: string
+  videoBodyParam:
+    name: "body"
+    description: "Video body"
+    in: body
+    required: true
+    schema:
+      $ref: "#/definitions/VideoType"
+  videoSourceBodyParam:
+    name: "body"
+    description: "Video source body param."
+    in: body
+    required: true
+    schema:
+      $ref: "#/definitions/VideoSourceType"
+
