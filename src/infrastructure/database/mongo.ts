@@ -1,7 +1,10 @@
 import { MongoClient, ObjectId } from "mongodb";
+import { EnvironmentVariableNotFoundException } from "../../application/exceptions/EnvironmentVariableNotFoundException";
 
-const URL = "mongodb://0.0.0.0:27017/";
-const CLIENT = new MongoClient(URL);
+const URL = process.env.MONGO_URL;
+if (!URL) throw new EnvironmentVariableNotFoundException();
+
+const CLIENT: MongoClient = new MongoClient(URL);
 const DB_NAME = "school";
 
 declare global {
