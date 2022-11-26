@@ -2,7 +2,9 @@
 apis/VideoApi.ts
 apis/index.ts
 index.ts
-models/VideoSourceType.ts
-models/VideoType.ts
+models/ErrorResponse.ts
+models/VideoRequest.ts
+models/VideoResponse.ts
+models/VideoSourceRequest.ts
 models/index.ts
 runtime.ts

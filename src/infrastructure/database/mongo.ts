@@ -21,5 +21,5 @@ declare global {
   return `MongoDB is connected ✅`;
 })()
   .then(console.log)
-  .catch(console.error)
-  .finally(() => CLIENT.close());
+  .catch(console.error);
+//.finally(() => CLIENT.close());

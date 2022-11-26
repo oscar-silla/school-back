@@ -26,13 +26,19 @@ paths:
         '201':
           description: Created successfully.
           schema:
-            $ref: '#/definitions/VideoType'
+            $ref: '#/definitions/VideoResponse'
         '400':
           description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
         '401':
           description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
         '404':
           description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /video/{id}:
     get:
       tags:
@@ -46,13 +52,19 @@ paths:
         '200':
           description: Created successfully.
           schema:
-            $ref: '#/definitions/VideoType'
+            $ref: '#/definitions/VideoResponse'
         '400':
           description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
         '401':
           description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
         '404':
           description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
     patch:
       tags:
         - "video"
@@ -66,16 +78,58 @@ paths:
         '200':
           description: Created successfully.
           schema:
-            $ref: '#/definitions/VideoType'
+            $ref: '#/definitions/VideoResponse'
         '400':
           description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
         '401':
           description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
         '404':
           description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
 definitions:
-  VideoType:
+  VideoResponse:
     type: object
+    required:
+      - "_id"
+      - "ref"
+      - "src"
+    properties:
+      _id:
+        type: string
+        format: string
+        example: "507f191e810c19729de860ea"
+      ref:
+        type: string
+        format: string
+        example: home
+      src:
+        type: string
+        format: string
+        example: <iframe width="560" height="315" src="https://www.youtube.com/embed/d6q8T2jfjm0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  ErrorResponse:
+    type: object
+    required:
+      - "code"
+      - "description"
+    properties:
+      code:
+        type: integer
+        format: int32
+        example: 500
+      description:
+        type: string
+        format: string
+        example: "Internal server error."
+  VideoRequest:
+    type: object
+    required:
+      - "ref"
+      - "src"
     properties:
       ref:
         type: string
@@ -85,8 +139,10 @@ definitions:
         type: string
         format: string
         example: <iframe width="560" height="315" src="https://www.youtube.com/embed/d6q8T2jfjm0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  VideoSourceType:
+  VideoSourceRequest:
     type: object
+    required:
+      - "src"
     properties:
       src:
         type: string
@@ -106,12 +162,12 @@ parameters:
     in: body
     required: true
     schema:
-      $ref: "#/definitions/VideoType"
+      $ref: "#/definitions/VideoRequest"
   videoSourceBodyParam:
     name: "body"
     description: "Video source body param."
     in: body
     required: true
     schema:
-      $ref: "#/definitions/VideoSourceType"
+      $ref: "#/definitions/VideoSourceRequest"
 

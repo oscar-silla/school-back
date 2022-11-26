@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import video from "./controllers/video-controller";
+import video from "./controllers/adapters/video.controller.adapter";
 
 router.use("/video", video);
 
