@@ -13,8 +13,8 @@ export class CreateVideoUseCase implements CreateVideoUseCasePort {
     }
   }
 
-  createVideo(videoRequestParams: VideoRequest): Promise<void> {
+  async createVideo(videoRequestParams: VideoRequest): Promise<void> {
     this.checkRequestBody(videoRequestParams);
-    return videoService.createVideo(videoRequestParams);
+    return await videoService.createVideo(videoRequestParams);
   }
 }
