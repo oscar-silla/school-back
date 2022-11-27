@@ -6,7 +6,7 @@ import { VideoService } from "../../services/video.service";
 const videoService = new VideoService();
 
 export class CreateVideoUseCase implements CreateVideoUseCasePort {
-  checkVideoParams(videoRequest: VideoRequest) {
+  checkRequestBody(videoRequest: VideoRequest) {
     const { ref, src } = videoRequest;
     if (!ref || !src) {
       throw new CustomError("Missing request body params.", 400, {});
@@ -14,7 +14,7 @@ export class CreateVideoUseCase implements CreateVideoUseCasePort {
   }
 
   createVideo(videoRequestParams: VideoRequest): Promise<void> {
-    this.checkVideoParams(videoRequestParams);
+    this.checkRequestBody(videoRequestParams);
     return videoService.createVideo(videoRequestParams);
   }
 }
