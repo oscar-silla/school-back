@@ -25,8 +25,6 @@ paths:
       responses:
         '201':
           description: Created successfully.
-          schema:
-            $ref: '#/definitions/VideoResponse'
         '400':
           description: Bad request.
           schema:
@@ -50,7 +48,7 @@ paths:
         - $ref: "#/parameters/idParam"
       responses:
         '200':
-          description: Created successfully.
+          description: OK.
           schema:
             $ref: '#/definitions/VideoResponse'
         '400':
@@ -76,9 +74,7 @@ paths:
         - $ref: "#/parameters/videoSourceBodyParam"
       responses:
         '200':
-          description: Created successfully.
-          schema:
-            $ref: '#/definitions/VideoResponse'
+          description: OK.
         '400':
           description: Bad request.
           schema:
@@ -120,11 +116,9 @@ definitions:
       code:
         type: integer
         format: int32
-        example: 500
       description:
         type: string
         format: string
-        example: "Internal server error."
   VideoRequest:
     type: object
     required:

@@ -53,7 +53,7 @@ export class VideoApi extends runtime.BaseAPI {
      * Create video
      * Create video
      */
-    async createVideoRaw(requestParameters: CreateVideoRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<VideoResponse>> {
+    async createVideoRaw(requestParameters: CreateVideoRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.body === null || requestParameters.body === undefined) {
             throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling createVideo.');
         }
@@ -72,16 +72,15 @@ export class VideoApi extends runtime.BaseAPI {
             body: VideoRequestToJSON(requestParameters.body),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => VideoResponseFromJSON(jsonValue));
+        return new runtime.VoidApiResponse(response);
     }
 
     /**
      * Create video
      * Create video
      */
-    async createVideo(requestParameters: CreateVideoRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<VideoResponse> {
-        const response = await this.createVideoRaw(requestParameters, initOverrides);
-        return await response.value();
+    async createVideo(requestParameters: CreateVideoRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.createVideoRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -120,7 +119,7 @@ export class VideoApi extends runtime.BaseAPI {
      * Modify \'src\' from video.
      * Modify an existing video
      */
-    async modifyVideoRaw(requestParameters: ModifyVideoRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<VideoResponse>> {
+    async modifyVideoRaw(requestParameters: ModifyVideoRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling modifyVideo.');
         }
@@ -143,16 +142,15 @@ export class VideoApi extends runtime.BaseAPI {
             body: VideoSourceRequestToJSON(requestParameters.body),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => VideoResponseFromJSON(jsonValue));
+        return new runtime.VoidApiResponse(response);
     }
 
     /**
      * Modify \'src\' from video.
      * Modify an existing video
      */
-    async modifyVideo(requestParameters: ModifyVideoRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<VideoResponse> {
-        const response = await this.modifyVideoRaw(requestParameters, initOverrides);
-        return await response.value();
+    async modifyVideo(requestParameters: ModifyVideoRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.modifyVideoRaw(requestParameters, initOverrides);
     }
 
 }
