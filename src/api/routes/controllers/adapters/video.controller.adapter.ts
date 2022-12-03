@@ -6,10 +6,12 @@ import {
   VideoResponse,
 } from "../../../../../external-libraries/openapi";
 import { GetVideoUseCase } from "../../../../application/usecases/video/get-video.usecase";
+import { ModifyVideoUseCase } from "../../../../application/usecases/video/modify-video.usecase";
 const router = express.Router();
 
-const createVideoUseCase = new CreateVideoUseCase();
 const getVideoUseCase = new GetVideoUseCase();
+const createVideoUseCase = new CreateVideoUseCase();
+const modifyVideoUseCase = new ModifyVideoUseCase();
 
 router.post(
   "/",
@@ -33,6 +35,18 @@ router.get(
     try {
       const video = await getVideoUseCase.getVideo(req?.params?._id);
       res.status(HttpCode.OK).json(video);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.patch(
+  "/:id",
+  async (req: Request, res: Response<void>, next: NextFunction) => {
+    try {
+      await modifyVideoUseCase.modifyVideo(req?.params?.id, req?.body);
+      res.status(HttpCode.OK).send();
     } catch (err) {
       next(err);
     }

@@ -1,4 +1,7 @@
-import { VideoRequest } from "../../../../../external-libraries/openapi";
+import {
+  VideoRequest,
+  VideoSourceRequest,
+} from "../../../../../external-libraries/openapi";
 import { videosCollection } from "../../../../application/constants";
 
 export class VideosCollection {
@@ -11,5 +14,12 @@ export class VideosCollection {
     return await mongo
       .collection(videosCollection)
       .findOne({ _id: ObjectId(id) });
+  }
+  async modify(id: string, payload: VideoSourceRequest) {
+    const { src } = payload;
+    const { ObjectId, mongo } = global.database;
+    return await mongo
+      .collection("videos")
+      .updateOne({ _id: ObjectId(id) }, { $set: { src } });
   }
 }

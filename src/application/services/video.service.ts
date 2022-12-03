@@ -1,16 +1,25 @@
 import {
   VideoRequest,
   VideoResponse,
+  VideoSourceRequest,
 } from "../../../external-libraries/openapi";
 import { VideoRepositoryAdapter } from "../../infrastructure/repository/mongo/adapters/video.repository.adapter";
 import { CustomError } from "../exceptions/CustomError";
-import { CreateVideoServicePort } from "../ports/in/services/create-video.service.port";
+import { VideoServicePort } from "../ports/in/services/video.service.port";
 
-export class VideoService implements CreateVideoServicePort {
+export class VideoService implements VideoServicePort {
   videoRepositoryAdapter = new VideoRepositoryAdapter();
 
   async createVideo(videoRequest: VideoRequest): Promise<void> {
     return await this.videoRepositoryAdapter.save(videoRequest);
+  }
+
+  async modifyVideo(
+    id: string,
+    requestBody: VideoSourceRequest
+  ): Promise<void> {
+    await this.getVideo(id);
+    await this.videoRepositoryAdapter.modify(id, requestBody);
   }
 
   async getVideo(id: string): Promise<VideoResponse> {
