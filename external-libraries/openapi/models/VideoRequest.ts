@@ -16,41 +16,50 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface VideoSourceType
+ * @interface VideoRequest
  */
-export interface VideoSourceType {
+export interface VideoRequest {
     /**
      * 
      * @type {string}
-     * @memberof VideoSourceType
+     * @memberof VideoRequest
      */
-    src?: string;
+    ref: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof VideoRequest
+     */
+    src: string;
 }
 
 /**
- * Check if a given object implements the VideoSourceType interface.
+ * Check if a given object implements the VideoRequest interface.
  */
-export function instanceOfVideoSourceType(value: object): boolean {
+export function instanceOfVideoRequest(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "ref" in value;
+    isInstance = isInstance && "src" in value;
 
     return isInstance;
 }
 
-export function VideoSourceTypeFromJSON(json: any): VideoSourceType {
-    return VideoSourceTypeFromJSONTyped(json, false);
+export function VideoRequestFromJSON(json: any): VideoRequest {
+    return VideoRequestFromJSONTyped(json, false);
 }
 
-export function VideoSourceTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): VideoSourceType {
+export function VideoRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): VideoRequest {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'src': !exists(json, 'src') ? undefined : json['src'],
+        'ref': json['ref'],
+        'src': json['src'],
     };
 }
 
-export function VideoSourceTypeToJSON(value?: VideoSourceType | null): any {
+export function VideoRequestToJSON(value?: VideoRequest | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -59,6 +68,7 @@ export function VideoSourceTypeToJSON(value?: VideoSourceType | null): any {
     }
     return {
         
+        'ref': value.ref,
         'src': value.src,
     };
 }

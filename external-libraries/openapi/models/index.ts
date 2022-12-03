@@ -1,4 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-export * from './VideoSourceType';
-export * from './VideoType';
+export * from './ErrorResponse';
+export * from './VideoRequest';
+export * from './VideoResponse';
+export * from './VideoSourceRequest';
