@@ -7,7 +7,9 @@ info:
     email: orscarsilla@outlook.com
 tags:
   - name: video
-    description: Videos from school web page
+    description: Manage videos from school web page
+  - name: section
+    description: Manage sections from school web page
 consumes:
   - application/json
 produces:
@@ -87,6 +89,126 @@ paths:
           description: Not found.
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /sections:
+    post:
+      tags:
+        - "section"
+      summary: "Create section"
+      description: "Create section"
+      operationId: "createSection"
+      parameters:
+        - $ref: "#/parameters/sectionBodyParam"
+      responses:
+        '201':
+          description: Created successfully.
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '401':
+          description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    get:
+      tags:
+        - "section"
+      summary: "Get sections"
+      description: "Get all sections"
+      operationId: "getSections"
+      responses:
+        '200':
+          description: OK.
+          schema:
+            $ref: "#/definitions/SectionsResponse"
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '401':
+          description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /sections/{id}:
+    get:
+      tags:
+        - "section"
+      summary: "Get an existing section"
+      description: "Get an existing section by ObjectId."
+      operationId: "getSection"
+      parameters:
+        - $ref: "#/parameters/idParam"
+      responses:
+        '200':
+          description: OK.
+          schema:
+            $ref: '#/definitions/SectionResponse'
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '401':
+          description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    patch:
+      tags:
+        - "section"
+      summary: "Modify an existing section"
+      description: "Modify an existing section by ObjectId"
+      operationId: "modifySection"
+      parameters:
+        - $ref: "#/parameters/idParam"
+        - $ref: "#/parameters/sectionBodyParam"
+      responses:
+        '200':
+          description: OK.
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '401':
+          description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    delete:
+      tags:
+        - "section"
+      summary: "Delete an existing section"
+      description: "Delete an existing section by ObjectId"
+      operationId: "deleteSection"
+      parameters:
+        - $ref: "#/parameters/idParam"
+      responses:
+        '204':
+          description: No content.
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '401':
+          description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
 definitions:
   VideoResponse:
     type: object
@@ -142,6 +264,55 @@ definitions:
         type: string
         format: string
         example: <iframe width="560" height="315" src="https://www.youtube.com/embed/d6q8T2jfjm0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  SectionBody:
+    type: object
+    required:
+      - "title"
+      - "ref"
+    properties:
+      title:
+        type: string
+        format: string
+        example: "Educational Principles"
+      description:
+        type: string
+        format: string
+        example: "Educational principles are the core of the school."
+      img:
+        type: string
+        format: string
+        example: "example.png"
+      ref:
+        type: string
+        format: string
+        example: "educational_principles"
+  SectionsResponse:
+    type: array
+    items:
+      $ref: "#/definitions/SectionResponse"
+  SectionResponse:
+    type: object
+    properties:
+      _id:
+        type: string
+        format: string
+        example: "507f191e810c19729de860ea"
+      title:
+        type: string
+        format: string
+        example: "Educational Principles"
+      description:
+        type: string
+        format: string
+        example: "Educational principles are the core of the school."
+      img:
+        type: string
+        format: string
+        example: "example.png"
+      ref:
+        type: string
+        format: string
+        example: "educational_principles"
 parameters:
   idParam:
     name: "_id"
@@ -164,4 +335,11 @@ parameters:
     required: true
     schema:
       $ref: "#/definitions/VideoSourceRequest"
+  sectionBodyParam:
+    name: "body"
+    description: "Section body"
+    in: body
+    required: true
+    schema:
+      $ref: "#/definitions/SectionBody"
 
