@@ -1,7 +1,9 @@
 import express from "express";
 const router = express.Router();
-import video from "./controllers/adapters/video.controller.adapter";
+import videoController from "./controllers/adapters/video.controller.adapter";
+import sectionController from "./controllers/adapters/section.controller.adapter";
 
-router.use("/video", video);
+router.use("/video", videoController);
+router.use("/sections", sectionController);
 
 export default router;

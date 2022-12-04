@@ -268,7 +268,6 @@ definitions:
     type: object
     required:
       - "title"
-      - "ref"
     properties:
       title:
         type: string
@@ -282,10 +281,6 @@ definitions:
         type: string
         format: string
         example: "example.png"
-      ref:
-        type: string
-        format: string
-        example: "educational_principles"
   SectionsResponse:
     type: array
     items:

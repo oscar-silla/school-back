@@ -1,8 +1,11 @@
 .openapi-generator-ignore
+apis/SectionApi.ts
 apis/VideoApi.ts
 apis/index.ts
 index.ts
 models/ErrorResponse.ts
+models/SectionBody.ts
+models/SectionResponse.ts
 models/VideoRequest.ts
 models/VideoResponse.ts
 models/VideoSourceRequest.ts
