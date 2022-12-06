@@ -1,7 +1,5 @@
-import {
-  VideoRequest,
-  VideoSourceRequest,
-} from "../../../../../external-libraries/openapi";
+import { VideoRequest } from "../../../../../external-libraries/openapi/models/VideoRequest";
+import { VideoSourceRequest } from "../../../../../external-libraries/openapi/models/VideoSourceRequest";
 import { videosCollection } from "../../../../application/constants";
 
 export class VideosCollection {

@@ -10,4 +10,8 @@ export class SectionService implements SectionServicePort {
     section.setRef(generateReference(section.getTitle()));
     await this.sectionRepository.save(section);
   }
+
+  async getSections(): Promise<Section[]> {
+    return await this.sectionRepository.find();
+  }
 }
