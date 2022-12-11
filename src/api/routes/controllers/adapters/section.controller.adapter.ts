@@ -5,6 +5,7 @@ import { HttpCode } from "../../../../application/domain/http-code";
 
 import { Section } from "../../../../application/domain/section";
 import { CreateSectionUseCase } from "../../../../application/usecases/section/create-section.usecase";
+import { GetSectionUseCase } from "../../../../application/usecases/section/get-section.usecase";
 import { GetSectionsUseCase } from "../../../../application/usecases/section/get-sections.usecase";
 import { SectionControllerMapper } from "../mappers/section.controller.mapper";
 const router = express.Router();
@@ -13,6 +14,7 @@ const sectionMapper = new SectionControllerMapper();
 
 const getSectionsUseCase = new GetSectionsUseCase();
 const createSectionUseCase = new CreateSectionUseCase();
+const getSectionUseCase = new GetSectionUseCase();
 
 router.post(
   "/",
@@ -42,6 +44,19 @@ router.get(
       const sections = await getSectionsUseCase.getSections();
       const sectionsResponse = sectionMapper.toSectionsResponse(sections);
       res.status(HttpCode.OK).json(sectionsResponse);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.get(
+  "/:ref",
+  async (req: Request, res: Response<SectionResponse>, next: NextFunction) => {
+    try {
+      const section = await getSectionUseCase.getSection(req?.params?.ref);
+      const sectionResponse = sectionMapper.toSectionResponse(section);
+      res.status(200).json(sectionResponse);
     } catch (err) {
       next(err);
     }

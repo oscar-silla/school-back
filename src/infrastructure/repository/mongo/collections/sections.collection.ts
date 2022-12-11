@@ -10,4 +10,8 @@ export class SectionsCollection {
     const { mongo } = global.database;
     return await mongo.collection("sections").find({}).toArray();
   }
+  async findOneByRef(ref: string): Promise<SectionModel> {
+    const { mongo } = global.database;
+    return await mongo.collection("sections").findOne({ ref });
+  }
 }

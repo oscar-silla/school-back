@@ -10,35 +10,33 @@
  * Do not edit the class manually.
  */
 
+
+
 export class ErrorResponse {
-  "code": number;
-  "description": string;
+    'code': number;
+    'description': string;
 
-  static readonly discriminator: string | undefined = undefined;
+    static readonly discriminator: string | undefined = undefined;
 
-  static readonly attributeTypeMap: Array<{
-    name: string;
-    baseName: string;
-    type: string;
-    format: string;
-  }> = [
-    {
-      name: "code",
-      baseName: "code",
-      type: "number",
-      format: "int32",
-    },
-    {
-      name: "description",
-      baseName: "description",
-      type: "string",
-      format: "string",
-    },
-  ];
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
+        {
+            "name": "code",
+            "baseName": "code",
+            "type": "number",
+            "format": "int32"
+        },
+        {
+            "name": "description",
+            "baseName": "description",
+            "type": "string",
+            "format": "string"
+        }    ];
 
-  static getAttributeTypeMap() {
-    return ErrorResponse.attributeTypeMap;
-  }
+    static getAttributeTypeMap() {
+        return ErrorResponse.attributeTypeMap;
+    }
 
-  public constructor() {}
+    public constructor() {
+    }
 }
+

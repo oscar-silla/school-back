@@ -15,4 +15,11 @@ export class SectionRepository implements SectionRepositoryPort {
     const response: SectionModel[] = await this.sectionsCollection.find();
     return this.sectionMapperModel.toSections(response);
   }
+  async findOneByTitle(ref: string): Promise<Section> {
+    const response: SectionModel = await this.sectionsCollection.findOneByRef(
+      ref
+    );
+    const section: Section = this.sectionMapperModel.toSection(response);
+    return section;
+  }
 }
