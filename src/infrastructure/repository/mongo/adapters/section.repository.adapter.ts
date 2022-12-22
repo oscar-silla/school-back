@@ -9,17 +9,18 @@ export class SectionRepository implements SectionRepositoryPort {
   private sectionMapperModel = new SectionMapperModel();
 
   async save(section: Section): Promise<void> {
-    await this.sectionsCollection.save(section);
+    return await this.sectionsCollection.save(section);
   }
   async find(): Promise<Section[]> {
     const response: SectionModel[] = await this.sectionsCollection.find();
     return this.sectionMapperModel.toSections(response);
   }
-  async findOneByTitle(ref: string): Promise<Section> {
-    const response: SectionModel = await this.sectionsCollection.findOneByRef(
-      ref
-    );
+  async findOne(ref: string): Promise<Section> {
+    const response: SectionModel = await this.sectionsCollection.findOne(ref);
     const section: Section = this.sectionMapperModel.toSection(response);
     return section;
+  }
+  async modifyOne(ref: string, section: Section): Promise<void> {
+    return await this.sectionsCollection.modifyOne(ref, section);
   }
 }

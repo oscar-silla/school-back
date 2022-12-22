@@ -1,4 +1,5 @@
 import { SectionRepository } from "../../infrastructure/repository/mongo/adapters/section.repository.adapter";
+import { HttpCode } from "../domain/http-code";
 import { Section } from "../domain/section";
 import { CustomError } from "../exceptions/CustomError";
 import { SectionServicePort } from "../ports/in/services/section.service.port";
@@ -17,14 +18,36 @@ export class SectionService implements SectionServicePort {
   }
 
   async getSection(ref: string): Promise<Section> {
-    const section: Section = await this.sectionRepository.findOneByTitle(ref);
-    this.checkSection(section);
+    const section: Section = await this.sectionRepository.findOne(ref);
+    this.checkIfExistsSection(section);
     return section;
   }
 
-  private checkSection(section: Section) {
+  async modifySection(ref: string, section: Section): Promise<void> {
+    const sectionToUpdate = await this.getSection(ref);
+    section = this.buildSectionToUpdate(section, sectionToUpdate);
+    this.sectionRepository.modifyOne(ref, section);
+  }
+
+  private checkIfExistsSection(section: Section): void {
     if (!section.getRef()) {
-      throw new CustomError("Section not found.", 404, {});
+      throw new CustomError("Section not found.", HttpCode.NOT_FOUND, {});
     }
+  }
+
+  private buildSectionToUpdate(
+    section: Section,
+    sectionToUpdate: Section
+  ): Section {
+    return new Section(
+      section.getTitle() ? section.getTitle() : sectionToUpdate.getTitle(),
+      section.getDescription()
+        ? section.getDescription()
+        : sectionToUpdate.getDescription(),
+      section.getImg() ? section.getImg() : sectionToUpdate.getImg(),
+      generateReference(
+        section.getTitle() ? section.getTitle() : sectionToUpdate.getTitle()
+      )
+    );
   }
 }
