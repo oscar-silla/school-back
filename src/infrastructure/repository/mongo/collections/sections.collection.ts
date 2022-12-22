@@ -20,4 +20,8 @@ export class SectionsCollection {
       .collection("sections")
       .updateOne({ ref }, { $set: section });
   }
+  async deleteOne(ref: string): Promise<void> {
+    const { mongo } = global.database;
+    await mongo.collection("sections").deleteOne({ ref });
+  }
 }

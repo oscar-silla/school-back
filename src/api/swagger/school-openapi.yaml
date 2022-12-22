@@ -317,7 +317,7 @@ parameters:
     type: string
     format: string
   sectionReference:
-    name: "Section reference"
+    name: "ref"
     description: "Section reference filter to find, update and delete a section."
     in: path
     required: true

@@ -5,4 +5,5 @@ export interface SectionServicePort {
   getSection(ref: string): Promise<Section>;
   getSections(): Promise<Section[]>;
   modifySection(ref: string, sectionToUpdate: Section): Promise<void>;
+  deleteSection(ref: string): Promise<void>;
 }

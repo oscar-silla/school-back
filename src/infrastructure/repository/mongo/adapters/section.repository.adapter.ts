@@ -23,4 +23,7 @@ export class SectionRepository implements SectionRepositoryPort {
   async modifyOne(ref: string, section: Section): Promise<void> {
     return await this.sectionsCollection.modifyOne(ref, section);
   }
+  async deleteOne(ref: string): Promise<void> {
+    await this.sectionsCollection.deleteOne(ref);
+  }
 }

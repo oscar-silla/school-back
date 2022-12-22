@@ -5,4 +5,5 @@ export interface SectionRepositoryPort {
   find(): Promise<Section[]>;
   findOne(ref: string): Promise<Section>;
   modifyOne(ref: string, section: Section): Promise<void>;
+  deleteOne(ref: string): Promise<void>;
 }

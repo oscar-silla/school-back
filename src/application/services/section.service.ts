@@ -50,4 +50,9 @@ export class SectionService implements SectionServicePort {
       )
     );
   }
+
+  async deleteSection(ref: string): Promise<void> {
+    await this.getSection(ref);
+    await this.sectionRepository.deleteOne(ref);
+  }
 }
