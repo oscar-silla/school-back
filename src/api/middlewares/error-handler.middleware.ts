@@ -17,7 +17,6 @@ function handleError(
   _next: NextFunction
 ) {
   let customError = err;
-
   if (!(err instanceof CustomError)) {
     customError = new CustomError(
       "Oh no, this is embarrasing. We are having troubles my friend"

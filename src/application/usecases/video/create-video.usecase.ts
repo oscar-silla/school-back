@@ -1,4 +1,4 @@
-import { VideoRequest } from "../../../../external-libraries/openapi";
+import { VideoRequest } from "../../../../external-libraries/openapi/models/VideoRequest";
 import { CustomError } from "../../exceptions/CustomError";
 import { CreateVideoUseCasePort } from "../../ports/in/usecases/create-video.usecase.port";
 import { VideoService } from "../../services/video.service";

@@ -1,8 +1,6 @@
-import {
-  VideoRequest,
-  VideoResponse,
-  VideoSourceRequest,
-} from "../../../../../external-libraries/openapi";
+import { VideoRequest } from "../../../../../external-libraries/openapi/models/VideoRequest";
+import { VideoResponse } from "../../../../../external-libraries/openapi/models/VideoResponse";
+import { VideoSourceRequest } from "../../../../../external-libraries/openapi/models/VideoSourceRequest";
 import { VideoRepositoryPort } from "../../../../application/ports/out/video.repository.port";
 import { VideosCollection } from "../collections/videos.collection";
 

@@ -1,8 +1,6 @@
-import {
-  VideoRequest,
-  VideoResponse,
-  VideoSourceRequest,
-} from "../../../external-libraries/openapi";
+import { VideoRequest } from "../../../external-libraries/openapi/models/VideoRequest";
+import { VideoResponse } from "../../../external-libraries/openapi/models/VideoResponse";
+import { VideoSourceRequest } from "../../../external-libraries/openapi/models/VideoSourceRequest";
 import { VideoRepositoryAdapter } from "../../infrastructure/repository/mongo/adapters/video.repository.adapter";
 import { CustomError } from "../exceptions/CustomError";
 import { VideoServicePort } from "../ports/in/services/video.service.port";

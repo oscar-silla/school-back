@@ -1,4 +1,4 @@
-import { VideoSourceRequest } from "../../../../external-libraries/openapi";
+import { VideoSourceRequest } from "../../../../external-libraries/openapi/models/VideoSourceRequest";
 import { HttpCode } from "../../domain/http-code";
 import { HttpMessage } from "../../domain/http-message";
 import { CustomError } from "../../exceptions/CustomError";

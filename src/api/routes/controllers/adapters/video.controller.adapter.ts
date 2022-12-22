@@ -1,10 +1,8 @@
 import express, { Request, Response, NextFunction } from "express";
+import { VideoRequest } from "../../../../../external-libraries/openapi/models/VideoRequest";
+import { VideoResponse } from "../../../../../external-libraries/openapi/models/VideoResponse";
 import { HttpCode } from "../../../../application/domain/http-code";
 import { CreateVideoUseCase } from "../../../../application/usecases/video/create-video.usecase";
-import {
-  VideoRequest,
-  VideoResponse,
-} from "../../../../../external-libraries/openapi";
 import { GetVideoUseCase } from "../../../../application/usecases/video/get-video.usecase";
 import { ModifyVideoUseCase } from "../../../../application/usecases/video/modify-video.usecase";
 const router = express.Router();

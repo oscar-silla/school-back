@@ -136,7 +136,7 @@ paths:
           description: Not found.
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /sections/{id}:
+  /sections/{ref}:
     get:
       tags:
         - "section"
@@ -144,7 +144,7 @@ paths:
       description: "Get an existing section by ObjectId."
       operationId: "getSection"
       parameters:
-        - $ref: "#/parameters/idParam"
+        - $ref: "#/parameters/sectionReference"
       responses:
         '200':
           description: OK.
@@ -169,7 +169,7 @@ paths:
       description: "Modify an existing section by ObjectId"
       operationId: "modifySection"
       parameters:
-        - $ref: "#/parameters/idParam"
+        - $ref: "#/parameters/sectionReference"
         - $ref: "#/parameters/sectionBodyParam"
       responses:
         '200':
@@ -193,7 +193,7 @@ paths:
       description: "Delete an existing section by ObjectId"
       operationId: "deleteSection"
       parameters:
-        - $ref: "#/parameters/idParam"
+        - $ref: "#/parameters/sectionReference"
       responses:
         '204':
           description: No content.
@@ -268,7 +268,6 @@ definitions:
     type: object
     required:
       - "title"
-      - "ref"
     properties:
       title:
         type: string
@@ -282,10 +281,6 @@ definitions:
         type: string
         format: string
         example: "example.png"
-      ref:
-        type: string
-        format: string
-        example: "educational_principles"
   SectionsResponse:
     type: array
     items:
@@ -317,6 +312,13 @@ parameters:
   idParam:
     name: "_id"
     description: "ObjectId param."
+    in: path
+    required: true
+    type: string
+    format: string
+  sectionReference:
+    name: "ref"
+    description: "Section reference filter to find, update and delete a section."
     in: path
     required: true
     type: string
