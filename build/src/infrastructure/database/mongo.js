@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongodb_1 = require("mongodb");
 const EnvironmentVariableNotFoundException_1 = require("../../application/exceptions/EnvironmentVariableNotFoundException");
-const URL = process.env.MONGO_URL;
+const URL = process.env.MONGO_URL || "mongodb://127.0.0.1:27017";
 if (!URL)
     throw new EnvironmentVariableNotFoundException_1.EnvironmentVariableNotFoundException();
 const CLIENT = new mongodb_1.MongoClient(URL);

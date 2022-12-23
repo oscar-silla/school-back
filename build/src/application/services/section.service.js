@@ -11,6 +11,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SectionService = void 0;
 const section_repository_adapter_1 = require("../../infrastructure/repository/mongo/adapters/section.repository.adapter");
+const http_code_1 = require("../domain/http-code");
+const section_1 = require("../domain/section");
+const CustomError_1 = require("../exceptions/CustomError");
 const generate_reference_util_1 = require("../utils/generate-reference.util");
 class SectionService {
     constructor() {
@@ -25,6 +28,36 @@ class SectionService {
     getSections() {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.sectionRepository.find();
+        });
+    }
+    getSection(ref) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const section = yield this.sectionRepository.findOne(ref);
+            this.checkIfExistsSection(section);
+            return section;
+        });
+    }
+    modifySection(ref, section) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const sectionToUpdate = yield this.getSection(ref);
+            section = this.buildSectionToUpdate(section, sectionToUpdate);
+            this.sectionRepository.modifyOne(ref, section);
+        });
+    }
+    checkIfExistsSection(section) {
+        if (!section.getRef()) {
+            throw new CustomError_1.CustomError("Section not found.", http_code_1.HttpCode.NOT_FOUND, {});
+        }
+    }
+    buildSectionToUpdate(section, sectionToUpdate) {
+        return new section_1.Section(section.getTitle() ? section.getTitle() : sectionToUpdate.getTitle(), section.getDescription()
+            ? section.getDescription()
+            : sectionToUpdate.getDescription(), section.getImg() ? section.getImg() : sectionToUpdate.getImg(), (0, generate_reference_util_1.generateReference)(section.getTitle() ? section.getTitle() : sectionToUpdate.getTitle()));
+    }
+    deleteSection(ref) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.getSection(ref);
+            yield this.sectionRepository.deleteOne(ref);
         });
     }
 }

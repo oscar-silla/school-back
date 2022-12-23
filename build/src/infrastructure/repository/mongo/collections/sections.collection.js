@@ -14,13 +14,33 @@ class SectionsCollection {
     save(section) {
         return __awaiter(this, void 0, void 0, function* () {
             const { mongo } = global.database;
-            yield mongo.collection("sections").insertOne(section);
+            return yield mongo.collection("sections").insertOne(section);
         });
     }
     find() {
         return __awaiter(this, void 0, void 0, function* () {
             const { mongo } = global.database;
             return yield mongo.collection("sections").find({}).toArray();
+        });
+    }
+    findOne(ref) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { mongo } = global.database;
+            return yield mongo.collection("sections").findOne({ ref });
+        });
+    }
+    modifyOne(ref, section) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { mongo } = global.database;
+            return yield mongo
+                .collection("sections")
+                .updateOne({ ref }, { $set: section });
+        });
+    }
+    deleteOne(ref) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { mongo } = global.database;
+            yield mongo.collection("sections").deleteOne({ ref });
         });
     }
 }
