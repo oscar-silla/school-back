@@ -11,12 +11,19 @@ describe("GET /sections", () => {
   beforeAll(async () => {
     await client.connect();
   });
+
   afterAll(async () => {
     httpServer.close();
     await client.close();
   });
+
   it("should respond with a 200 status code", async () => {
     const response = await request.get("/api/v1/sections").send();
     expect(response.statusCode).toBe(HttpCode.OK);
+  });
+
+  it("should return a section list with at least one section", async () => {
+    const response = await request.get("/api/v1/sections").send();
+    expect(response.body.length).toBeGreaterThan(0);
   });
 });
