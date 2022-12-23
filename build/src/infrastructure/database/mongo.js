@@ -9,16 +9,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.client = void 0;
 const mongodb_1 = require("mongodb");
 const EnvironmentVariableNotFoundException_1 = require("../../application/exceptions/EnvironmentVariableNotFoundException");
 const URL = process.env.MONGO_URL || "mongodb://127.0.0.1:27017";
 if (!URL)
     throw new EnvironmentVariableNotFoundException_1.EnvironmentVariableNotFoundException();
-const CLIENT = new mongodb_1.MongoClient(URL);
+const client = new mongodb_1.MongoClient(URL);
+exports.client = client;
 const DB_NAME = "school";
 (() => __awaiter(void 0, void 0, void 0, function* () {
-    yield CLIENT.connect();
-    const DB = CLIENT.db(DB_NAME);
+    yield client.connect();
+    const DB = client.db(DB_NAME);
     global.database = {
         mongo: DB,
         ObjectId: mongodb_1.ObjectId,
@@ -27,4 +29,3 @@ const DB_NAME = "school";
 }))()
     .then(console.log)
     .catch(console.error);
-//.finally(() => CLIENT.close());

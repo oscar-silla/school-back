@@ -7,7 +7,7 @@
     "start": "node build/index.js",
     "dev": "ts-node-dev src/boot/index.ts",
     "tsc": "tsc",
-    "test": "jest --coverage",
+    "test": "jest  --detectOpenHandles --no-cache",
     "test:watch": "jest --watch"
   },
   "author": "Óscar Silla Adalid",

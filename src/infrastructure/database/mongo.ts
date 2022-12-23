@@ -4,7 +4,7 @@ import { EnvironmentVariableNotFoundException } from "../../application/exceptio
 const URL = process.env.MONGO_URL || "mongodb://127.0.0.1:27017";
 if (!URL) throw new EnvironmentVariableNotFoundException();
 
-const CLIENT: MongoClient = new MongoClient(URL);
+const client: MongoClient = new MongoClient(URL);
 const DB_NAME = "school";
 
 declare global {
@@ -12,8 +12,8 @@ declare global {
 }
 
 (async () => {
-  await CLIENT.connect();
-  const DB = CLIENT.db(DB_NAME);
+  await client.connect();
+  const DB = client.db(DB_NAME);
   global.database = {
     mongo: DB,
     ObjectId: ObjectId,
@@ -22,4 +22,6 @@ declare global {
 })()
   .then(console.log)
   .catch(console.error);
-//.finally(() => CLIENT.close());
+//.finally(() => client.close());
+
+export { client };
