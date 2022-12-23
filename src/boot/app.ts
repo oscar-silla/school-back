@@ -1,5 +1,3 @@
-require("dotenv").config({ path: `${__dirname}/.env` });
-require("../infrastructure/database/mongo");
 import express from "express";
 import errorHandler from "../api/middlewares/error-handler.middleware";
 import api from "../api/routes/api";

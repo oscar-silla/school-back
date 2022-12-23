@@ -1,3 +1,7 @@
+require("dotenv").config({
+  path: `${__dirname}/env/${process.env.NODE_ENV}.env`,
+});
+require("../infrastructure/database/mongo");
 import app from "./app";
 
 const createServer = () => {
