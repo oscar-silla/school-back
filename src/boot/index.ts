@@ -1,7 +1,7 @@
 require("dotenv").config({
   path: `${__dirname}/env/${process.env.NODE_ENV}.env`,
 });
-require("../infrastructure/database/mongo");
+import { mongo } from "../infrastructure/database/mongo";
 import app from "./app";
 
 const createServer = () => {
@@ -11,7 +11,10 @@ const createServer = () => {
   );
 };
 
-if (require.main === module) {
+if (process.env.NODE_ENV !== "test") {
+  (async () => {
+    await mongo.createConnection();
+  })();
   createServer();
 }
 

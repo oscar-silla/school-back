@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@openapitools/openapi-generator-cli": "^2.5.2",
+    "colors": "1.4.0",
     "dotenv": "16.0.3",
     "express": "4.18.2",
     "mongodb": "4.11.0",

@@ -27,7 +27,13 @@ class SectionService {
     }
     getSections() {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.sectionRepository.find();
+            const sections = yield this.sectionRepository.find();
+            if (sections.length > 0) {
+                return sections;
+            }
+            else {
+                throw new CustomError_1.CustomError("Not sections available.", 404, {});
+            }
         });
     }
     getSection(ref) {

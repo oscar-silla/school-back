@@ -2,19 +2,19 @@ import { afterAll, beforeAll, describe, expect, it } from "@jest/globals";
 import { agent } from "supertest";
 import { HttpCode } from "../../../../../src/application/domain/http-code";
 import { createServer } from "../../../../../src/boot";
-import { client } from "../../../../../src/infrastructure/database/mongo";
+import { mongo } from "../../../../../src/infrastructure/database/mongo";
 
 const httpServer = createServer();
 const request = agent(httpServer);
 
 describe("GET /sections", () => {
   beforeAll(async () => {
-    await client.connect();
+    await mongo.createConnection();
   });
 
   afterAll(async () => {
     httpServer.close();
-    await client.close();
+    await mongo.closeConnection();
   });
 
   it("should respond with a 404 status code when not found sections", async () => {
