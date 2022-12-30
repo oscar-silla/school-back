@@ -1,15 +1,21 @@
-require("dotenv").config({ path: `${__dirname}/.env` });
-require("../infrastructure/database/mongo");
-import express from "express";
-import errorHandler from "../api/middlewares/error-handler.middleware";
-import api from "../api/routes/api";
+require("dotenv").config({
+  path: `${__dirname}/env/${process.env.NODE_ENV}.env`,
+});
+import { mongo } from "../infrastructure/database/mongo";
+import app from "./app";
 
-const app = express();
-app.use(express.json());
+const createServer = () => {
+  const port: number = process.env.PORT ? +process.env.PORT : 3010;
+  return app.listen(port, () =>
+    console.log(`Server is listening on port ${port}`)
+  );
+};
 
-app.use("/api/v1", api);
+if (process.env.NODE_ENV !== "test") {
+  (async () => {
+    await mongo.createConnection();
+  })();
+  createServer();
+}
 
-app.use(errorHandler);
-
-const PORT: number = process.env.PORT ? +process.env.PORT : 3000;
-app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
+export { createServer };

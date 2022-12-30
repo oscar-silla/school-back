@@ -19,13 +19,30 @@ class SectionRepository {
     }
     save(section) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.sectionsCollection.save(section);
+            return yield this.sectionsCollection.save(section);
         });
     }
     find() {
         return __awaiter(this, void 0, void 0, function* () {
             const response = yield this.sectionsCollection.find();
             return this.sectionMapperModel.toSections(response);
+        });
+    }
+    findOne(ref) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const response = yield this.sectionsCollection.findOne(ref);
+            const section = this.sectionMapperModel.toSection(response);
+            return section;
+        });
+    }
+    modifyOne(ref, section) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.sectionsCollection.modifyOne(ref, section);
+        });
+    }
+    deleteOne(ref) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.sectionsCollection.deleteOne(ref);
         });
     }
 }

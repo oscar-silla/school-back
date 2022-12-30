@@ -4,20 +4,29 @@
   "description": "School Back Project",
   "main": "index.js",
   "scripts": {
-    "start": "node build/index.js",
-    "dev": "ts-node-dev src/boot/index.ts",
+    "start": "cross-env NODE_ENV=pro node build/index.js",
+    "dev": "cross-env NODE_ENV=dev ts-node-dev src/boot/index.ts",
     "tsc": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cross-env NODE_ENV=test jest --detectOpenHandles --no-cache --coverage",
+    "test:watch": "jest --watch"
   },
   "author": "Óscar Silla Adalid",
   "license": "ISC",
   "devDependencies": {
+    "@babel/preset-typescript": "7.18.6",
+    "@jest/globals": "29.3.1",
     "@types/express": "4.17.14",
-    "@types/request": "^2.48.8",
+    "@types/request": "2.48.8",
+    "@types/supertest": "2.0.12",
+    "cross-env": "7.0.3",
+    "jest": "29.3.1",
+    "supertest": "6.3.3",
+    "ts-jest": "29.0.3",
     "typescript": "4.8.4"
   },
   "dependencies": {
     "@openapitools/openapi-generator-cli": "^2.5.2",
+    "colors": "1.4.0",
     "dotenv": "16.0.3",
     "express": "4.18.2",
     "mongodb": "4.11.0",

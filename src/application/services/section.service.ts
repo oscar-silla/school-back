@@ -14,7 +14,12 @@ export class SectionService implements SectionServicePort {
   }
 
   async getSections(): Promise<Section[]> {
-    return await this.sectionRepository.find();
+    const sections: Section[] = await this.sectionRepository.find();
+    if (sections.length > 0) {
+      return sections;
+    } else {
+      throw new CustomError("Not sections available.", 404, {});
+    }
   }
 
   async getSection(ref: string): Promise<Section> {
