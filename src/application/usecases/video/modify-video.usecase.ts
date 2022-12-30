@@ -2,7 +2,7 @@ import { VideoSourceRequest } from "../../../../external-libraries/openapi/model
 import { HttpCode } from "../../domain/http-code";
 import { HttpMessage } from "../../domain/http-message";
 import { CustomError } from "../../exceptions/CustomError";
-import { ModifyVideoUseCasePort } from "../../ports/in/usecases/modify-video.usecase.port";
+import { ModifyVideoUseCasePort } from "../../ports/in/usecases/video/modify-video.usecase.port";
 import { VideoService } from "../../services/video.service";
 import { checkObjectId } from "../../utils/check-objectid.util";
 const { WRONG_ID_FORMAT, MISSING_PARAMS } = HttpMessage;
