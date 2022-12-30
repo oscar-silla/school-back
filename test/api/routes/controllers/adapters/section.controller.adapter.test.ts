@@ -55,6 +55,11 @@ describe("/sections", () => {
     expect(response.statusCode).toBe(HttpCode.OK);
   });
 
+  test("should respond with a 200 status code when find an existing section", async () => {
+    const response = await request.get("/api/v1/sections/home").send();
+    expect(response.statusCode).toBe(HttpCode.OK);
+  });
+
   test("should respond with a 404 status code when try to delete an inexisting section", async () => {
     const response = await request.delete("/api/v1/sections/nosection").send();
     expect(response.statusCode).toBe(HttpCode.NOT_FOUND);
