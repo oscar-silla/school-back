@@ -1,5 +1,5 @@
-import { VideoResponse } from "../../../../../../external-libraries/openapi/models/VideoResponse";
+import { Video } from "../../../../domain/video";
 
 export interface GetVideoUseCasePort {
-  getVideo(id: String): Promise<VideoResponse>;
+  getVideo(id: String): Promise<Video>;
 }

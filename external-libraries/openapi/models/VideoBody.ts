@@ -12,7 +12,7 @@
 
 
 
-export class VideoRequest {
+export class VideoBody {
     'ref': string;
     'src': string;
 
@@ -33,7 +33,7 @@ export class VideoRequest {
         }    ];
 
     static getAttributeTypeMap() {
-        return VideoRequest.attributeTypeMap;
+        return VideoBody.attributeTypeMap;
     }
 
     public constructor() {

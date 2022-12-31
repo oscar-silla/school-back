@@ -10,40 +10,42 @@
  * Do not edit the class manually.
  */
 
-
-
 export class VideoResponse {
-    'id': string;
-    'ref': string;
-    'src': string;
+  "id": string;
+  "ref": string;
+  "src": string;
 
-    static readonly discriminator: string | undefined = undefined;
+  static readonly discriminator: string | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
-        {
-            "name": "id",
-            "baseName": "_id",
-            "type": "string",
-            "format": "string"
-        },
-        {
-            "name": "ref",
-            "baseName": "ref",
-            "type": "string",
-            "format": "string"
-        },
-        {
-            "name": "src",
-            "baseName": "src",
-            "type": "string",
-            "format": "string"
-        }    ];
+  static readonly attributeTypeMap: Array<{
+    name: string;
+    baseName: string;
+    type: string;
+    format: string;
+  }> = [
+    {
+      name: "id",
+      baseName: "_id",
+      type: "string",
+      format: "string",
+    },
+    {
+      name: "ref",
+      baseName: "ref",
+      type: "string",
+      format: "string",
+    },
+    {
+      name: "src",
+      baseName: "src",
+      type: "string",
+      format: "string",
+    },
+  ];
 
-    static getAttributeTypeMap() {
-        return VideoResponse.attributeTypeMap;
-    }
+  static getAttributeTypeMap() {
+    return VideoResponse.attributeTypeMap;
+  }
 
-    public constructor() {
-    }
+  public constructor() {}
 }
-

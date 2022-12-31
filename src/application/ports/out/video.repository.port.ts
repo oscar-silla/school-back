@@ -1,9 +1,7 @@
-import { VideoRequest } from "../../../../external-libraries/openapi/models/VideoRequest";
-import { VideoResponse } from "../../../../external-libraries/openapi/models/VideoResponse";
-import { VideoSourceRequest } from "../../../../external-libraries/openapi/models/VideoSourceRequest";
+import { Video } from "../../domain/video";
 
 export interface VideoRepositoryPort {
-  save(payload: VideoRequest): Promise<void>;
-  getOne(id: string): Promise<VideoResponse>;
-  modify(id: string, payload: VideoSourceRequest): Promise<void>;
+  save(payload: Video): Promise<void>;
+  getOne(id: string): Promise<Video>;
+  modify(id: string, payload: Video): Promise<void>;
 }

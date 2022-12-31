@@ -1,11 +1,10 @@
-import { VideoRequest } from "../../../../../external-libraries/openapi/models/VideoRequest";
-import { VideoSourceRequest } from "../../../../../external-libraries/openapi/models/VideoSourceRequest";
 import { videosCollection } from "../../../../application/constants";
+import { Video } from "../../../../application/domain/video";
 
 export class VideosCollection {
-  async save(videoRequest: VideoRequest) {
+  async save(video: Video) {
     const { mongo } = global.database;
-    return await mongo.collection(videosCollection).insertOne(videoRequest);
+    return await mongo.collection(videosCollection).insertOne(video);
   }
   async getOne(id: string) {
     const { ObjectId, mongo } = global.database;
@@ -13,8 +12,8 @@ export class VideosCollection {
       .collection(videosCollection)
       .findOne({ _id: ObjectId(id) });
   }
-  async modify(id: string, payload: VideoSourceRequest) {
-    const { src } = payload;
+  async modify(id: string, payload: Video) {
+    const src = payload.getSrc();
     const { ObjectId, mongo } = global.database;
     return await mongo
       .collection("videos")
