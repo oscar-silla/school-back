@@ -12,7 +12,7 @@
 
 
 
-export class VideoSourceRequest {
+export class VideoSourceBody {
     'src': string;
 
     static readonly discriminator: string | undefined = undefined;
@@ -26,7 +26,7 @@ export class VideoSourceRequest {
         }    ];
 
     static getAttributeTypeMap() {
-        return VideoSourceRequest.attributeTypeMap;
+        return VideoSourceBody.attributeTypeMap;
     }
 
     public constructor() {

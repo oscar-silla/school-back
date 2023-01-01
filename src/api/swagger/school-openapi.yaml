@@ -241,7 +241,7 @@ definitions:
       description:
         type: string
         format: string
-  VideoRequest:
+  VideoBody:
     type: object
     required:
       - "ref"
@@ -255,7 +255,7 @@ definitions:
         type: string
         format: string
         example: <iframe width="560" height="315" src="https://www.youtube.com/embed/d6q8T2jfjm0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  VideoSourceRequest:
+  VideoSourceBody:
     type: object
     required:
       - "src"
@@ -329,14 +329,14 @@ parameters:
     in: body
     required: true
     schema:
-      $ref: "#/definitions/VideoRequest"
+      $ref: "#/definitions/VideoBody"
   videoSourceBodyParam:
     name: "body"
     description: "Video source body param."
     in: body
     required: true
     schema:
-      $ref: "#/definitions/VideoSourceRequest"
+      $ref: "#/definitions/VideoSourceBody"
   sectionBodyParam:
     name: "body"
     description: "Section body"

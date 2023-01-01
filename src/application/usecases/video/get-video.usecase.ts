@@ -1,4 +1,4 @@
-import { VideoResponse } from "../../../../external-libraries/openapi/models/VideoResponse";
+import { Video } from "../../domain/video";
 import { CustomError } from "../../exceptions/CustomError";
 import { GetVideoUseCasePort } from "../../ports/in/usecases/video/get-video.usecase.port";
 import { VideoService } from "../../services/video.service";
@@ -13,7 +13,7 @@ export class GetVideoUseCase implements GetVideoUseCasePort {
       throw new CustomError("Provided id has not valid format.", 400);
   }
 
-  async getVideo(id: string): Promise<VideoResponse> {
+  async getVideo(id: string): Promise<Video> {
     this.checkRequestParams(id);
     return await this.videoService.getVideo(id);
   }
