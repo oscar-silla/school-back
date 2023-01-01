@@ -12,35 +12,21 @@
 
 
 
-export class VideoResponse {
-    'id': string;
-    'ref': string;
-    'src': string;
+export class GeneratedIdResponse {
+    'generatedId'?: string;
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "id",
-            "baseName": "_id",
-            "type": "string",
-            "format": "string"
-        },
-        {
-            "name": "ref",
-            "baseName": "ref",
-            "type": "string",
-            "format": "string"
-        },
-        {
-            "name": "src",
-            "baseName": "src",
+            "name": "generatedId",
+            "baseName": "generatedId",
             "type": "string",
             "format": "string"
         }    ];
 
     static getAttributeTypeMap() {
-        return VideoResponse.attributeTypeMap;
+        return GeneratedIdResponse.attributeTypeMap;
     }
 
     public constructor() {
