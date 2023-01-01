@@ -12,7 +12,7 @@ export class ModifyVideoUseCase implements ModifyVideoUseCasePort {
   private videoService = new VideoService();
 
   private checkBodyParams(video: Video) {
-    if (!video.getSrc) {
+    if (!video.getSrc()) {
       throw new CustomError(MISSING_PARAMS, BAD_REQUEST, {});
     }
   }

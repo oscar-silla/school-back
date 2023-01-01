@@ -17,7 +17,7 @@ export class VideoService implements VideoServicePort {
 
   async getVideo(id: string): Promise<Video> {
     const video: Video = await this.videoRepositoryAdapter.getOne(id);
-    if (!video) {
+    if (!video.getId()) {
       throw new CustomError(`Video with id = "${id}" not found.`, 404);
     } else {
       return video;

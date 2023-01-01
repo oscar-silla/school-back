@@ -8,7 +8,7 @@ const videoService = new VideoService();
 
 export class CreateVideoUseCase implements CreateVideoUseCasePort {
   checkBodyParams(video: Video) {
-    if (!video.getRef || !video.getSrc) {
+    if (!video.getRef() || !video.getSrc()) {
       throw new CustomError(
         "Missing request body params.",
         HttpCode.BAD_REQUEST,
