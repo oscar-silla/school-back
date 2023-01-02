@@ -1,4 +1,5 @@
 import { VideoRepositoryAdapter } from "../../infrastructure/repository/mongo/adapters/video.repository.adapter";
+import { GeneratedId } from "../domain/generated-id";
 import { HttpCode } from "../domain/http-code";
 import { Video } from "../domain/video";
 import { CustomError } from "../exceptions/CustomError";
@@ -7,7 +8,7 @@ import { VideoServicePort } from "../ports/in/services/video.service.port";
 export class VideoService implements VideoServicePort {
   videoRepositoryAdapter = new VideoRepositoryAdapter();
 
-  async createVideo(video: Video): Promise<void> {
+  async createVideo(video: Video): Promise<GeneratedId> {
     return await this.videoRepositoryAdapter.save(video);
   }
 

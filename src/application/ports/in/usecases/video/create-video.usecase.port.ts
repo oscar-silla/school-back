@@ -1,5 +1,6 @@
-import { VideoRequest } from "../../../../../../external-libraries/openapi/models/VideoRequest";
+import { GeneratedId } from "../../../../domain/generated-id";
+import { Video } from "../../../../domain/video";
 
 export interface CreateVideoUseCasePort {
-  createVideo(body: VideoRequest): Promise<void>;
+  createVideo(body: Video): Promise<GeneratedId>;
 }
