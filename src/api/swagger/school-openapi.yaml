@@ -27,6 +27,8 @@ paths:
       responses:
         '201':
           description: Created successfully.
+          schema:
+            $ref: "#/definitions/GeneratedIdResponse"
         '400':
           description: Bad request.
           schema:
@@ -308,6 +310,13 @@ definitions:
         type: string
         format: string
         example: "educational_principles"
+  GeneratedIdResponse:
+    type: object
+    properties:
+      generatedId:
+        type: string
+        format: string
+        example: "63b04cf26cff5203de1659ca"
 parameters:
   idParam:
     name: "_id"

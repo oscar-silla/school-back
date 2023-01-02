@@ -1,3 +1,4 @@
+import { GeneratedId } from "../../domain/generated-id";
 import { HttpCode } from "../../domain/http-code";
 import { Video } from "../../domain/video";
 import { CustomError } from "../../exceptions/CustomError";
@@ -17,7 +18,7 @@ export class CreateVideoUseCase implements CreateVideoUseCasePort {
     }
   }
 
-  async createVideo(video: Video): Promise<void> {
+  async createVideo(video: Video): Promise<GeneratedId> {
     this.checkBodyParams(video);
     return await videoService.createVideo(video);
   }
