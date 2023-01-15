@@ -8,19 +8,20 @@ export class User {
   private avatar: string;
 
   constructor(
-    username: string,
-    password: string,
-    name: string,
-    email: string,
-    surnames: string,
-    avatar: string
+    _id?: string,
+    username?: string,
+    password?: string,
+    name?: string,
+    email?: string,
+    surnames?: string,
+    avatar?: string
   ) {
-    this.username = username;
-    this.password = password;
-    this.name = name;
-    this.email = email;
-    this.surnames = surnames;
-    this.avatar = avatar;
+    this.username = username ? username : "";
+    this.password = password ? password : "";
+    this.name = name ? name : "";
+    this.email = email ? email : "";
+    this.surnames = surnames ? surnames : "";
+    this.avatar = avatar ? avatar : "";
   }
 
   getId() {
