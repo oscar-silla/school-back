@@ -17,10 +17,19 @@ export class UserRepositoryAdapter implements UserRepositoryPort {
     return this.generatedIdMapperModel.toGeneratedId(response);
   }
 
-  async findOne(id: string): Promise<User> {
-    const response: UserModel = await this.usersCollection.findOne(id);
-    const mo = this.userMapperModel.toUser(response);
-    console.log(mo);
-    return mo;
+  async find(): Promise<User[]> {
+    const response: UserModel[] = await this.usersCollection.find();
+    return this.userMapperModel.toUsers(response);
+  }
+
+  async findOneById(id: string): Promise<User> {
+    const response: UserModel = await this.usersCollection.findOneById(id);
+    return this.userMapperModel.toUser(response);
+  }
+  async findOneByUserName(username: string): Promise<User> {
+    const response: UserModel = await this.usersCollection.findOneByUsername(
+      username
+    );
+    return this.userMapperModel.toUser(response);
   }
 }

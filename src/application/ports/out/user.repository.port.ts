@@ -3,5 +3,7 @@ import { User } from "../../domain/user";
 
 export interface UserRepositoryPort {
   save(user: User): Promise<GeneratedId>;
-  findOne(id: string): Promise<User>;
+  findOneById(id: string): Promise<User>;
+  findOneByUserName(username: string): Promise<User>;
+  find(): Promise<User[]>;
 }

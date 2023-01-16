@@ -26,4 +26,7 @@ export class UserControllerMapper {
     userResponse.avatar = user.getAvatar();
     return userResponse;
   }
+  toUsersResponse(users: User[]): UserResponse[] {
+    return users.map((user) => this.toUserResponse(user));
+  }
 }
