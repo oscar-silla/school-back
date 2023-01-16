@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   title: School API
   description: School API
-  version: 1.0.1
+  version: 1.0.3
   contact:
     email: orscarsilla@outlook.com
 tags:
@@ -10,11 +10,88 @@ tags:
     description: Manage videos from school web page
   - name: section
     description: Manage sections from school web page
+  - name: users
+    description: Manage users from school web page
 consumes:
   - application/json
 produces:
   - application/json
 paths:
+  /users:
+    post:
+      tags:
+        - "users"
+      summary: "Create user"
+      description: "Create a new user (Register)"
+      operationId: "createUser"
+      parameters:
+        - $ref: "#/parameters/userBodyParam"
+      responses:
+        '201':
+          description: Created successfully.
+          schema:
+            $ref: "#/definitions/GeneratedIdResponse"
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '401':
+          description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    get:
+      tags:
+        - "users"
+      summary: "Get all users"
+      description: "Get all users"
+      operationId: "getUsers"
+      responses:
+        '200':
+          description: Ok.
+          schema:
+            $ref: "#/definitions/UsersResponse"
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '401':
+          description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /users/{id}:
+    get:
+      tags:
+        - "users"
+      summary: "Get user"
+      description: "Get one user by _id"
+      operationId: "getUser"
+      parameters:
+        - $ref: "#/parameters/idParam"
+      responses:
+        '200':
+          description: Ok.
+          schema:
+            $ref: "#/definitions/UserResponse"
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '401':
+          description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /video:
     post:
       tags:
@@ -283,6 +360,38 @@ definitions:
         type: string
         format: string
         example: "example.png"
+  UserBody:
+    type: object
+    required:
+      - "username"
+      - "password"
+      - "name"
+      - "email"
+    properties:
+      username:
+        type: string
+        format: string
+        example: "osilla"
+      password:
+        type: string
+        format: string
+        example: "1234"
+      name:
+        type: string
+        format: string
+        example: "Don Quijote"
+      email:
+        type: string
+        format: string
+        example: "oscarsilla@outlook.com"
+      surnames:
+        type: string
+        format: string
+        example: "De la mancha"
+      avatar:
+        type: string
+        format: string
+        example: "avatar.png"
   SectionsResponse:
     type: array
     items:
@@ -310,6 +419,41 @@ definitions:
         type: string
         format: string
         example: "educational_principles"
+  UsersResponse:
+    type: array
+    items:
+      $ref: "#/definitions/UserResponse"
+  UserResponse:
+    type: object
+    properties:
+      _id:
+        type: string
+        format: string
+        example: 507f191e810c19729de860ea
+      username:
+        type: string
+        format: string
+        example: "osilla"
+      password:
+        type: string
+        format: string
+        example: "1234"
+      name:
+        type: string
+        format: string
+        example: "Don Quijote"
+      email:
+        type: string
+        format: string
+        example: "oscarsilla@outlook.com"
+      surnames:
+        type: string
+        format: string
+        example: "De la mancha"
+      avatar:
+        type: string
+        format: string
+        example: "avatar.png"
   GeneratedIdResponse:
     type: object
     properties:
@@ -353,4 +497,11 @@ parameters:
     required: true
     schema:
       $ref: "#/definitions/SectionBody"
+  userBodyParam:
+    name: "body"
+    description: "User body param"
+    in: body
+    required: true
+    schema:
+      $ref: "#/definitions/UserBody"
 
