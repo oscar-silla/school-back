@@ -18,4 +18,8 @@ export class UsersCollection {
     const { mongo } = global.database;
     return await mongo.collection("users").find({}).toArray();
   }
+  async deleteOneById(id: string): Promise<void> {
+    const { ObjectId, mongo } = global.database;
+    await mongo.collection("users").deleteOne({ _id: ObjectId(id) });
+  }
 }

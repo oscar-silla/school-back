@@ -5,4 +5,5 @@ export interface UserServicePort {
   createUser(user: User): Promise<GeneratedId>;
   getUser(id: string): Promise<User>;
   getAllUsers(): Promise<User[]>;
+  deleteUser(id: string): Promise<void>;
 }

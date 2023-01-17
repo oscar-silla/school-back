@@ -26,10 +26,15 @@ export class UserRepositoryAdapter implements UserRepositoryPort {
     const response: UserModel = await this.usersCollection.findOneById(id);
     return this.userMapperModel.toUser(response);
   }
+
   async findOneByUserName(username: string): Promise<User> {
     const response: UserModel = await this.usersCollection.findOneByUsername(
       username
     );
     return this.userMapperModel.toUser(response);
+  }
+
+  async deleteOneById(id: string): Promise<void> {
+    await this.usersCollection.deleteOneById(id);
   }
 }

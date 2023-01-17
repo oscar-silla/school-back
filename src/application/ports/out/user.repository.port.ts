@@ -6,4 +6,5 @@ export interface UserRepositoryPort {
   findOneById(id: string): Promise<User>;
   findOneByUserName(username: string): Promise<User>;
   find(): Promise<User[]>;
+  deleteOneById(id: string): Promise<void>;
 }

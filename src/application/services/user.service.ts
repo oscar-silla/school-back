@@ -24,7 +24,6 @@ export class UserService implements UserServicePort {
 
   async getUser(id: string): Promise<User> {
     const user: User = await this.userRepository.findOneById(id);
-    console.log(user);
     this.checkIfUserNotExists(user);
     return user;
   }
@@ -33,6 +32,11 @@ export class UserService implements UserServicePort {
     const users: User[] = await this.userRepository.find();
     this.checkIfUserListIsEmpty(users);
     return users;
+  }
+
+  async deleteUser(id: string): Promise<void> {
+    await this.getUser(id);
+    await this.userRepository.deleteOneById(id);
   }
 
   private async checkIfUserExists(username: string) {

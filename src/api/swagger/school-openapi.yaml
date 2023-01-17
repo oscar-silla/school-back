@@ -92,6 +92,29 @@ paths:
           description: Not found.
           schema:
             $ref: "#/definitions/ErrorResponse"
+    delete:
+      tags:
+        - "users"
+      summary: "Delete user"
+      description: "Delete user by id"
+      operationId: "deleteUser"
+      parameters:
+        - $ref: "#/parameters/idParam"
+      responses:
+        '204':
+          description: No Content.
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '401':
+          description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /video:
     post:
       tags:

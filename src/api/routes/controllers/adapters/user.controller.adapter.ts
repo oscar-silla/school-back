@@ -6,9 +6,11 @@ import { GeneratedId } from "../../../../application/domain/generated-id";
 import { HttpCode } from "../../../../application/domain/http-code";
 import { User } from "../../../../application/domain/user";
 import { CreateUserUseCasePort } from "../../../../application/ports/in/usecases/user/create-user.usecase.port";
+import { DeleteUserUseCasePort } from "../../../../application/ports/in/usecases/user/delete-user.usecase.port";
 import { GetAllUsersUseCasePort } from "../../../../application/ports/in/usecases/user/get-all-users.usecase.port";
 import { GetUserUseCasePort } from "../../../../application/ports/in/usecases/user/get-user.usecase.port";
 import { CreateUserUseCase } from "../../../../application/usecases/user/create-user.usecase";
+import { DeleteUserUseCase } from "../../../../application/usecases/user/delete-user.usecase";
 import { GetAllUsersUseCase } from "../../../../application/usecases/user/get-all-users.usecase";
 import { GetUserUseCase } from "../../../../application/usecases/user/get-user.usecase";
 import { GeneratedIdMapper } from "../mappers/generated-id.mapper";
@@ -18,6 +20,7 @@ const router = express.Router();
 const createUserUseCase: CreateUserUseCasePort = new CreateUserUseCase();
 const getUserUseCase: GetUserUseCasePort = new GetUserUseCase();
 const getAllUsersUseCase: GetAllUsersUseCasePort = new GetAllUsersUseCase();
+const deleteUserUseCase: DeleteUserUseCasePort = new DeleteUserUseCase();
 
 const userMapper = new UserControllerMapper();
 const generatedIdMapper = new GeneratedIdMapper();
@@ -61,6 +64,18 @@ router.get(
       const users: User[] = await getAllUsersUseCase.getAllUsers();
       const usersResponse: UserResponse[] = userMapper.toUsersResponse(users);
       res.status(HttpCode.OK).json(usersResponse);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.delete(
+  "/:id",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await deleteUserUseCase.deleteUser(req?.params?.id);
+      res.status(HttpCode.NO_CONTENT).send();
     } catch (err) {
       next(err);
     }
