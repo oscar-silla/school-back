@@ -27,7 +27,6 @@ export class LoginService implements LoginServicePort {
         {}
       );
     }
-    console.log(loginCredentials);
     const token = jwt.sign({ loginCredentials }, process.env.SECRET);
     return new Token(token);
   }
