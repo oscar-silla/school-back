@@ -27,9 +27,9 @@ export class UserRepositoryAdapter implements UserRepositoryPort {
     return this.userMapperModel.toUser(response);
   }
 
-  async findOneByUserName(username: string): Promise<User> {
-    const response: UserModel = await this.usersCollection.findOneByUsername(
-      username
+  async findOneByEmail(email: string): Promise<User> {
+    const response: UserModel = await this.usersCollection.findOneByEmail(
+      email
     );
     return this.userMapperModel.toUser(response);
   }

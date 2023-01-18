@@ -12,6 +12,8 @@ tags:
     description: Manage sections from school web page
   - name: users
     description: Manage users from school web page
+  - name: login
+    description: Manage login from school web page
 consumes:
   - application/json
 produces:
@@ -311,6 +313,24 @@ paths:
           description: Not found.
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /login:
+    post:
+      tags:
+        - "login"
+      summary: "Login"
+      description: "Login"
+      operationId: "login"
+      parameters:
+        - $ref: "#/parameters/loginParam"
+      responses:
+        '200':
+          description: OK.
+          schema:
+            $ref: "#/definitions/LoginResponse"
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
 definitions:
   VideoResponse:
     type: object
@@ -415,6 +435,29 @@ definitions:
         type: string
         format: string
         example: "avatar.png"
+  LoginBody:
+    type: object
+    required:
+      - "email"
+      - "password"
+    properties:
+      email:
+        type: string
+        format: string
+        example: "osilla@outlook.com"
+      password:
+        type: string
+        format: string
+        example: "1234"
+  LoginResponse:
+    type: object
+    required:
+      - "token"
+    properties:
+      token:
+        type: string
+        format: string
+        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
   SectionsResponse:
     type: array
     items:
@@ -527,4 +570,11 @@ parameters:
     required: true
     schema:
       $ref: "#/definitions/UserBody"
+  loginParam:
+    name: "body"
+    description: "Login body params"
+    in: body
+    required: true
+    schema:
+      $ref: "#/definitions/LoginBody"
 

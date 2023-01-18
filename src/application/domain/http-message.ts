@@ -3,5 +3,7 @@ export enum HttpMessage {
   MISSING_PARAMS = "Missing params.",
   WRONG_ID_FORMAT = "Wrong id format.",
   INTERNAL_SERVER_ERROR = "Missing params.",
-  CONFLICT = "Record already exists",
+  CONFLICT = "Record already exists.",
+  UNAUTHORIZED = "Not authorized.",
+  ENVIRONMENT_VAR_NOT_FOUND = "Environment variable not found-",
 }

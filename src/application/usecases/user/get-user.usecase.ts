@@ -17,6 +17,6 @@ export class GetUserUseCase implements GetUserUseCasePort {
 
   async getUser(id: string): Promise<User> {
     this.checkPathParams(id);
-    return await this.userService.getUser(id);
+    return await this.userService.getUserById(id);
   }
 }
