@@ -16,31 +16,38 @@ export class UserService implements UserServicePort {
   }
 
   async createUser(user: User): Promise<GeneratedId> {
-    await this.checkIfUserExists(user.getUsername());
+    await this.checkIfUserExists(user.getEmail());
     const passwordHashed = await this.hashPassword(user.getPassword());
     user.setPassword(passwordHashed);
     return await this.userRepository.save(user);
   }
 
-  async getUser(id: string): Promise<User> {
+  async getUserById(id: string): Promise<User> {
     const user: User = await this.userRepository.findOneById(id);
+    this.checkIfUserNotExists(user);
+    return user;
+  }
+
+  async getUserByEmail(email: string): Promise<User> {
+    const user: User = await this.userRepository.findOneByEmail(email);
     this.checkIfUserNotExists(user);
     return user;
   }
 
   async getAllUsers(): Promise<User[]> {
     const users: User[] = await this.userRepository.find();
+    console.log("users: " + users);
     this.checkIfUserListIsEmpty(users);
     return users;
   }
 
   async deleteUser(id: string): Promise<void> {
-    await this.getUser(id);
+    await this.getUserById(id);
     await this.userRepository.deleteOneById(id);
   }
 
-  private async checkIfUserExists(username: string) {
-    const user: User = await this.userRepository.findOneByUserName(username);
+  private async checkIfUserExists(email: string) {
+    const user: User = await this.userRepository.findOneByEmail(email);
     if (user.getId()) {
       throw new CustomError(HttpMessage.CONFLICT, HttpCode.CONFLICT, {});
     }

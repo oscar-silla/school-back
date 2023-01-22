@@ -10,13 +10,13 @@ export class UsersCollection {
     const { ObjectId, mongo } = global.database;
     return await mongo.collection("users").findOne({ _id: ObjectId(userId) });
   }
-  async findOneByUsername(username: string) {
+  async findOneByEmail(email: string) {
     const { mongo } = global.database;
-    return await mongo.collection("users").findOne({ username });
+    return await mongo.collection("users").findOne({ email });
   }
   async find(): Promise<UserModel[]> {
     const { mongo } = global.database;
-    return await mongo.collection("users").find({}).toArray();
+    return await mongo.collection("users").find().toArray();
   }
   async deleteOneById(id: string): Promise<void> {
     const { ObjectId, mongo } = global.database;

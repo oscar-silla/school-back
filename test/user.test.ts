@@ -1,10 +1,10 @@
 import { afterAll, beforeAll, describe, expect, test } from "@jest/globals";
 import { agent } from "supertest";
-import { HttpCode } from "../../../../../src/application/domain/http-code";
-import { User } from "../../../../../src/application/domain/user";
-import { checkObjectId } from "../../../../../src/application/utils/check-objectid.util";
-import { createServer } from "../../../../../src/boot";
-import { mongo } from "../../../../../src/infrastructure/database/mongo";
+import { HttpCode } from "../src/application/domain/http-code";
+import { User } from "../src/application/domain/user";
+import { checkObjectId } from "../src/application/utils/check-objectid.util";
+import { createServer } from "../src/boot";
+import { mongo } from "../src/infrastructure/database/mongo";
 
 const httpServer = createServer();
 const request = agent(httpServer);
@@ -29,15 +29,15 @@ describe("User tests", () => {
     httpServer.close();
     mongo.closeConnection();
   });
-  test("should respond with a 404 status code when try to get all users but they don't exists", async () => {
-    const res = await request.get(`${baseUrl}/users`).send();
-    expect(res.statusCode).toBe(HttpCode.NOT_FOUND);
-  });
   test("should respond with 400 status code when try to get user without send id to find it", async () => {
     const res = await request
       .get(`${baseUrl}/users/${userMock.getId()}`)
       .send();
     expect(res.statusCode).toBe(HttpCode.BAD_REQUEST);
+  });
+  test("should respond with a 404 status code when try to get all users but they don't exists", async () => {
+    const res = await request.get(`${baseUrl}/users`).send();
+    expect(res.statusCode).toBe(HttpCode.NOT_FOUND);
   });
   test("should respond with 404 status code when try to get a user wich not exists", async () => {
     userMock.setId("63c5a6831e617bddc06f590d");

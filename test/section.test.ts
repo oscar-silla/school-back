@@ -1,9 +1,9 @@
 import { afterAll, beforeAll, describe, expect, test } from "@jest/globals";
 import { agent } from "supertest";
-import { HttpCode } from "../../../../../src/application/domain/http-code";
-import { Section } from "../../../../../src/application/domain/section";
-import { createServer } from "../../../../../src/boot";
-import { mongo } from "../../../../../src/infrastructure/database/mongo";
+import { HttpCode } from "../src/application/domain/http-code";
+import { Section } from "../src/application/domain/section";
+import { createServer } from "../src/boot";
+import { mongo } from "../src/infrastructure/database/mongo";
 
 const httpServer = createServer();
 const request = agent(httpServer);
