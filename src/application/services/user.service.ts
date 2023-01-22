@@ -36,6 +36,7 @@ export class UserService implements UserServicePort {
 
   async getAllUsers(): Promise<User[]> {
     const users: User[] = await this.userRepository.find();
+    console.log("users: " + users);
     this.checkIfUserListIsEmpty(users);
     return users;
   }

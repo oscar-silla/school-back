@@ -6,7 +6,7 @@ export class LoginControllerMapper {
   toLoginCredentials(loginBody: LoginBody): LoginCredentials {
     const { email, password } = loginBody ?? {};
     const loginCredentials = new LoginCredentials();
-    loginCredentials.setEmail(email ? email : password);
+    loginCredentials.setEmail(email ? email : "");
     loginCredentials.setPassword(password ? password : "");
     return loginCredentials;
   }

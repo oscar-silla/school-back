@@ -16,7 +16,7 @@ export class UsersCollection {
   }
   async find(): Promise<UserModel[]> {
     const { mongo } = global.database;
-    return await mongo.collection("users").find({}).toArray();
+    return await mongo.collection("users").find().toArray();
   }
   async deleteOneById(id: string): Promise<void> {
     const { ObjectId, mongo } = global.database;
