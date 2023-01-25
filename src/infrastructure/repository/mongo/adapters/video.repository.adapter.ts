@@ -16,8 +16,8 @@ export class VideoRepositoryAdapter implements VideoRepositoryPort {
     return this.generatedIdMapperModel.toGeneratedId(response);
   }
 
-  async getOne(id: string): Promise<Video> {
-    const response: VideoModel = await this.videosCollection.getOne(id);
+  async getOne(ref: string): Promise<Video> {
+    const response: VideoModel = await this.videosCollection.getOne(ref);
     return this.videoMapperModel.toVideo(response);
   }
 

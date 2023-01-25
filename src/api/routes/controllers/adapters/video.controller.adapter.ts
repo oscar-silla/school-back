@@ -41,10 +41,10 @@ router.post(
 );
 
 router.get(
-  "/:_id",
+  "/:ref",
   async (req: Request, res: Response<VideoResponse>, next: NextFunction) => {
     try {
-      const video: Video = await getVideoUseCase.getVideo(req?.params?._id);
+      const video: Video = await getVideoUseCase.getVideo(req?.params?.ref);
       const videoResponse: VideoResponse = videoMapper.toVideoResponse(video);
       res.status(HttpCode.OK).json(videoResponse);
     } catch (err) {

@@ -144,6 +144,31 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
   /video/{id}:
+    patch:
+      tags:
+        - "video"
+      summary: "Modify an existing video"
+      description: "Modify 'src' from video."
+      operationId: "modifyVideo"
+      parameters:
+        - $ref: "#/parameters/idParam"
+        - $ref: "#/parameters/videoSourceBodyParam"
+      responses:
+        '200':
+          description: OK.
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '401':
+          description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /video/{ref}:
     get:
       tags:
         - "video"
@@ -157,30 +182,6 @@ paths:
           description: OK.
           schema:
             $ref: '#/definitions/VideoResponse'
-        '400':
-          description: Bad request.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '401':
-          description: Unauthorized.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '404':
-          description: Not found.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-    patch:
-      tags:
-        - "video"
-      summary: "Modify an existing video"
-      description: "Modify 'src' from video."
-      operationId: "modifyVideo"
-      parameters:
-        - $ref: "#/parameters/idParam"
-        - $ref: "#/parameters/videoSourceBodyParam"
-      responses:
-        '200':
-          description: OK.
         '400':
           description: Bad request.
           schema:
