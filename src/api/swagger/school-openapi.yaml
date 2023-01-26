@@ -14,8 +14,8 @@ tags:
     description: Manage users from school web page
   - name: login
     description: Manage login from school web page
-  - name: news
-    description: Manage news from school web page
+  - name: stories
+    description: Manage stories from school web page
 consumes:
   - application/json
 produces:
@@ -334,28 +334,28 @@ paths:
           description: Bad request.
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /news:
+  /stories:
     get:
       tags:
-        - "news"
-      summary: "Get news"
-      description: "Get all news"
-      operationId: "getNews"
+        - "stories"
+      summary: "Get stories"
+      description: "Get all stories"
+      operationId: "getStories"
       responses:
         '200':
           description: OK.
           schema:
-            $ref: "#/definitions/NewsResponse"
+            $ref: "#/definitions/StoriesResponse"
         '404':
           description: Not found.
           schema:
             $ref: "#/definitions/ErrorResponse"
     post:
       tags:
-        - "news"
+        - "stories"
       summary: "Create new"
       description: "Create new"
-      operationId: "createNew"
+      operationId: "createStory"
       parameters:
         - $ref: "#/parameters/newBodyParam"
       responses:
@@ -375,20 +375,20 @@ paths:
           description: Not found.
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /news/{id}:
+  /stories/{id}:
     get:
       tags:
-        - "news"
+        - "stories"
       summary: "Get new"
       description: "Get new by id"
-      operationId: "getNew"
+      operationId: "getStory"
       parameters:
         - $ref: "#/parameters/idParam"
       responses:
         '200':
           description: OK.
           schema:
-            $ref: "#/definitions/NewResponse"
+            $ref: "#/definitions/StoryResponse"
         '400':
           description: Bad request.
           schema:
@@ -399,10 +399,10 @@ paths:
             $ref: "#/definitions/ErrorResponse"
     put:
       tags:
-        - "news"
+        - "stories"
       summary: "Update new"
       description: "Update new by id"
-      operationId: "updateNew"
+      operationId: "updateStory"
       parameters:
         - $ref: "#/parameters/idParam"
         - $ref: "#/parameters/newBodyParam"
@@ -423,10 +423,10 @@ paths:
             $ref: "#/definitions/ErrorResponse"
     delete:
       tags:
-        - "news"
+        - "stories"
       summary: "Delete new"
       description: "Delete new by id"
-      operationId: "deleteNew"
+      operationId: "deleteStory"
       parameters:
         - $ref: "#/parameters/idParam"
       responses:
@@ -445,7 +445,7 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 definitions:
-  NewBody:
+  StoryBody:
     type: object
     required:
       - "title"
@@ -458,7 +458,7 @@ definitions:
       description:
         type: string
         format: string
-        example: "New description"
+        example: "Storie description"
       img:
         type: string
         format: string
@@ -467,11 +467,11 @@ definitions:
         type: string
         format: string
         example: "<h1>Content</h1>"
-  NewsResponse:
+  StoriesResponse:
     type: array
     items:
-      $ref: "#/definitions/NewResponse"
-  NewResponse:
+      $ref: "#/definitions/StoryResponse"
+  StoryResponse:
     type: object
     required:
       - "_id"
@@ -489,7 +489,7 @@ definitions:
       description:
         type: string
         format: string
-        example: "New description"
+        example: "Storie description"
       img:
         type: string
         format: string
@@ -745,8 +745,8 @@ parameters:
       $ref: "#/definitions/LoginBody"
   newBodyParam:
     name: "body"
-    description: "New body param"
+    description: "Storie body param"
     in: body
     required: true
     schema:
-      $ref: "#/definitions/NewBody"
+      $ref: "#/definitions/StoryBody"

@@ -12,8 +12,7 @@
 
 
 
-export class NewResponse {
-    'id': string;
+export class StoryBody {
     'title': string;
     'description'?: string;
     'img'?: string;
@@ -22,12 +21,6 @@ export class NewResponse {
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
-        {
-            "name": "id",
-            "baseName": "_id",
-            "type": "string",
-            "format": "string"
-        },
         {
             "name": "title",
             "baseName": "title",
@@ -54,7 +47,7 @@ export class NewResponse {
         }    ];
 
     static getAttributeTypeMap() {
-        return NewResponse.attributeTypeMap;
+        return StoryBody.attributeTypeMap;
     }
 
     public constructor() {
