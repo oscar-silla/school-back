@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   title: School API
   description: School API
-  version: 1.0.3
+  version: 1.0.4
   contact:
     email: orscarsilla@outlook.com
 tags:
@@ -14,6 +14,8 @@ tags:
     description: Manage users from school web page
   - name: login
     description: Manage login from school web page
+  - name: news
+    description: Manage news from school web page
 consumes:
   - application/json
 produces:
@@ -332,7 +334,170 @@ paths:
           description: Bad request.
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /news:
+    get:
+      tags:
+        - "news"
+      summary: "Get news"
+      description: "Get all news"
+      operationId: "getNews"
+      responses:
+        '200':
+          description: OK.
+          schema:
+            $ref: "#/definitions/NewsResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      tags:
+        - "news"
+      summary: "Create new"
+      description: "Create new"
+      operationId: "createNew"
+      parameters:
+        - $ref: "#/parameters/newBodyParam"
+      responses:
+        '201':
+          description: Created.
+          schema:
+            $ref: "#/definitions/GeneratedIdResponse"
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '401':
+          description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /news/{id}:
+    get:
+      tags:
+        - "news"
+      summary: "Get new"
+      description: "Get new by id"
+      operationId: "getNew"
+      parameters:
+        - $ref: "#/parameters/idParam"
+      responses:
+        '200':
+          description: OK.
+          schema:
+            $ref: "#/definitions/NewResponse"
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    put:
+      tags:
+        - "news"
+      summary: "Update new"
+      description: "Update new by id"
+      operationId: "updateNew"
+      parameters:
+        - $ref: "#/parameters/idParam"
+        - $ref: "#/parameters/newBodyParam"
+      responses:
+        '200':
+          description: OK.
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '401':
+          description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    delete:
+      tags:
+        - "news"
+      summary: "Delete new"
+      description: "Delete new by id"
+      operationId: "deleteNew"
+      parameters:
+        - $ref: "#/parameters/idParam"
+      responses:
+        '204':
+          description: No content.
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '401':
+          description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
 definitions:
+  NewBody:
+    type: object
+    required:
+      - "title"
+      - "content"
+    properties:
+      title:
+        type: string
+        format: string
+        example: "First new"
+      description:
+        type: string
+        format: string
+        example: "New description"
+      img:
+        type: string
+        format: string
+        example: "portrait.jpg"
+      content:
+        type: string
+        format: string
+        example: "<h1>Content</h1>"
+  NewsResponse:
+    type: array
+    items:
+      $ref: "#/definitions/NewResponse"
+  NewResponse:
+    type: object
+    required:
+      - "_id"
+      - "title"
+      - "content"
+    properties:
+      _id:
+        type: string
+        format: string
+        example: "507f191e810c19729de860ea"
+      title:
+        type: string
+        format: string
+        example: "First new"
+      description:
+        type: string
+        format: string
+        example: "New description"
+      img:
+        type: string
+        format: string
+        example: "portrait.jpg"
+      content:
+        type: string
+        format: string
+        example: "<h1>Content</h1>"
   VideoResponse:
     type: object
     required:
@@ -578,4 +743,10 @@ parameters:
     required: true
     schema:
       $ref: "#/definitions/LoginBody"
-
+  newBodyParam:
+    name: "body"
+    description: "New body param"
+    in: body
+    required: true
+    schema:
+      $ref: "#/definitions/NewBody"

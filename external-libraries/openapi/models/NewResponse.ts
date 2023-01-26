@@ -12,56 +12,49 @@
 
 
 
-export class UserBody {
-    'username': string;
-    'password': string;
-    'name': string;
-    'email': string;
-    'surnames'?: string;
-    'avatar'?: string;
+export class NewResponse {
+    'id': string;
+    'title': string;
+    'description'?: string;
+    'img'?: string;
+    'content': string;
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
-            "name": "username",
-            "baseName": "username",
+            "name": "id",
+            "baseName": "_id",
             "type": "string",
             "format": "string"
         },
         {
-            "name": "password",
-            "baseName": "password",
+            "name": "title",
+            "baseName": "title",
             "type": "string",
             "format": "string"
         },
         {
-            "name": "name",
-            "baseName": "name",
+            "name": "description",
+            "baseName": "description",
             "type": "string",
             "format": "string"
         },
         {
-            "name": "email",
-            "baseName": "email",
+            "name": "img",
+            "baseName": "img",
             "type": "string",
             "format": "string"
         },
         {
-            "name": "surnames",
-            "baseName": "surnames",
-            "type": "string",
-            "format": "string"
-        },
-        {
-            "name": "avatar",
-            "baseName": "avatar",
+            "name": "content",
+            "baseName": "content",
             "type": "string",
             "format": "string"
         }    ];
 
     static getAttributeTypeMap() {
-        return UserBody.attributeTypeMap;
+        return NewResponse.attributeTypeMap;
     }
 
     public constructor() {
