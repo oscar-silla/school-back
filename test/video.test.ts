@@ -40,7 +40,7 @@ describe("/video", () => {
   });
   test("should respond with a 200 status code when get an existing video", async () => {
     const response = await request
-      .get(`${baseUrl}/video/${generatedId}`)
+      .get(`${baseUrl}/video/${videoMock.getRef()}`)
       .send();
     expect(response.statusCode).toBe(HttpCode.OK);
   });

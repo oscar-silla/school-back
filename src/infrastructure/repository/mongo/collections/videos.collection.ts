@@ -6,9 +6,15 @@ export class VideosCollection {
     const { mongo } = global.database;
     return await mongo.collection(videosCollection).insertOne(video);
   }
-  async getOne(ref: string) {
+  async findByRef(ref: string) {
     const { mongo } = global.database;
     return await mongo.collection(videosCollection).findOne({ ref });
+  }
+  async findById(id: string) {
+    const { ObjectId, mongo } = global.database;
+    return await mongo
+      .collection(videosCollection)
+      .findOne({ _id: ObjectId(id) });
   }
   async modify(id: string, payload: Video) {
     const src = payload.getSrc();

@@ -3,6 +3,7 @@ import { Video } from "../../domain/video";
 
 export interface VideoRepositoryPort {
   save(payload: Video): Promise<GeneratedId>;
-  getOne(ref: string): Promise<Video>;
+  getOneByRef(ref: string): Promise<Video>;
+  getOneById(id: string): Promise<Video>;
   modify(id: string, payload: Video): Promise<void>;
 }

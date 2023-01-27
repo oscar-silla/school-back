@@ -14,12 +14,21 @@ export class VideoService implements VideoServicePort {
   }
 
   async modifyVideo(id: string, video: Video): Promise<void> {
-    await this.getVideo(id);
+    await this.getVideoById(id);
     await this.videoRepositoryAdapter.modify(id, video);
   }
 
-  async getVideo(ref: string): Promise<Video> {
-    const video: Video = await this.videoRepositoryAdapter.getOne(ref);
+  async getVideoByRef(ref: string): Promise<Video> {
+    const video: Video = await this.videoRepositoryAdapter.getOneByRef(ref);
+    if (!video.getId()) {
+      throw new CustomError(HttpMessage.NOT_FOUND, HttpCode.NOT_FOUND);
+    } else {
+      return video;
+    }
+  }
+
+  async getVideoById(id: string): Promise<Video> {
+    const video: Video = await this.videoRepositoryAdapter.getOneById(id);
     if (!video.getId()) {
       throw new CustomError(HttpMessage.NOT_FOUND, HttpCode.NOT_FOUND);
     } else {
