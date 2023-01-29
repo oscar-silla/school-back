@@ -40,7 +40,7 @@ describe("/video", () => {
   });
   test("should respond with a 200 status code when get an existing video", async () => {
     const response = await request
-      .get(`${baseUrl}/video/${generatedId}`)
+      .get(`${baseUrl}/video/${videoMock.getRef()}`)
       .send();
     expect(response.statusCode).toBe(HttpCode.OK);
   });
@@ -70,5 +70,19 @@ describe("/video", () => {
       .patch(`${baseUrl}/video/${generatedId}`)
       .send(videoMock);
     expect(response.statusCode).toBe(HttpCode.BAD_REQUEST);
+  });
+  test("should respond with a 400 status code when try to delete video with wrong id", async () => {
+    const response = await request.delete(`${baseUrl}/video/123`).send();
+    expect(response.statusCode).toBe(HttpCode.BAD_REQUEST);
+  });
+  test("should respond with a 404 status code when try to delete video that not exists", async () => {
+    const response = await request.delete(`${baseUrl}/video/${fakeId}`).send();
+    expect(response.statusCode).toBe(HttpCode.NOT_FOUND);
+  });
+  test("should respond with a 204 status code when delete an existing video", async () => {
+    const response = await request
+      .delete(`${baseUrl}/video/${generatedId}`)
+      .send();
+    expect(response.statusCode).toBe(HttpCode.NO_CONTENT);
   });
 });

@@ -6,9 +6,15 @@ export class VideosCollection {
     const { mongo } = global.database;
     return await mongo.collection(videosCollection).insertOne(video);
   }
-  async getOne(ref: string) {
+  async getOneByRef(ref: string) {
     const { mongo } = global.database;
     return await mongo.collection(videosCollection).findOne({ ref });
+  }
+  async getOneById(id: string) {
+    const { ObjectId, mongo } = global.database;
+    return await mongo
+      .collection(videosCollection)
+      .findOne({ _id: ObjectId(id) });
   }
   async modify(id: string, payload: Video) {
     const src = payload.getSrc();
@@ -16,5 +22,9 @@ export class VideosCollection {
     return await mongo
       .collection("videos")
       .updateOne({ _id: ObjectId(id) }, { $set: { src } });
+  }
+  async deleteOneById(id: string): Promise<void> {
+    const { ObjectId, mongo } = global.database;
+    await mongo.collection("videos").deleteOne({ _id: ObjectId(id) });
   }
 }

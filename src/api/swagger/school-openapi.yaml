@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   title: School API
   description: School API
-  version: 1.0.3
+  version: 1.0.4
   contact:
     email: orscarsilla@outlook.com
 tags:

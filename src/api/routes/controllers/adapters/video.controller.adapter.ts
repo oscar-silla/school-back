@@ -5,16 +5,22 @@ import { VideoResponse } from "../../../../../external-libraries/openapi/models/
 import { GeneratedId } from "../../../../application/domain/generated-id";
 import { HttpCode } from "../../../../application/domain/http-code";
 import { Video } from "../../../../application/domain/video";
+import { CreateVideoUseCasePort } from "../../../../application/ports/in/usecases/video/create-video.usecase.port";
+import { DeleteVideoUseCasePort } from "../../../../application/ports/in/usecases/video/delete-video.usecase.port";
+import { GetVideoUseCasePort } from "../../../../application/ports/in/usecases/video/get-video.usecase.port";
+import { ModifyVideoUseCasePort } from "../../../../application/ports/in/usecases/video/modify-video.usecase.port";
 import { CreateVideoUseCase } from "../../../../application/usecases/video/create-video.usecase";
+import { DeleteVideoUseCase } from "../../../../application/usecases/video/delete-video.usecase";
 import { GetVideoUseCase } from "../../../../application/usecases/video/get-video.usecase";
 import { ModifyVideoUseCase } from "../../../../application/usecases/video/modify-video.usecase";
 import { GeneratedIdMapper } from "../mappers/generated-id.mapper";
 import { VideoControllerMapper } from "../mappers/video.controller.mapper";
 const router = express.Router();
 
-const getVideoUseCase = new GetVideoUseCase();
-const createVideoUseCase = new CreateVideoUseCase();
-const modifyVideoUseCase = new ModifyVideoUseCase();
+const getVideoUseCase: GetVideoUseCasePort = new GetVideoUseCase();
+const createVideoUseCase: CreateVideoUseCasePort = new CreateVideoUseCase();
+const modifyVideoUseCase: ModifyVideoUseCasePort = new ModifyVideoUseCase();
+const deleteVideoUseCase: DeleteVideoUseCasePort = new DeleteVideoUseCase();
 
 const videoMapper = new VideoControllerMapper();
 const generatedIdMapper = new GeneratedIdMapper();
@@ -60,6 +66,18 @@ router.patch(
       const video = videoMapper.toVideo(req?.body);
       await modifyVideoUseCase.modifyVideo(req?.params?.id, video);
       res.status(HttpCode.OK).send();
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.delete(
+  "/:id",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await deleteVideoUseCase.deleteVideo(req?.params?.id);
+      res.status(HttpCode.NO_CONTENT).send();
     } catch (err) {
       next(err);
     }

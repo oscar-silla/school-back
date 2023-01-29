@@ -19,6 +19,6 @@ export class GetVideoUseCase implements GetVideoUseCasePort {
 
   async getVideo(id: string): Promise<Video> {
     this.checkRequestParams(id);
-    return await this.videoService.getVideo(id);
+    return await this.videoService.getVideoByRef(id);
   }
 }
