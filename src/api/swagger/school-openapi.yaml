@@ -420,7 +420,7 @@ paths:
           description: Not found.
           schema:
             $ref: "#/definitions/ErrorResponse"
-    put:
+    patch:
       tags:
         - "stories"
       summary: "Update new"
