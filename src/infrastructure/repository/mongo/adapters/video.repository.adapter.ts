@@ -17,15 +17,20 @@ export class VideoRepositoryAdapter implements VideoRepositoryPort {
   }
 
   async getOneByRef(ref: string): Promise<Video> {
-    const response: VideoModel = await this.videosCollection.findByRef(ref);
+    const response: VideoModel = await this.videosCollection.getOneByRef(ref);
+    return this.videoMapperModel.toVideo(response);
+  }
+
+  async getOneById(id: string): Promise<Video> {
+    const response: VideoModel = await this.videosCollection.getOneById(id);
     return this.videoMapperModel.toVideo(response);
   }
 
   async modify(id: string, payload: Video): Promise<void> {
     await this.videosCollection.modify(id, payload);
   }
-  async getOneById(id: string): Promise<Video> {
-    const response: VideoModel = await this.videosCollection.findById(id);
-    return this.videoMapperModel.toVideo(response);
+
+  async deleteOne(id: string): Promise<void> {
+    await this.videosCollection.deleteOneById(id);
   }
 }

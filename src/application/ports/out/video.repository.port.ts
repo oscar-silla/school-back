@@ -6,4 +6,5 @@ export interface VideoRepositoryPort {
   getOneByRef(ref: string): Promise<Video>;
   getOneById(id: string): Promise<Video>;
   modify(id: string, payload: Video): Promise<void>;
+  deleteOne(id: string): Promise<void>;
 }

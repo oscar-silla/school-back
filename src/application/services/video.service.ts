@@ -35,4 +35,9 @@ export class VideoService implements VideoServicePort {
       return video;
     }
   }
+
+  async deleteVideo(id: string): Promise<void> {
+    await this.getVideoById(id);
+    await this.videoRepositoryAdapter.deleteOne(id);
+  }
 }
