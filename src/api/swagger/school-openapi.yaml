@@ -14,6 +14,8 @@ tags:
     description: Manage users from school web page
   - name: login
     description: Manage login from school web page
+  - name: stories
+    description: Manage stories from school web page
 consumes:
   - application/json
 produces:
@@ -355,7 +357,170 @@ paths:
           description: Bad request.
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /stories:
+    get:
+      tags:
+        - "stories"
+      summary: "Get stories"
+      description: "Get all stories"
+      operationId: "getStories"
+      responses:
+        '200':
+          description: OK.
+          schema:
+            $ref: "#/definitions/StoriesResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      tags:
+        - "stories"
+      summary: "Create new"
+      description: "Create new"
+      operationId: "createStory"
+      parameters:
+        - $ref: "#/parameters/newBodyParam"
+      responses:
+        '201':
+          description: Created.
+          schema:
+            $ref: "#/definitions/GeneratedIdResponse"
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '401':
+          description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /stories/{id}:
+    get:
+      tags:
+        - "stories"
+      summary: "Get new"
+      description: "Get new by id"
+      operationId: "getStory"
+      parameters:
+        - $ref: "#/parameters/idParam"
+      responses:
+        '200':
+          description: OK.
+          schema:
+            $ref: "#/definitions/StoryResponse"
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    patch:
+      tags:
+        - "stories"
+      summary: "Update new"
+      description: "Update new by id"
+      operationId: "updateStory"
+      parameters:
+        - $ref: "#/parameters/idParam"
+        - $ref: "#/parameters/newBodyParam"
+      responses:
+        '200':
+          description: OK.
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '401':
+          description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    delete:
+      tags:
+        - "stories"
+      summary: "Delete new"
+      description: "Delete new by id"
+      operationId: "deleteStory"
+      parameters:
+        - $ref: "#/parameters/idParam"
+      responses:
+        '204':
+          description: No content.
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '401':
+          description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
 definitions:
+  StoryBody:
+    type: object
+    required:
+      - "title"
+      - "content"
+    properties:
+      title:
+        type: string
+        format: string
+        example: "First new"
+      description:
+        type: string
+        format: string
+        example: "Storie description"
+      img:
+        type: string
+        format: string
+        example: "portrait.jpg"
+      content:
+        type: string
+        format: string
+        example: "<h1>Content</h1>"
+  StoriesResponse:
+    type: array
+    items:
+      $ref: "#/definitions/StoryResponse"
+  StoryResponse:
+    type: object
+    required:
+      - "_id"
+      - "title"
+      - "content"
+    properties:
+      _id:
+        type: string
+        format: string
+        example: "507f191e810c19729de860ea"
+      title:
+        type: string
+        format: string
+        example: "First new"
+      description:
+        type: string
+        format: string
+        example: "Storie description"
+      img:
+        type: string
+        format: string
+        example: "portrait.jpg"
+      content:
+        type: string
+        format: string
+        example: "<h1>Content</h1>"
   VideoResponse:
     type: object
     required:
@@ -601,4 +766,10 @@ parameters:
     required: true
     schema:
       $ref: "#/definitions/LoginBody"
-
+  newBodyParam:
+    name: "body"
+    description: "Storie body param"
+    in: body
+    required: true
+    schema:
+      $ref: "#/definitions/StoryBody"
