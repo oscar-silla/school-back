@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   title: School API
   description: School API
-  version: 1.0.3
+  version: 1.0.4
   contact:
     email: orscarsilla@outlook.com
 tags:
@@ -156,6 +156,29 @@ paths:
       responses:
         '200':
           description: OK.
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '401':
+          description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    delete:
+      tags:
+        - "video"
+      summary: "Delete video"
+      description: "Delete video by id"
+      operationId: "deleteVideo"
+      parameters:
+        - $ref: "#/parameters/idParam"
+      responses:
+        '204':
+          description: No content.
         '400':
           description: Bad request.
           schema:
