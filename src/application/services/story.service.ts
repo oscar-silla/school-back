@@ -16,7 +16,6 @@ export class StoryService implements StoryServicePort {
 
   async getStories(): Promise<Story[]> {
     const stories: Story[] = await this.storyRepository.find();
-    console.log(stories);
     this.checkIfIsItAnEmptyStoryList(stories);
     return stories;
   }
