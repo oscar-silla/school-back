@@ -1,6 +1,4 @@
 import express, { Request, Response, NextFunction } from "express";
-import { GeneratedIdResponse } from "../../../../../external-libraries/openapi/models/GeneratedIdResponse";
-import { VideoBody } from "../../../../../external-libraries/openapi/models/VideoBody";
 import { VideoResponse } from "../../../../../external-libraries/openapi/models/VideoResponse";
 import { GeneratedId } from "../../../../application/domain/generated-id";
 import { HttpCode } from "../../../../application/domain/http-code";
@@ -13,6 +11,7 @@ import { CreateVideoUseCase } from "../../../../application/usecases/video/creat
 import { DeleteVideoUseCase } from "../../../../application/usecases/video/delete-video.usecase";
 import { GetVideoUseCase } from "../../../../application/usecases/video/get-video.usecase";
 import { ModifyVideoUseCase } from "../../../../application/usecases/video/modify-video.usecase";
+import { authExtract } from "../../../middlewares/auth-extract";
 import { GeneratedIdMapper } from "../mappers/generated-id.mapper";
 import { VideoControllerMapper } from "../mappers/video.controller.mapper";
 const router = express.Router();
@@ -27,11 +26,8 @@ const generatedIdMapper = new GeneratedIdMapper();
 
 router.post(
   "/",
-  async (
-    req: Request<VideoBody>,
-    res: Response<GeneratedIdResponse>,
-    next: NextFunction
-  ) => {
+  authExtract,
+  async (req: Request, res: Response, next: NextFunction) => {
     try {
       const video = videoMapper.toVideo(req?.body);
       const generatedId: GeneratedId = await createVideoUseCase.createVideo(

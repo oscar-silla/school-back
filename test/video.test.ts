@@ -13,6 +13,10 @@ const fakeId = "63b04cf26cff5203de1659ca";
 const videoMock = new Video("", "home", "video.mp4");
 let generatedId: string;
 
+const commonHeaders = {
+  authorization: process.env.TOKEN,
+};
+
 describe("/video", () => {
   beforeAll(async () => {
     await mongo.createConnection();
@@ -30,17 +34,22 @@ describe("/video", () => {
   test("should respond with a 404 status code when try modify an inexisting video", async () => {
     const response = await request
       .patch(`${baseUrl}/video/${fakeId}`)
+      .set(commonHeaders)
       .send(videoMock);
     expect(response.statusCode).toBe(HttpCode.NOT_FOUND);
   });
   test("should respond with a 201 status code when create a new video", async () => {
-    const response = await request.post(`${baseUrl}/video`).send(videoMock);
+    const response = await request
+      .post(`${baseUrl}/video`)
+      .set(commonHeaders)
+      .send(videoMock);
     generatedId = response.body.generatedId;
     expect(response.statusCode).toBe(HttpCode.CREATED);
   });
   test("should respond with a 200 status code when get an existing video", async () => {
     const response = await request
       .get(`${baseUrl}/video/${videoMock.getRef()}`)
+      .set(commonHeaders)
       .send();
     expect(response.statusCode).toBe(HttpCode.OK);
   });
@@ -48,19 +57,27 @@ describe("/video", () => {
     videoMock.setSrc("contact");
     const response = await request
       .patch(`${baseUrl}/video/${generatedId}`)
+      .set(commonHeaders)
+      .set(commonHeaders)
       .send(videoMock);
     expect(response.statusCode).toBe(HttpCode.OK);
     videoMock.setSrc("home");
   });
   test("should respond with a 400 status code when try create video without 'src' body param", async () => {
     videoMock.setSrc("");
-    const response = await request.post(`${baseUrl}/video`).send(videoMock);
+    const response = await request
+      .post(`${baseUrl}/video`)
+      .set(commonHeaders)
+      .send(videoMock);
     expect(response.statusCode).toBe(HttpCode.BAD_REQUEST);
     videoMock.setSrc("video.mp4");
   });
   test("should respond with a 400 status code when try create video without 'ref' body param", async () => {
     videoMock.setRef("");
-    const response = await request.post(`${baseUrl}/video`).send();
+    const response = await request
+      .post(`${baseUrl}/video`)
+      .set(commonHeaders)
+      .send();
     expect(response.statusCode).toBe(HttpCode.BAD_REQUEST);
     videoMock.setRef("home");
   });
@@ -68,6 +85,7 @@ describe("/video", () => {
     videoMock.setSrc("");
     const response = await request
       .patch(`${baseUrl}/video/${generatedId}`)
+      .set(commonHeaders)
       .send(videoMock);
     expect(response.statusCode).toBe(HttpCode.BAD_REQUEST);
   });
