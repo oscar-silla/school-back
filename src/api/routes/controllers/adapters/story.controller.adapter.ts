@@ -1,6 +1,5 @@
 import express, { Request, Response, NextFunction } from "express";
 import { GeneratedIdResponse } from "../../../../../external-libraries/openapi/models/GeneratedIdResponse";
-import { StoryBody } from "../../../../../external-libraries/openapi/models/StoryBody";
 import { StoryResponse } from "../../../../../external-libraries/openapi/models/StoryResponse";
 import { GeneratedId } from "../../../../application/domain/generated-id";
 import { HttpCode } from "../../../../application/domain/http-code";
@@ -15,6 +14,7 @@ import { DeleteStoryUseCase } from "../../../../application/usecases/story/delet
 import { GetStoriesUseCase } from "../../../../application/usecases/story/get-stories.usecase";
 import { GetStoryUseCase } from "../../../../application/usecases/story/get-story.usecase";
 import { ModifyStoryUseCase } from "../../../../application/usecases/story/modify-story.usecase";
+import { authExtract } from "../../../middlewares/auth-extract";
 import { GeneratedIdMapper } from "../mappers/generated-id.mapper";
 import { StoryControllerMapper } from "../mappers/story.controller.mapper";
 
@@ -31,8 +31,9 @@ const generatedIdMapper = new GeneratedIdMapper();
 
 router.post(
   "/",
+  authExtract,
   async (
-    req: Request<StoryBody>,
+    req: Request,
     res: Response<GeneratedIdResponse>,
     next: NextFunction
   ) => {
@@ -76,6 +77,7 @@ router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
 
 router.patch(
   "/:id",
+  authExtract,
   async (req: Request, res: Response<void>, next: NextFunction) => {
     try {
       const story: Story = storyMapper.toStory(req?.body);
@@ -89,6 +91,7 @@ router.patch(
 
 router.delete(
   "/:id",
+  authExtract,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       await deleteStoryUseCase.deleteStory(req?.params?.id);

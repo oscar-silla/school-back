@@ -1,5 +1,4 @@
 import express, { Request, Response, NextFunction } from "express";
-import { SectionBody } from "../../../../../external-libraries/openapi/models/SectionBody";
 import { SectionResponse } from "../../../../../external-libraries/openapi/models/SectionResponse";
 import { HttpCode } from "../../../../application/domain/http-code";
 
@@ -9,6 +8,7 @@ import { DeleteSectionUseCase } from "../../../../application/usecases/section/d
 import { GetSectionUseCase } from "../../../../application/usecases/section/get-section.usecase";
 import { GetSectionsUseCase } from "../../../../application/usecases/section/get-sections.usecase";
 import { ModifySectionUseCase } from "../../../../application/usecases/section/modify-section.usecase";
+import { authExtract } from "../../../middlewares/auth-extract";
 import { SectionControllerMapper } from "../mappers/section.controller.mapper";
 const router = express.Router();
 const { NO_CONTENT, OK, CREATED } = HttpCode;
@@ -23,11 +23,8 @@ const deleteSectionUseCase = new DeleteSectionUseCase();
 
 router.post(
   "/",
-  async (
-    req: Request<SectionBody>,
-    res: Response<void>,
-    next: NextFunction
-  ) => {
+  authExtract,
+  async (req: Request, res: Response, next: NextFunction) => {
     try {
       const section: Section = sectionMapper.toSection(req.body);
       await createSectionUseCase.createSection(section);
@@ -70,6 +67,7 @@ router.get(
 
 router.patch(
   "/:ref",
+  authExtract,
   async (req: Request, res: Response<any>, next: NextFunction) => {
     try {
       const section = sectionMapper.toSection(req.body);
@@ -83,6 +81,7 @@ router.patch(
 
 router.delete(
   "/:ref",
+  authExtract,
   async (req: Request, res: Response<void>, next: NextFunction) => {
     try {
       await deleteSectionUseCase.deleteSection(req?.params?.ref);

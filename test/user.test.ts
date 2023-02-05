@@ -21,6 +21,10 @@ const userMock = new User(
   "avatar"
 );
 
+const commonHeaders = {
+  authorization: process.env.TOKEN,
+};
+
 describe("User tests", () => {
   beforeAll(() => {
     mongo.createConnection();
@@ -29,20 +33,38 @@ describe("User tests", () => {
     httpServer.close();
     mongo.closeConnection();
   });
-  test("should respond with 400 status code when try to get user without send id to find it", async () => {
+  test("should respond with a 401 status code when try to get one user without token in the request headers", async () => {
     const res = await request
       .get(`${baseUrl}/users/${userMock.getId()}`)
+      .send();
+    expect(res.statusCode).toBe(HttpCode.UNAUTHORIZED);
+  });
+  test("should respond with a 401 status code when try to get all users without token in the request headers", async () => {
+    const res = await request.get(`${baseUrl}/users`).send();
+    expect(res.statusCode).toBe(HttpCode.UNAUTHORIZED);
+  });
+  test("should respond with a 401 status code when try to delete user withour token in the request headers", async () => {
+    const res = await request
+      .delete(`${baseUrl}/users/${userMock.getId()}`)
+      .send();
+    expect(res.statusCode).toBe(HttpCode.UNAUTHORIZED);
+  });
+  test("should respond with a 400 status code when try to get user without send id to find it", async () => {
+    const res = await request
+      .get(`${baseUrl}/users/${userMock.getId()}`)
+      .set(commonHeaders)
       .send();
     expect(res.statusCode).toBe(HttpCode.BAD_REQUEST);
   });
   test("should respond with a 404 status code when try to get all users but they don't exists", async () => {
-    const res = await request.get(`${baseUrl}/users`).send();
+    const res = await request.get(`${baseUrl}/users`).set(commonHeaders).send();
     expect(res.statusCode).toBe(HttpCode.NOT_FOUND);
   });
   test("should respond with 404 status code when try to get a user wich not exists", async () => {
     userMock.setId("63c5a6831e617bddc06f590d");
     const res = await request
       .get(`${baseUrl}/users/${userMock.getId()}`)
+      .set(commonHeaders)
       .send();
     expect(res.statusCode).toBe(HttpCode.NOT_FOUND);
   });
@@ -91,6 +113,7 @@ describe("User tests", () => {
     userMock.setId("badid");
     const res = await request
       .delete(`${baseUrl}/users/${userMock.getId()}`)
+      .set(commonHeaders)
       .send();
     expect(res.statusCode).toBe(HttpCode.BAD_REQUEST);
   });
@@ -98,11 +121,15 @@ describe("User tests", () => {
     userMock.setId("63c5a85ad206872cf41df870");
     const res = await request
       .delete(`${baseUrl}/users/${userMock.getId()}`)
+      .set(commonHeaders)
       .send();
     expect(res.statusCode).toBe(HttpCode.NOT_FOUND);
   });
   test("should respond with a 204 status code when delete an existing user", async () => {
-    const res = await request.delete(`${baseUrl}/users/${idMock}`).send();
+    const res = await request
+      .delete(`${baseUrl}/users/${idMock}`)
+      .set(commonHeaders)
+      .send();
     expect(res.statusCode).toBe(HttpCode.NO_CONTENT);
   });
 });
