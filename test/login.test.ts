@@ -32,6 +32,9 @@ const userMock: User = new User(
   surnames,
   avatar
 );
+const commonHeaders = {
+  authorization: process.env.TOKEN,
+};
 
 describe("login tests", () => {
   beforeAll(async () => {
@@ -72,7 +75,10 @@ describe("login tests", () => {
       .post(`${baseUrl}/login`)
       .send(loginCredentialsMock);
     expect(res.statusCode).toBe(HttpCode.UNAUTHORIZED);
-    await request.delete(`${baseUrl}/users/${generatedId}`).send();
+    await request
+      .delete(`${baseUrl}/users/${generatedId}`)
+      .set(commonHeaders)
+      .send();
   });
   test("should respond with 404 status code when try to generate token without secret key", async () => {
     userMock.setPassword(password);
@@ -82,9 +88,12 @@ describe("login tests", () => {
     process.env.SECRET = "";
     const res = await request.post(`${baseUrl}/login`).send(userMock);
     expect(res.statusCode).toBe(HttpCode.NOT_FOUND);
-    await request.delete(`${baseUrl}/users/${generatedId}`).send();
     process.env.SECRET = originalSecret;
     userMock.setPassword(wrongPassword);
+    await request
+      .delete(`${baseUrl}/users/${generatedId}`)
+      .set(commonHeaders)
+      .send();
   });
   test("should respond with 200 status code when login is success", async () => {
     userMock.setPassword(password);
@@ -94,7 +103,10 @@ describe("login tests", () => {
       .post(`${baseUrl}/login`)
       .send(loginCredentialsMock);
     expect(res.statusCode).toBe(HttpCode.OK);
-    await request.delete(`${baseUrl}/users/${generatedId}`).send();
+    await request
+      .delete(`${baseUrl}/users/${generatedId}`)
+      .set(commonHeaders)
+      .send();
     userMock.setPassword(wrongPassword);
   });
 });

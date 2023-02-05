@@ -19,6 +19,10 @@ const storyMock: Story = new Story(
 );
 const emptyStoryMock: Story = new Story();
 
+const commonHeaders = {
+  authorization: process.env.TOKEN,
+};
+
 describe("Story tests", () => {
   beforeAll(async () => {
     await mongo.createConnection();
@@ -27,17 +31,40 @@ describe("Story tests", () => {
     await mongo.closeConnection();
     httpServer.close();
   });
+  test("should respond with a 401 status code when try to create story with invalid auth in request headers", async () => {
+    const res = await request.post(`${baseUrl}/stories`).send(storyMock);
+    expect(res.statusCode).toBe(HttpCode.UNAUTHORIZED);
+  });
+  test("should respond with a 401 status code when try to modify story with invalid auth in request headers", async () => {
+    const res = await request
+      .patch(`${baseUrl}/stories/${storyMock.getId()}`)
+      .send(storyMock);
+    expect(res.statusCode).toBe(HttpCode.UNAUTHORIZED);
+  });
+  test("sould respond with a 401 status code when try to delete story with invalid auth in request headers", async () => {
+    const res = await request
+      .delete(`${baseUrl}/stories/${storyMock.getId()}`)
+      .send();
+    expect(res.statusCode).toBe(HttpCode.UNAUTHORIZED);
+  });
   test("should respond with a 400 status code when try to modify story with wrong id", async () => {
-    const res = await request.patch(`${baseUrl}/stories/1234`).send(storyMock);
+    const res = await request
+      .patch(`${baseUrl}/stories/1234`)
+      .set(commonHeaders)
+      .send(storyMock);
     expect(res.statusCode).toBe(HttpCode.BAD_REQUEST);
   });
   test("should respond with a 400 status code when try to delete story with wrong id", async () => {
-    const res = await request.delete(`${baseUrl}/stories/1234`).send();
+    const res = await request
+      .delete(`${baseUrl}/stories/1234`)
+      .set(commonHeaders)
+      .send();
     expect(res.statusCode).toBe(HttpCode.BAD_REQUEST);
   });
   test("should respond with a 400 status code when try to modify story without body params", async () => {
     const res = await request
       .patch(`${baseUrl}/stories/${fakeId}`)
+      .set(commonHeaders)
       .send(emptyStoryMock);
     expect(res.statusCode).toBe(HttpCode.BAD_REQUEST);
   });
@@ -51,18 +78,27 @@ describe("Story tests", () => {
   });
   test("should respond with a 400 status code when try to create new story with null title", async () => {
     storyMock.setTitle("");
-    const res = await request.post(`${baseUrl}/stories`).send(storyMock);
+    const res = await request
+      .post(`${baseUrl}/stories`)
+      .set(commonHeaders)
+      .send(storyMock);
     expect(res.statusCode).toBe(HttpCode.BAD_REQUEST);
     storyMock.setTitle("Story title");
   });
   test("should respond with a 400 status code when try to create new story with null content", async () => {
     storyMock.setContent("");
-    const res = await request.post(`${baseUrl}/stories`).send(storyMock);
+    const res = await request
+      .post(`${baseUrl}/stories`)
+      .set(commonHeaders)
+      .send(storyMock);
     expect(res.statusCode).toBe(HttpCode.BAD_REQUEST);
     storyMock.setContent("<h1>Story</h1>");
   });
   test("should respond with a 201 status code when create a new story", async () => {
-    const res = await request.post(`${baseUrl}/stories`).send(storyMock);
+    const res = await request
+      .post(`${baseUrl}/stories`)
+      .set(commonHeaders)
+      .send(storyMock);
     generatedId = res?.body?.generatedId;
     expect(generatedId).not.toBeNull();
     expect(res.statusCode).toBe(HttpCode.CREATED);
@@ -75,6 +111,7 @@ describe("Story tests", () => {
     storyMock.setTitle("Title updated");
     const res = await request
       .patch(`${baseUrl}/stories/${generatedId}`)
+      .set(commonHeaders)
       .send(storyMock);
     expect(res.statusCode).toBe(HttpCode.OK);
   });
@@ -85,6 +122,7 @@ describe("Story tests", () => {
   test("should respond with a 204 status code when delete an existing story", async () => {
     const res = await request
       .delete(`${baseUrl}/stories/${generatedId}`)
+      .set(commonHeaders)
       .send();
     expect(res.statusCode).toBe(HttpCode.NO_CONTENT);
   });
