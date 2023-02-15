@@ -1,17 +1,17 @@
-import { Story } from "../../../../application/domain/story";
-import { StoryModel } from "../models/story.model";
+import { Article } from "../../../../application/domain/article";
+import { ArticleModel } from "../models/article.model";
 
-export class StoryMapperModel {
-  toStory(storyModel: StoryModel): Story {
-    const story: Story = new Story();
-    story.setId(storyModel?._id ?? "");
-    story.setTitle(storyModel?.title ?? "");
-    story.setDescription(storyModel?.description ?? "");
-    story.setImg(storyModel?.img ?? "");
-    story.setContent(storyModel?.content ?? "");
-    return story;
+export class ArticleMapperModel {
+  toArticle(articleModel: ArticleModel): Article {
+    const article: Article = new Article();
+    article.setId(articleModel?._id ?? "");
+    article.setTitle(articleModel?.title ?? "");
+    article.setDescription(articleModel?.description ?? "");
+    article.setImg(articleModel?.img ?? "");
+    article.setContent(articleModel?.content ?? "");
+    return article;
   }
-  toStories(storyModels: StoryModel[]): Story[] {
-    return storyModels.map((storyModel) => this.toStory(storyModel));
+  toArticles(articleModels: ArticleModel[]): Article[] {
+    return articleModels.map((articleModel) => this.toArticle(articleModel));
   }
 }

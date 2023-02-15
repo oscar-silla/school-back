@@ -1,28 +1,28 @@
-import { Story } from "../../../../application/domain/story";
+import { Article } from "../../../../application/domain/article";
 import { GeneratedIdModel } from "../models/generated-id.model";
-import { StoryModel } from "../models/story.model";
+import { ArticleModel } from "../models/article.model";
 
-export class StoriesCollection {
-  async save(story: Story): Promise<GeneratedIdModel> {
+export class ArticlesCollection {
+  async save(article: Article): Promise<GeneratedIdModel> {
     const { mongo } = global.database;
-    return await mongo.collection("stories").insertOne(story);
+    return await mongo.collection("articles").insertOne(article);
   }
-  async find(): Promise<StoryModel[]> {
+  async find(): Promise<ArticleModel[]> {
     const { mongo } = global.database;
-    return await mongo.collection("stories").find({}).toArray();
+    return await mongo.collection("articles").find({}).toArray();
   }
-  async findOne(id: string): Promise<StoryModel> {
+  async findOne(id: string): Promise<ArticleModel> {
     const { ObjectId, mongo } = global.database;
-    return await mongo.collection("stories").findOne({ _id: ObjectId(id) });
+    return await mongo.collection("articles").findOne({ _id: ObjectId(id) });
   }
-  async modifyOne(id: string, story: Story): Promise<void> {
+  async modifyOne(id: string, article: Article): Promise<void> {
     const { ObjectId, mongo } = global.database;
     return await mongo
-      .collection("stories")
-      .updateOne({ _id: ObjectId(id) }, { $set: story });
+      .collection("articles")
+      .updateOne({ _id: ObjectId(id) }, { $set: article });
   }
   async deleteOne(id: string): Promise<void> {
     const { ObjectId, mongo } = global.database;
-    return await mongo.collection("stories").deleteOne({ _id: ObjectId(id) });
+    return await mongo.collection("articles").deleteOne({ _id: ObjectId(id) });
   }
 }
