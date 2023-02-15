@@ -1,66 +1,75 @@
-import { StoryRepositoryAdapter } from "../../infrastructure/repository/mongo/adapters/story.repository.adapter";
+import { ArticleRepositoryAdapter } from "../../infrastructure/repository/mongo/adapters/article.repository.adapter";
 import { GeneratedId } from "../domain/generated-id";
 import { HttpCode } from "../domain/http-code";
 import { HttpMessage } from "../domain/http-message";
-import { Story } from "../domain/story";
+import { Article } from "../domain/article";
 import { CustomError } from "../exceptions/CustomError";
-import { StoryServicePort } from "../ports/in/services/story.service.port";
-import { StoryRepositoryPort } from "../ports/out/story.repository.port";
+import { ArticleServicePort } from "../ports/in/services/article.service.port";
+import { ArticleRepositoryPort } from "../ports/out/article.repository.port";
 
-export class StoryService implements StoryServicePort {
-  private storyRepository: StoryRepositoryPort = new StoryRepositoryAdapter();
+export class ArticleService implements ArticleServicePort {
+  private articleRepository: ArticleRepositoryPort =
+    new ArticleRepositoryAdapter();
 
-  async createStory(story: Story): Promise<GeneratedId> {
-    return await this.storyRepository.save(story);
+  async createArticle(article: Article): Promise<GeneratedId> {
+    return await this.articleRepository.save(article);
   }
 
-  async getStories(): Promise<Story[]> {
-    const stories: Story[] = await this.storyRepository.find();
-    this.checkIfIsItAnEmptyStoryList(stories);
-    return stories;
+  async getArticles(): Promise<Article[]> {
+    const articles: Article[] = await this.articleRepository.find();
+    this.checkIfIsItAnEmptyArticleList(articles);
+    return articles;
   }
 
-  async getStory(id: string): Promise<Story> {
-    const story: Story = await this.storyRepository.findOne(id);
-    this.checkIfIsItAnEmptyStory(story);
-    return story;
+  async getArticle(id: string): Promise<Article> {
+    const article: Article = await this.articleRepository.findOne(id);
+    this.checkIfIsItAnEmptyArticle(article);
+    return article;
   }
 
-  async modifyStory(id: string, story: Story): Promise<void> {
-    const storyToModify: Story = await this.getStory(id);
-    const payload: Story = this.buildPayloadToModifyStory(story, storyToModify);
-    await this.storyRepository.modifyOne(id, payload);
+  async modifyArticle(id: string, article: Article): Promise<void> {
+    const articleToModify: Article = await this.getArticle(id);
+    const payload: Article = this.buildPayloadToModifyarticle(
+      article,
+      articleToModify
+    );
+    await this.articleRepository.modifyOne(id, payload);
   }
 
-  async deleteStory(id: string): Promise<void> {
-    await this.getStory(id);
-    await this.storyRepository.deleteOne(id);
+  async deleteArticle(id: string): Promise<void> {
+    await this.getArticle(id);
+    await this.articleRepository.deleteOne(id);
   }
 
-  private buildPayloadToModifyStory(story: Story, storyToModify: Story): Story {
-    const payload: Story = new Story();
+  private buildPayloadToModifyarticle(
+    article: Article,
+    articleToModify: Article
+  ): Article {
+    const payload: Article = new Article();
     payload.setTitle(
-      story.getTitle() ? story.getTitle() : storyToModify.getTitle()
+      article.getTitle() ? article.getTitle() : articleToModify.getTitle()
     );
     payload.setDescription(
-      story.getDescription()
-        ? story.getDescription()
-        : storyToModify.getDescription()
+      article.getDescription()
+        ? article.getDescription()
+        : articleToModify.getDescription()
     );
-    payload.setImg(story.getImg() ? story.getImg() : storyToModify.getImg());
+    payload.setImg(
+      article.getImg() ? article.getImg() : articleToModify.getImg()
+    );
     payload.setContent(
-      story.getContent() ? story.getContent() : storyToModify.getContent()
+      article.getContent() ? article.getContent() : articleToModify.getContent()
     );
     return payload;
   }
 
-  private checkIfIsItAnEmptyStory(story: Story): void {
-    if (!story.getId()) {
+  private checkIfIsItAnEmptyArticle(article: Article): void {
+    if (!article.getId()) {
       throw new CustomError(HttpMessage.NOT_FOUND, HttpCode.NOT_FOUND, {});
     }
   }
-  private checkIfIsItAnEmptyStoryList(stories: Story[]): void {
-    if (stories.length === 0) {
+  private checkIfIsItAnEmptyArticleList(articles: Article[]): void {
+    if (articles.length === 0) {
       throw new CustomError(HttpMessage.NOT_FOUND, HttpCode.NOT_FOUND, {});
     }
   }

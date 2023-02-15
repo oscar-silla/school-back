@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   title: School API
   description: School API
-  version: 1.0.4
+  version: 1.0.5
   contact:
     email: orscarsilla@outlook.com
 tags:
@@ -357,28 +357,31 @@ paths:
           description: Bad request.
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /stories:
+  /articles:
     get:
       tags:
-        - "stories"
-      summary: "Get stories"
-      description: "Get all stories"
-      operationId: "getStories"
+        - "articles"
+      summary: "Get articles"
+      description: "Get all articles"
+      operationId: "getArticles"
+      parameters:
+        - $ref: "#/parameters/limitParam"
+        - $ref: "#/parameters/pageParam"
       responses:
         '200':
           description: OK.
           schema:
-            $ref: "#/definitions/StoriesResponse"
+            $ref: "#/definitions/ArticlesResponse"
         '404':
           description: Not found.
           schema:
             $ref: "#/definitions/ErrorResponse"
     post:
       tags:
-        - "stories"
-      summary: "Create new"
-      description: "Create new"
-      operationId: "createStory"
+        - "articles"
+      summary: "Create article"
+      description: "Create article"
+      operationId: "createArticle"
       parameters:
         - $ref: "#/parameters/newBodyParam"
       responses:
@@ -398,20 +401,20 @@ paths:
           description: Not found.
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /stories/{id}:
+  /article/{id}:
     get:
       tags:
-        - "stories"
-      summary: "Get new"
-      description: "Get new by id"
-      operationId: "getStory"
+        - "articles"
+      summary: "Get article"
+      description: "Get article by id"
+      operationId: "getArticle"
       parameters:
         - $ref: "#/parameters/idParam"
       responses:
         '200':
           description: OK.
           schema:
-            $ref: "#/definitions/StoryResponse"
+            $ref: "#/definitions/ArticleResponse"
         '400':
           description: Bad request.
           schema:
@@ -422,10 +425,10 @@ paths:
             $ref: "#/definitions/ErrorResponse"
     patch:
       tags:
-        - "stories"
-      summary: "Update new"
-      description: "Update new by id"
-      operationId: "updateStory"
+        - "articles"
+      summary: "Update article"
+      description: "Update article by id"
+      operationId: "updateArticle"
       parameters:
         - $ref: "#/parameters/idParam"
         - $ref: "#/parameters/newBodyParam"
@@ -446,10 +449,10 @@ paths:
             $ref: "#/definitions/ErrorResponse"
     delete:
       tags:
-        - "stories"
-      summary: "Delete new"
-      description: "Delete new by id"
-      operationId: "deleteStory"
+        - "articles"
+      summary: "Delete article"
+      description: "Delete article by id"
+      operationId: "deleteArticle"
       parameters:
         - $ref: "#/parameters/idParam"
       responses:
@@ -468,7 +471,7 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 definitions:
-  StoryBody:
+  ArticleBody:
     type: object
     required:
       - "title"
@@ -490,11 +493,11 @@ definitions:
         type: string
         format: string
         example: "<h1>Content</h1>"
-  StoriesResponse:
+  ArticlesResponse:
     type: array
     items:
-      $ref: "#/definitions/StoryResponse"
-  StoryResponse:
+      $ref: "#/definitions/ArticleResponse"
+  ArticleResponse:
     type: object
     required:
       - "_id"
@@ -772,4 +775,14 @@ parameters:
     in: body
     required: true
     schema:
-      $ref: "#/definitions/StoryBody"
+      $ref: "#/definitions/ArticleBody"
+  limitParam:
+    name: "Limit param"
+    description: "Limit of records for page"
+    in: query
+    type: "string"
+  pageParam:
+    name: "Page param"
+    description: "Start page for start pagination"
+    in: query
+    type: "string"
