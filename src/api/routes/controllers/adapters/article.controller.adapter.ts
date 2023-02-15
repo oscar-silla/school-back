@@ -9,11 +9,11 @@ import { DeleteArticleUseCasePort } from "../../../../application/ports/in/useca
 import { GetArticlesUseCasePort } from "../../../../application/ports/in/usecases/story/get-articles.usecase.port";
 import { GetArticleUseCasePort } from "../../../../application/ports/in/usecases/story/get-article.usecase.port";
 import { ModifyArticleUseCasePort } from "../../../../application/ports/in/usecases/story/modify-article.usecase.port";
-import { CreateStoryUseCase } from "../../../../application/usecases/story/create-article.usecase";
-import { DeleteStoryUseCase } from "../../../../application/usecases/story/delete-article.usecase";
-import { GetArticlesUseCase } from "../../../../application/usecases/story/get-articles.usecase";
-import { GetStoryUseCase } from "../../../../application/usecases/story/get-article.usecase";
-import { ModifyArticleUseCase } from "../../../../application/usecases/story/modify-article.usecase";
+import { CreateStoryUseCase } from "../../../../application/usecases/article/create-article.usecase";
+import { DeleteStoryUseCase } from "../../../../application/usecases/article/delete-article.usecase";
+import { GetArticlesUseCase } from "../../../../application/usecases/article/get-articles.usecase";
+import { GetStoryUseCase } from "../../../../application/usecases/article/get-article.usecase";
+import { ModifyArticleUseCase } from "../../../../application/usecases/article/modify-article.usecase";
 import { authExtract } from "../../../middlewares/auth-extract";
 import { GeneratedIdMapper } from "../mappers/generated-id.mapper";
 import { ArticleControllerMapper } from "../mappers/article.controller.mapper";
@@ -55,12 +55,15 @@ router.post(
 router.get(
   "/",
   async (
-    _req: Request,
+    req: Request,
     res: Response<ArticleResponse[]>,
     next: NextFunction
   ) => {
     try {
-      const articles: Article[] = await getArticlesUseCase.getArticles();
+      const articles: Article[] = await getArticlesUseCase.getArticles(
+        req?.params?.limit ?? "",
+        req?.params?.page ?? ""
+      );
       const articlesResponse: ArticleResponse[] =
         articleMapper.toArticlesResponse(articles);
       res.status(HttpCode.OK).json(articlesResponse);

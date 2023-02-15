@@ -4,7 +4,7 @@ import { Article } from "../../domain/article";
 import { CustomError } from "../../exceptions/CustomError";
 import { ArticleServicePort } from "../../ports/in/services/article.service.port";
 import { ModifyArticleUseCasePort } from "../../ports/in/usecases/story/modify-article.usecase.port";
-import { ArticleService } from "../../services/story.service";
+import { ArticleService } from "../../services/article.service";
 import { checkObjectId } from "../../utils/check-objectid.util";
 
 export class ModifyArticleUseCase implements ModifyArticleUseCasePort {
