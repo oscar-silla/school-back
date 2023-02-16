@@ -14,8 +14,8 @@ tags:
     description: Manage users from school web page
   - name: login
     description: Manage login from school web page
-  - name: stories
-    description: Manage stories from school web page
+  - name: articles
+    description: Manage articles from school web page
 consumes:
   - application/json
 produces:
@@ -484,7 +484,7 @@ definitions:
       description:
         type: string
         format: string
-        example: "Storie description"
+        example: "Article description"
       img:
         type: string
         format: string
@@ -515,7 +515,7 @@ definitions:
       description:
         type: string
         format: string
-        example: "Storie description"
+        example: "Article description"
       img:
         type: string
         format: string
@@ -771,18 +771,20 @@ parameters:
       $ref: "#/definitions/LoginBody"
   newBodyParam:
     name: "body"
-    description: "Storie body param"
+    description: "Article body param"
     in: body
     required: true
     schema:
       $ref: "#/definitions/ArticleBody"
   limitParam:
-    name: "Limit param"
+    name: "limit"
     description: "Limit of records for page"
     in: query
-    type: "string"
+    type: string
+    format: string
   pageParam:
-    name: "Page param"
+    name: "page"
     description: "Start page for start pagination"
     in: query
-    type: "string"
+    type: string
+    format: string

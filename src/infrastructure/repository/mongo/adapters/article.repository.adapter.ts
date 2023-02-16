@@ -1,7 +1,7 @@
 import { GeneratedId } from "../../../../application/domain/generated-id";
 import { Article } from "../../../../application/domain/article";
 import { ArticleRepositoryPort } from "../../../../application/ports/out/article.repository.port";
-import { ArticlesCollection } from "../collections/stories.collection";
+import { ArticlesCollection } from "../collections/articles.collection";
 import { GeneratedIdMapperModel } from "../mappers/generated-id.mapper.model";
 import { ArticleMapperModel } from "../mappers/story.mapper.model";
 import { GeneratedIdModel } from "../models/generated-id.model";
@@ -19,8 +19,11 @@ export class ArticleRepositoryAdapter implements ArticleRepositoryPort {
     return this.generatedIdMapper.toGeneratedId(response);
   }
 
-  async find(): Promise<Article[]> {
-    const response: ArticleModel[] = await this.articlesCollection.find();
+  async find(limit: number, page: number): Promise<Article[]> {
+    const response: ArticleModel[] = await this.articlesCollection.find(
+      limit,
+      page
+    );
     return this.articleMapperModel.toArticles(response);
   }
 

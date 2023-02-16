@@ -15,14 +15,10 @@ export class ArticleService implements ArticleServicePort {
     return await this.articleRepository.save(article);
   }
 
-  async getAllArticles(): Promise<Article[]> {
-    const articles: Article[] = await this.articleRepository.find();
+  async getArticles(limit: number, page: number): Promise<Article[]> {
+    const articles: Article[] = await this.articleRepository.find(limit, page);
     this.checkIfIsItAnEmptyArticleList(articles);
     return articles;
-  }
-
-  async getPaginatedArticles(limit: string, page: string): Promise<Article[]> {
-    throw new Error("Method not implemented.");
   }
 
   async getArticle(id: string): Promise<Article> {

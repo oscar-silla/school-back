@@ -6,13 +6,7 @@ import { ArticleService } from "../../services/article.service";
 export class GetArticlesUseCase implements GetArticlesUseCasePort {
   private articleService: ArticleServicePort = new ArticleService();
 
-  private checkParams(limit: string, page: string): boolean {
-    return limit && page ? true : false;
-  }
-
-  async getArticles(limit: string, page: string): Promise<Article[]> {
-    return this.checkParams(limit, page)
-      ? await this.articleService.getAllArticles()
-      : await this.articleService.getPaginatedArticles(limit, page);
+  async getArticles(limit: number, page: number): Promise<Article[]> {
+    return await this.articleService.getArticles(limit, page);
   }
 }

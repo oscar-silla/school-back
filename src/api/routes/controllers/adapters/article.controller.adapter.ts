@@ -61,8 +61,8 @@ router.get(
   ) => {
     try {
       const articles: Article[] = await getArticlesUseCase.getArticles(
-        req?.params?.limit ?? "",
-        req?.params?.page ?? ""
+        +(req?.query?.limit as string) ?? 0,
+        +(req?.query?.page as string) ?? 0
       );
       const articlesResponse: ArticleResponse[] =
         articleMapper.toArticlesResponse(articles);
