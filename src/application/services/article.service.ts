@@ -15,8 +15,8 @@ export class ArticleService implements ArticleServicePort {
     return await this.articleRepository.save(article);
   }
 
-  async getArticles(): Promise<Article[]> {
-    const articles: Article[] = await this.articleRepository.find();
+  async getArticles(limit: number, page: number): Promise<Article[]> {
+    const articles: Article[] = await this.articleRepository.find(limit, page);
     this.checkIfIsItAnEmptyArticleList(articles);
     return articles;
   }

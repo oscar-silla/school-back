@@ -7,9 +7,14 @@ export class ArticlesCollection {
     const { mongo } = global.database;
     return await mongo.collection("articles").insertOne(article);
   }
-  async find(): Promise<ArticleModel[]> {
+  async find(limit: number, page: number): Promise<ArticleModel[]> {
     const { mongo } = global.database;
-    return await mongo.collection("articles").find({}).toArray();
+    return await mongo
+      .collection("articles")
+      .find({})
+      .limit(limit)
+      .skip(limit * page)
+      .toArray();
   }
   async findOne(id: string): Promise<ArticleModel> {
     const { ObjectId, mongo } = global.database;

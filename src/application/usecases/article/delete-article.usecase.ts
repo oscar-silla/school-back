@@ -3,7 +3,7 @@ import { HttpMessage } from "../../domain/http-message";
 import { CustomError } from "../../exceptions/CustomError";
 import { ArticleServicePort } from "../../ports/in/services/article.service.port";
 import { DeleteArticleUseCasePort } from "../../ports/in/usecases/story/delete-article.usecase.port";
-import { ArticleService } from "../../services/story.service";
+import { ArticleService } from "../../services/article.service";
 import { checkObjectId } from "../../utils/check-objectid.util";
 
 export class DeleteStoryUseCase implements DeleteArticleUseCasePort {

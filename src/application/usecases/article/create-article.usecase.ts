@@ -5,7 +5,7 @@ import { Article } from "../../domain/article";
 import { CustomError } from "../../exceptions/CustomError";
 import { ArticleServicePort } from "../../ports/in/services/article.service.port";
 import { CreateArticleUseCasePort } from "../../ports/in/usecases/story/create-article.usecase.port";
-import { ArticleService } from "../../services/story.service";
+import { ArticleService } from "../../services/article.service";
 
 export class CreateStoryUseCase implements CreateArticleUseCasePort {
   private articleService: ArticleServicePort = new ArticleService();
