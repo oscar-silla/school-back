@@ -521,31 +521,12 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
   /events/{id}:
-    get:
-      tags:
-        - "Events"
-      summary: "Get event"
-      description: "Get an existing event by _id"
-      operationId: "getEvent"
-      parameters:
-        - $ref: "#/parameters/idParam"
-      responses:
-        '200':
-          description: OK.
-        '400':
-          description: Bad request.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '404':
-          description: Not found.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
     patch:
       tags:
         - "Events"
-      summary: "Modify event"
-      description: "Modify an existing event by _id"
-      operationId: "modifyEvent"
+      summary: "Get event"
+      description: "Get one summary by _id"
+      operationId: "getEvent"
       parameters:
         - $ref: "#/parameters/idParam"
         - $ref: "#/parameters/eventBodyParam"
@@ -564,7 +545,6 @@ paths:
           description: Not found.
           schema:
             $ref: "#/definitions/ErrorResponse"
-
 definitions:
   EventBody:
     type: object
