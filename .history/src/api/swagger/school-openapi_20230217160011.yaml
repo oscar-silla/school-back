@@ -17,7 +17,6 @@ tags:
   - name: Articles
     description: Manage articles from school web page
   - name: Events
-    description: Manage events form school web page
 consumes:
   - application/json
 produces:
@@ -472,58 +471,7 @@ paths:
           description: Not found.
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /events:
-    get:
-      tags:
-        - "Events"
-      summary: "Get events"
-      description: "Get all events with optional pagination"
-      operationId: "getEvents"
-      parameters:
-        - $ref: "#/parameters/limitParam"
-        - $ref: "#/parameters/pageParam"
-      responses:
-        '200':
-          description: OK.
-          schema:
-            $ref: "#/definitions/EventsResponse"
-        '400':
-          description: Bad request.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '404':
-          description: Not found.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
 definitions:
-  EventsResponse:
-    type: array
-    items:
-      $ref: "#/definitions/EventResponse"
-  EventResponse:
-    type: object
-    properties:
-      id:
-        type: string
-        format: string
-        example: "507f191e810c19729de860ea"
-      title:
-        type: string
-        format: string
-        example: "Event title"
-      description:
-        type: string
-        format: string
-        example: "Event description"
-      img:
-        type: string
-        format: string
-        example: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/"
-      content:
-        type: string
-        format: string
-        example: "<h1>Event content</h1>"
   ArticleBody:
     type: object
     required:
