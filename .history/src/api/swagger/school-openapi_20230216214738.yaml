@@ -6,18 +6,16 @@ info:
   contact:
     email: orscarsilla@outlook.com
 tags:
-  - name: Video
+  - name: video
     description: Manage videos from school web page
-  - name: Sections
+  - name: section
     description: Manage sections from school web page
-  - name: Users
+  - name: users
     description: Manage users from school web page
-  - name: Login
+  - name: login
     description: Manage login from school web page
-  - name: Articles
+  - name: articles
     description: Manage articles from school web page
-  - name: Events
-    description: Manage events form school web page
 consumes:
   - application/json
 produces:
@@ -26,7 +24,7 @@ paths:
   /users:
     post:
       tags:
-        - "Users"
+        - "users"
       summary: "Create user"
       description: "Create a new user (Register)"
       operationId: "createUser"
@@ -51,7 +49,7 @@ paths:
             $ref: "#/definitions/ErrorResponse"
     get:
       tags:
-        - "Users"
+        - "users"
       summary: "Get all users"
       description: "Get all users"
       operationId: "getUsers"
@@ -75,7 +73,7 @@ paths:
   /users/{id}:
     get:
       tags:
-        - "Users"
+        - "users"
       summary: "Get user"
       description: "Get one user by _id"
       operationId: "getUser"
@@ -100,7 +98,7 @@ paths:
             $ref: "#/definitions/ErrorResponse"
     delete:
       tags:
-        - "Users"
+        - "users"
       summary: "Delete user"
       description: "Delete user by id"
       operationId: "deleteUser"
@@ -124,7 +122,7 @@ paths:
   /video:
     post:
       tags:
-        - "Video"
+        - "video"
       summary: "Create video"
       description: "Create video"
       operationId: "createVideo"
@@ -150,7 +148,7 @@ paths:
   /video/{id}:
     patch:
       tags:
-        - "Video"
+        - "video"
       summary: "Modify an existing video"
       description: "Modify 'src' from video."
       operationId: "modifyVideo"
@@ -174,7 +172,7 @@ paths:
             $ref: "#/definitions/ErrorResponse"
     delete:
       tags:
-        - "Video"
+        - "video"
       summary: "Delete video"
       description: "Delete video by id"
       operationId: "deleteVideo"
@@ -198,7 +196,7 @@ paths:
   /video/{ref}:
     get:
       tags:
-        - "Video"
+        - "video"
       summary: "Get an existing video"
       description: "Get existing video by ObjectId."
       operationId: "getVideo"
@@ -224,7 +222,7 @@ paths:
   /sections:
     post:
       tags:
-        - "Sections"
+        - "section"
       summary: "Create section"
       description: "Create section"
       operationId: "createSection"
@@ -247,7 +245,7 @@ paths:
             $ref: "#/definitions/ErrorResponse"
     get:
       tags:
-        - "Sections"
+        - "section"
       summary: "Get sections"
       description: "Get all sections"
       operationId: "getSections"
@@ -271,7 +269,7 @@ paths:
   /sections/{ref}:
     get:
       tags:
-        - "Sections"
+        - "section"
       summary: "Get an existing section"
       description: "Get an existing section by ObjectId."
       operationId: "getSection"
@@ -296,7 +294,7 @@ paths:
             $ref: "#/definitions/ErrorResponse"
     patch:
       tags:
-        - "Sections"
+        - "section"
       summary: "Modify an existing section"
       description: "Modify an existing section by ObjectId"
       operationId: "modifySection"
@@ -320,7 +318,7 @@ paths:
             $ref: "#/definitions/ErrorResponse"
     delete:
       tags:
-        - "Sections"
+        - "section"
       summary: "Delete an existing section"
       description: "Delete an existing section by ObjectId"
       operationId: "deleteSection"
@@ -344,7 +342,7 @@ paths:
   /login:
     post:
       tags:
-        - "Login"
+        - "login"
       summary: "Login"
       description: "Login"
       operationId: "login"
@@ -362,7 +360,7 @@ paths:
   /articles:
     get:
       tags:
-        - "Articles"
+        - "articles"
       summary: "Get articles"
       description: "Get all articles"
       operationId: "getArticles"
@@ -380,7 +378,7 @@ paths:
             $ref: "#/definitions/ErrorResponse"
     post:
       tags:
-        - "Articles"
+        - "articles"
       summary: "Create article"
       description: "Create article"
       operationId: "createArticle"
@@ -403,10 +401,10 @@ paths:
           description: Not found.
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /articles/{id}:
+  /article/{id}:
     get:
       tags:
-        - "Articles"
+        - "articles"
       summary: "Get article"
       description: "Get article by id"
       operationId: "getArticle"
@@ -427,7 +425,7 @@ paths:
             $ref: "#/definitions/ErrorResponse"
     patch:
       tags:
-        - "Articles"
+        - "articles"
       summary: "Update article"
       description: "Update article by id"
       operationId: "updateArticle"
@@ -451,7 +449,7 @@ paths:
             $ref: "#/definitions/ErrorResponse"
     delete:
       tags:
-        - "Articles"
+        - "articles"
       summary: "Delete article"
       description: "Delete article by id"
       operationId: "deleteArticle"
@@ -472,172 +470,7 @@ paths:
           description: Not found.
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /events:
-    get:
-      tags:
-        - "Events"
-      summary: "Get events"
-      description: "Get all events with optional pagination"
-      operationId: "getEvents"
-      parameters:
-        - $ref: "#/parameters/limitParam"
-        - $ref: "#/parameters/pageParam"
-      responses:
-        '200':
-          description: OK.
-          schema:
-            $ref: "#/definitions/EventsResponse"
-        '400':
-          description: Bad request.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '404':
-          description: Not found.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-    post:
-      tags:
-        - "Events"
-      summary: "Create event"
-      description: "Create new event"
-      operationId: "createEvent"
-      parameters:
-        - $ref: "#/parameters/eventBodyParam"
-      responses:
-        '201':
-          description: Created successfully.
-          schema:
-            $ref: "#/definitions/GeneratedIdResponse"
-        '400':
-          description: Bad request.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '401':
-          description: Unauthorized.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '404':
-          description: Not found.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-  /events/{id}:
-    get:
-      tags:
-        - "Events"
-      summary: "Get event"
-      description: "Get an existing event by _id"
-      operationId: "getEvent"
-      parameters:
-        - $ref: "#/parameters/idParam"
-      responses:
-        '200':
-          description: OK.
-          schema:
-            $ref: "#/definitions/EventResponse"
-        '400':
-          description: Bad request.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '404':
-          description: Not found.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-    patch:
-      tags:
-        - "Events"
-      summary: "Modify event"
-      description: "Modify an existing event by _id"
-      operationId: "modifyEvent"
-      parameters:
-        - $ref: "#/parameters/idParam"
-        - $ref: "#/parameters/eventBodyParam"
-      responses:
-        '200':
-          description: OK.
-        '400':
-          description: Bad request.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '401':
-          description: Unauthorized.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '404':
-          description: Not found.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-    delete:
-      tags:
-        - "Events"
-      summary: "Delete event"
-      description: "Delete an existing event by _id"
-      operationId: "deteleEvent"
-      responses:
-        '204':
-          description: No content.
-        '400':
-          description: Bad request.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '401':
-          description: Unauthorized.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '404':
-          description: Not found.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
 definitions:
-  EventBody:
-    type: object
-    required:
-      - "title"
-      - "img"
-      - "description"
-    properties:
-      title:
-        type: string
-        format: string
-        example: "Event title"
-      img:
-        type: string
-        format: string
-        example: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/"
-      description:
-        type: string
-        format: string
-        example: "Event description"
-      content:
-        type: string
-        format: string
-        example: <h1>Event content</h1>
-  EventsResponse:
-    type: array
-    items:
-      $ref: "#/definitions/EventResponse"
-  EventResponse:
-    type: object
-    properties:
-      id:
-        type: string
-        format: string
-        example: "507f191e810c19729de860ea"
-      title:
-        type: string
-        format: string
-        example: "Event title"
-      description:
-        type: string
-        format: string
-        example: "Event description"
-      img:
-        type: string
-        format: string
-        example: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/"
-      content:
-        type: string
-        format: string
-        example: "<h1>Event content</h1>"
   ArticleBody:
     type: object
     required:
@@ -943,13 +776,6 @@ parameters:
     required: true
     schema:
       $ref: "#/definitions/ArticleBody"
-  eventBodyParam:
-    name: "body"
-    description: "Event body param"
-    in: body
-    required: true
-    schema:
-      $ref: "#/definitions/EventBody"
   limitParam:
     name: "limit"
     description: "Limit of records for page"

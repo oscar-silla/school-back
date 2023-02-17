@@ -8,7 +8,7 @@ info:
 tags:
   - name: Video
     description: Manage videos from school web page
-  - name: Sections
+  - name: Section
     description: Manage sections from school web page
   - name: Users
     description: Manage users from school web page
@@ -224,7 +224,7 @@ paths:
   /sections:
     post:
       tags:
-        - "Sections"
+        - "Section"
       summary: "Create section"
       description: "Create section"
       operationId: "createSection"
@@ -247,7 +247,7 @@ paths:
             $ref: "#/definitions/ErrorResponse"
     get:
       tags:
-        - "Sections"
+        - "Section"
       summary: "Get sections"
       description: "Get all sections"
       operationId: "getSections"
@@ -271,7 +271,7 @@ paths:
   /sections/{ref}:
     get:
       tags:
-        - "Sections"
+        - "Section"
       summary: "Get an existing section"
       description: "Get an existing section by ObjectId."
       operationId: "getSection"
@@ -296,7 +296,7 @@ paths:
             $ref: "#/definitions/ErrorResponse"
     patch:
       tags:
-        - "Sections"
+        - "Section"
       summary: "Modify an existing section"
       description: "Modify an existing section by ObjectId"
       operationId: "modifySection"
@@ -320,7 +320,7 @@ paths:
             $ref: "#/definitions/ErrorResponse"
     delete:
       tags:
-        - "Sections"
+        - "Section"
       summary: "Delete an existing section"
       description: "Delete an existing section by ObjectId"
       operationId: "deleteSection"
@@ -403,7 +403,7 @@ paths:
           description: Not found.
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /articles/{id}:
+  /article/{id}:
     get:
       tags:
         - "Articles"
@@ -532,8 +532,6 @@ paths:
       responses:
         '200':
           description: OK.
-          schema:
-            $ref: "#/definitions/EventResponse"
         '400':
           description: Bad request.
           schema:
@@ -566,27 +564,7 @@ paths:
           description: Not found.
           schema:
             $ref: "#/definitions/ErrorResponse"
-    delete:
-      tags:
-        - "Events"
-      summary: "Delete event"
-      description: "Delete an existing event by _id"
-      operationId: "deteleEvent"
-      responses:
-        '204':
-          description: No content.
-        '400':
-          description: Bad request.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '401':
-          description: Unauthorized.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '404':
-          description: Not found.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
+
 definitions:
   EventBody:
     type: object
