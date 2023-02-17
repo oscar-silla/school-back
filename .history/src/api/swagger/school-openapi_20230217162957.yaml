@@ -532,18 +532,6 @@ definitions:
         type: string
         format: string
         example: "Event title"
-      img:
-        type: string
-        format: string
-        example: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/"
-      description:
-        type: string
-        format: string
-        example: "Event description"
-      content:
-        type: string
-        format: string
-        example: <h1>Event content</h1>
   EventsResponse:
     type: array
     items:
