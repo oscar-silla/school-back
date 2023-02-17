@@ -521,7 +521,7 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
   /events/{id}:
-    patch:
+    get:
       tags:
         - "Events"
       summary: "Get event"
