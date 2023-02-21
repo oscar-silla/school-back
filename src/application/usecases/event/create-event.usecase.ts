@@ -3,9 +3,13 @@ import { GeneratedId } from "../../domain/generated-id";
 import { HttpCode } from "../../domain/http-code";
 import { HttpMessage } from "../../domain/http-message";
 import { CustomError } from "../../exceptions/CustomError";
+import { EventServicePort } from "../../ports/in/services/event.service.port";
 import { CreateEventUseCasePort } from "../../ports/in/usecases/event/create-event.usecase.port";
+import { EventService } from "../../services/event.service";
 
 export class CreateEventUseCase implements CreateEventUseCasePort {
+  private eventService: EventServicePort = new EventService();
+
   private checkBodyParams(event: Event): void {
     if (!event.getTitle() || !event.getImg() || !event.getDescription()) {
       throw new CustomError(
@@ -18,6 +22,6 @@ export class CreateEventUseCase implements CreateEventUseCasePort {
 
   async createEvent(event: Event): Promise<GeneratedId> {
     this.checkBodyParams(event);
-    return;
+    return this.eventService.createEvent(event);
   }
 }

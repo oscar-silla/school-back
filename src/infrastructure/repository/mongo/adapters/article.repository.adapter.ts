@@ -2,15 +2,15 @@ import { GeneratedId } from "../../../../application/domain/generated-id";
 import { Article } from "../../../../application/domain/article";
 import { ArticleRepositoryPort } from "../../../../application/ports/out/article.repository.port";
 import { ArticlesCollection } from "../collections/articles.collection";
-import { GeneratedIdMapperModel } from "../mappers/generated-id.mapper.model";
-import { ArticleMapperModel } from "../mappers/story.mapper.model";
+import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
+import { ArticleMapperModel } from "../mappers/story.model.mapper";
 import { GeneratedIdModel } from "../models/generated-id.model";
 import { ArticleModel } from "../models/article.model";
 
 export class ArticleRepositoryAdapter implements ArticleRepositoryPort {
   private articlesCollection = new ArticlesCollection();
-  private articleMapperModel = new ArticleMapperModel();
-  private generatedIdMapper = new GeneratedIdMapperModel();
+  private articleModelMapper = new ArticleMapperModel();
+  private generatedIdMapper = new GeneratedIdModelMapper();
 
   async save(article: Article): Promise<GeneratedId> {
     const response: GeneratedIdModel = await this.articlesCollection.save(
@@ -24,12 +24,12 @@ export class ArticleRepositoryAdapter implements ArticleRepositoryPort {
       limit,
       page
     );
-    return this.articleMapperModel.toArticles(response);
+    return this.articleModelMapper.toArticles(response);
   }
 
   async findOne(id: string): Promise<Article> {
     const response: ArticleModel = await this.articlesCollection.findOne(id);
-    return this.articleMapperModel.toArticle(response);
+    return this.articleModelMapper.toArticle(response);
   }
 
   async modifyOne(id: string, article: Article): Promise<void> {

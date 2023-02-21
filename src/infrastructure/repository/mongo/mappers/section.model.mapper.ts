@@ -1,7 +1,7 @@
 import { Section } from "../../../../application/domain/section";
 import { SectionModel } from "../models/section.model";
 
-export class SectionMapperModel {
+export class SectionModelMapper {
   toSection(sectionModel: SectionModel): Section {
     const { title, description, img, ref } = sectionModel ?? {};
     return new Section(title ?? "", description ?? "", img ?? "", ref ?? "");
