@@ -32,4 +32,8 @@ export class EventRepositoryAdapter implements EventRepositoryPort {
   async updateOne(id: string, event: Event): Promise<void> {
     await this.eventsCollection.updateOne(id, event);
   }
+
+  async deleteOne(id: string): Promise<void> {
+    await this.eventsCollection.deleteOne(id);
+  }
 }

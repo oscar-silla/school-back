@@ -36,6 +36,11 @@ export class EventService implements EventServicePort {
     await this.eventRepository.updateOne(id, payload);
   }
 
+  async deleteEvent(id: string): Promise<void> {
+    await this.getEvent(id);
+    await this.eventRepository.deleteOne(id);
+  }
+
   private buildPayload(event: Event, eventToUpdate: Event): Event {
     return new Event(
       event.getTitle() ? event.getTitle() : eventToUpdate.getTitle(),

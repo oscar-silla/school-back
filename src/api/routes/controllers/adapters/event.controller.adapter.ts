@@ -15,6 +15,8 @@ import { GetEventsUseCasePort } from "../../../../application/ports/in/usecases/
 import { GetEventsUseCase } from "../../../../application/usecases/event/get-events.usecase";
 import { UpdateEventUseCasePort } from "../../../../application/ports/in/usecases/event/update-event.usecase.port";
 import { UpdateEventUseCase } from "../../../../application/usecases/event/update-event.usecase";
+import { DeleteEventUseCase } from "../../../../application/usecases/event/delete-event.usecase";
+import { DeleteEventUseCasePort } from "../../../../application/ports/in/usecases/event/delete-event.usecase.port";
 
 const router = express.Router();
 type idParamType = {
@@ -23,6 +25,7 @@ type idParamType = {
 
 const createEventUseCase: CreateEventUseCasePort = new CreateEventUseCase();
 const updateEventUseCase: UpdateEventUseCasePort = new UpdateEventUseCase();
+const deleteEventUseCase: DeleteEventUseCasePort = new DeleteEventUseCase();
 const getEventsUseCase: GetEventsUseCasePort = new GetEventsUseCase();
 const getEventUseCase: GetEventUseCasePort = new GetEventUseCase();
 
@@ -96,6 +99,22 @@ router.patch(
       const event: Event = eventControllerMapper.toEvent(req?.body);
       await updateEventUseCase.updateEvent(req?.params?.id, event);
       res.status(HttpCode.OK).send();
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.delete(
+  "/:id",
+  async (
+    req: Request<idParamType, any, any, any>,
+    res: Response<void>,
+    next: NextFunction
+  ) => {
+    try {
+      await deleteEventUseCase.deleteEvent(req?.params?.id);
+      res.status(HttpCode.NO_CONTENT).send();
     } catch (err) {
       next(err);
     }

@@ -29,4 +29,9 @@ export class EventsCollection {
       .collection("events")
       .updateOne({ _id: ObjectId(id) }, { $set: event });
   }
+
+  async deleteOne(id: string): Promise<void> {
+    const { ObjectId, mongo } = global.database;
+    await mongo.collection("events").deleteOne({ _id: ObjectId(id) });
+  }
 }
