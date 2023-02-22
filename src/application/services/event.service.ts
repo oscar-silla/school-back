@@ -11,11 +11,17 @@ export class EventService implements EventServicePort {
   private eventRepository: EventRepositoryPort = new EventRepositoryAdapter();
 
   async createEvent(event: Event): Promise<GeneratedId> {
-    return await this.eventRepository.save(event); // Todo: Validate if event already exists
+    const existsEvent = await this.eventRepository.findOneByTitle(
+      event.getTitle()
+    );
+    if (existsEvent?.getId()) {
+      throw new CustomError(HttpMessage.CONFLICT, HttpStatus.CONFLICT, {});
+    }
+    return await this.eventRepository.save(event);
   }
 
   async getEvent(id: string): Promise<Event> {
-    const event: Event = await this.eventRepository.findOne(id);
+    const event: Event = await this.eventRepository.findOneById(id);
     if (!event) {
       throw new CustomError(HttpMessage.NOT_FOUND, HttpStatus.NOT_FOUND, {});
     }

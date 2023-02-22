@@ -8,9 +8,14 @@ export class EventsCollection {
     return await mongo.collection("events").insertOne(event);
   }
 
-  async findOne(id: string): Promise<EventModel> {
+  async findOneById(id: string): Promise<EventModel> {
     const { ObjectId, mongo } = global.database;
     return await mongo.collection("events").findOne({ _id: ObjectId(id) });
+  }
+
+  async findOneByTitle(title: string): Promise<EventModel> {
+    const { mongo } = global.database;
+    return await mongo.collection("events").findOne({ title });
   }
 
   async find(limit: number, page: number): Promise<EventModel[]> {

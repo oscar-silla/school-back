@@ -4,7 +4,9 @@ import { GeneratedId } from "../../domain/generated-id";
 export interface EventRepositoryPort {
   save(event: Event): Promise<GeneratedId>;
 
-  findOne(id: string): Promise<Event>;
+  findOneById(id: string): Promise<Event>;
+
+  findOneByTitle(title: string): Promise<Event>;
 
   find(limit: number, page: number): Promise<Event[]>;
 

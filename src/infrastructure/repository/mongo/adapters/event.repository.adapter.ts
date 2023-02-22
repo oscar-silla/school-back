@@ -16,8 +16,15 @@ export class EventRepositoryAdapter implements EventRepositoryPort {
     return this.generatedIdModelMapper.toGeneratedId(response);
   }
 
-  async findOne(id: string): Promise<Event> {
-    const response: EventModel = await this.eventsCollection.findOne(id);
+  async findOneById(id: string): Promise<Event> {
+    const response: EventModel = await this.eventsCollection.findOneById(id);
+    return this.eventModelMapper.toEvent(response);
+  }
+
+  async findOneByTitle(title: string): Promise<Event> {
+    const response: EventModel = await this.eventsCollection.findOneByTitle(
+      title
+    );
     return this.eventModelMapper.toEvent(response);
   }
 
