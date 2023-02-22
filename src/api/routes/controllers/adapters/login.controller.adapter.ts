@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { LoginBody } from "../../../../../external-libraries/openapi/models/LoginBody";
 import { LoginResponse } from "../../../../../external-libraries/openapi/models/LoginResponse";
 import { HttpCode } from "../../../../application/domain/http-code";
@@ -7,6 +7,7 @@ import { Token } from "../../../../application/domain/token";
 import { LoginUseCasePort } from "../../../../application/ports/in/usecases/login/login.usecase.port";
 import { LoginUseCase } from "../../../../application/usecases/login/login.usecase";
 import { LoginControllerMapper } from "../mappers/login.controller.mapper";
+
 const router = express.Router();
 
 const loginUseCase: LoginUseCasePort = new LoginUseCase();

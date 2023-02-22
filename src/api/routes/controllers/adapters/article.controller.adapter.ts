@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { GeneratedIdResponse } from "../../../../../external-libraries/openapi/models/GeneratedIdResponse";
 import { ArticleResponse } from "../../../../../external-libraries/openapi/models/ArticleResponse";
 import { GeneratedId } from "../../../../application/domain/generated-id";

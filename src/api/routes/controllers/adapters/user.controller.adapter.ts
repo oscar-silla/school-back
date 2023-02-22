@@ -16,6 +16,7 @@ import { GetUserUseCase } from "../../../../application/usecases/user/get-user.u
 import { authExtract } from "../../../middlewares/auth-extract";
 import { GeneratedIdMapper } from "../mappers/generated-id.mapper";
 import { UserControllerMapper } from "../mappers/user.controller.mapper";
+
 const router = express.Router();
 
 const createUserUseCase: CreateUserUseCasePort = new CreateUserUseCase();

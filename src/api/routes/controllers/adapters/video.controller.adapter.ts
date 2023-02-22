@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { VideoResponse } from "../../../../../external-libraries/openapi/models/VideoResponse";
 import { GeneratedId } from "../../../../application/domain/generated-id";
 import { HttpCode } from "../../../../application/domain/http-code";
@@ -14,6 +14,7 @@ import { ModifyVideoUseCase } from "../../../../application/usecases/video/modif
 import { authExtract } from "../../../middlewares/auth-extract";
 import { GeneratedIdMapper } from "../mappers/generated-id.mapper";
 import { VideoControllerMapper } from "../mappers/video.controller.mapper";
+
 const router = express.Router();
 
 const getVideoUseCase: GetVideoUseCasePort = new GetVideoUseCase();
