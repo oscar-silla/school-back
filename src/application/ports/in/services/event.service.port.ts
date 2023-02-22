@@ -7,4 +7,6 @@ export interface EventServicePort {
   getEvent(id: string): Promise<Event>;
 
   getEvents(limit: number, page: number): Promise<Event[]>;
+
+  updateEvent(id: string, event: Event): Promise<void>;
 }

@@ -22,4 +22,11 @@ export class EventsCollection {
       .skip(limit * page)
       .toArray();
   }
+
+  async updateOne(id: string, event: Event): Promise<void> {
+    const { ObjectId, mongo } = global.database;
+    await mongo
+      .collection("events")
+      .updateOne({ _id: ObjectId(id) }, { $set: event });
+  }
 }

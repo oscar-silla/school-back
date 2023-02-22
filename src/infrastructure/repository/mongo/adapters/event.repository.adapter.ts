@@ -28,4 +28,8 @@ export class EventRepositoryAdapter implements EventRepositoryPort {
     );
     return this.eventModelMapper.toEvents(response);
   }
+
+  async updateOne(id: string, event: Event): Promise<void> {
+    await this.eventsCollection.updateOne(id, event);
+  }
 }

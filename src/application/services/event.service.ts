@@ -11,7 +11,7 @@ export class EventService implements EventServicePort {
   private eventRepository: EventRepositoryPort = new EventRepositoryAdapter();
 
   async createEvent(event: Event): Promise<GeneratedId> {
-    return await this.eventRepository.save(event);
+    return await this.eventRepository.save(event); // Todo: Validate if event already exists
   }
 
   async getEvent(id: string): Promise<Event> {
@@ -28,5 +28,22 @@ export class EventService implements EventServicePort {
       throw new CustomError(HttpMessage.NOT_FOUND, HttpCode.NOT_FOUND, {});
     }
     return events;
+  }
+
+  async updateEvent(id: string, event: Event): Promise<void> {
+    const eventToUpdate: Event = await this.getEvent(id);
+    const payload: Event = this.buildPayload(event, eventToUpdate);
+    await this.eventRepository.updateOne(id, payload);
+  }
+
+  private buildPayload(event: Event, eventToUpdate: Event): Event {
+    return new Event(
+      event.getTitle() ? event.getTitle() : eventToUpdate.getTitle(),
+      event.getDescription()
+        ? event.getDescription()
+        : eventToUpdate.getDescription(),
+      event.getImg() ? event.getImg() : eventToUpdate.getImg(),
+      event.getContent() ? event.getContent() : eventToUpdate.getContent()
+    );
   }
 }

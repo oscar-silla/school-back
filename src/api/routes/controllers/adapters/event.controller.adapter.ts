@@ -13,10 +13,16 @@ import { GetEventUseCase } from "../../../../application/usecases/event/get-even
 import { EventResponse } from "../../../../../external-libraries/openapi/models/EventResponse";
 import { GetEventsUseCasePort } from "../../../../application/ports/in/usecases/event/get-events.usecase.port";
 import { GetEventsUseCase } from "../../../../application/usecases/event/get-events.usecase";
+import { UpdateEventUseCasePort } from "../../../../application/ports/in/usecases/event/update-event.usecase.port";
+import { UpdateEventUseCase } from "../../../../application/usecases/event/update-event.usecase";
 
 const router = express.Router();
+type idParamType = {
+  id: string;
+};
 
 const createEventUseCase: CreateEventUseCasePort = new CreateEventUseCase();
+const updateEventUseCase: UpdateEventUseCasePort = new UpdateEventUseCase();
 const getEventsUseCase: GetEventsUseCasePort = new GetEventsUseCase();
 const getEventUseCase: GetEventUseCasePort = new GetEventUseCase();
 
@@ -46,7 +52,11 @@ router.post(
 
 router.get(
   "/:id",
-  async (req: Request, res: Response<EventResponse>, next: NextFunction) => {
+  async (
+    req: Request<idParamType, any, any, any>,
+    res: Response<EventResponse>,
+    next: NextFunction
+  ) => {
     try {
       const event: Event = await getEventUseCase.getEvent(req?.params?.id);
       const eventResponse: EventResponse =
@@ -69,6 +79,23 @@ router.get(
       const eventsResponse: EventResponse[] =
         eventControllerMapper.toEventsResponse(events);
       res.status(HttpCode.OK).json(eventsResponse);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.patch(
+  "/:id",
+  async (
+    req: Request<idParamType, any, EventBody, any>,
+    res: Response<void>,
+    next: NextFunction
+  ) => {
+    try {
+      const event: Event = eventControllerMapper.toEvent(req?.body);
+      await updateEventUseCase.updateEvent(req?.params?.id, event);
+      res.status(HttpCode.OK).send();
     } catch (err) {
       next(err);
     }
