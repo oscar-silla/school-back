@@ -1,6 +1,6 @@
 import { VideoRepositoryAdapter } from "../../infrastructure/repository/mongo/adapters/video.repository.adapter";
 import { GeneratedId } from "../domain/generated-id";
-import { HttpCode } from "../domain/http-code";
+import { HttpStatus } from "../domain/http-status";
 import { HttpMessage } from "../domain/http-message";
 import { Video } from "../domain/video";
 import { CustomError } from "../exceptions/CustomError";
@@ -21,7 +21,7 @@ export class VideoService implements VideoServicePort {
   async getVideoByRef(ref: string): Promise<Video> {
     const video: Video = await this.videoRepositoryAdapter.getOneByRef(ref);
     if (!video.getId()) {
-      throw new CustomError(HttpMessage.NOT_FOUND, HttpCode.NOT_FOUND);
+      throw new CustomError(HttpMessage.NOT_FOUND, HttpStatus.NOT_FOUND);
     } else {
       return video;
     }
@@ -30,7 +30,7 @@ export class VideoService implements VideoServicePort {
   async getVideoById(id: string): Promise<Video> {
     const video: Video = await this.videoRepositoryAdapter.getOneById(id);
     if (!video.getId()) {
-      throw new CustomError(HttpMessage.NOT_FOUND, HttpCode.NOT_FOUND);
+      throw new CustomError(HttpMessage.NOT_FOUND, HttpStatus.NOT_FOUND);
     } else {
       return video;
     }

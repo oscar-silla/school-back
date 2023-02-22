@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from "express";
 import { GeneratedIdResponse } from "../../../../../external-libraries/openapi/models/GeneratedIdResponse";
 import { ArticleResponse } from "../../../../../external-libraries/openapi/models/ArticleResponse";
 import { GeneratedId } from "../../../../application/domain/generated-id";
-import { HttpCode } from "../../../../application/domain/http-code";
+import { HttpStatus } from "../../../../application/domain/http-status";
 import { Article } from "../../../../application/domain/article";
 import { CreateArticleUseCasePort } from "../../../../application/ports/in/usecases/story/create-article.usecase.port";
 import { DeleteArticleUseCasePort } from "../../../../application/ports/in/usecases/story/delete-article.usecase.port";
@@ -45,7 +45,7 @@ router.post(
       );
       const generatedIdResponse: GeneratedIdResponse =
         generatedIdMapper.toGeneratedIdResponse(generatedId);
-      res.status(HttpCode.CREATED).json(generatedIdResponse);
+      res.status(HttpStatus.CREATED).json(generatedIdResponse);
     } catch (err) {
       next(err);
     }
@@ -66,7 +66,7 @@ router.get(
       );
       const articlesResponse: ArticleResponse[] =
         articleMapper.toArticlesResponse(articles);
-      res.status(HttpCode.OK).json(articlesResponse);
+      res.status(HttpStatus.OK).json(articlesResponse);
     } catch (err) {
       next(err);
     }
@@ -80,7 +80,7 @@ router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
     );
     const articleResponse: ArticleResponse =
       articleMapper.toArticleResponse(article);
-    res.status(HttpCode.OK).json(articleResponse);
+    res.status(HttpStatus.OK).json(articleResponse);
   } catch (err) {
     next(err);
   }
@@ -93,7 +93,7 @@ router.patch(
     try {
       const story: Article = articleMapper.toArticle(req?.body);
       await modifyArticleUseCase.modifyArticle(req?.params?.id, story);
-      res.status(HttpCode.OK).send();
+      res.status(HttpStatus.OK).send();
     } catch (err) {
       next(err);
     }
@@ -106,7 +106,7 @@ router.delete(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       await deleteArticleUseCase.deleteArticle(req?.params?.id);
-      res.status(HttpCode.NO_CONTENT).send();
+      res.status(HttpStatus.NO_CONTENT).send();
     } catch (err) {
       next(err);
     }

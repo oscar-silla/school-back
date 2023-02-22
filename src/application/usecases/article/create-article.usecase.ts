@@ -1,5 +1,5 @@
 import { GeneratedId } from "../../domain/generated-id";
-import { HttpCode } from "../../domain/http-code";
+import { HttpStatus } from "../../domain/http-status";
 import { HttpMessage } from "../../domain/http-message";
 import { Article } from "../../domain/article";
 import { CustomError } from "../../exceptions/CustomError";
@@ -14,11 +14,12 @@ export class CreateStoryUseCase implements CreateArticleUseCasePort {
     if (!article.getTitle() || !article.getContent()) {
       throw new CustomError(
         HttpMessage.MISSING_PARAMS,
-        HttpCode.BAD_REQUEST,
+        HttpStatus.BAD_REQUEST,
         {}
       );
     }
   }
+
   async createArticle(article: Article): Promise<GeneratedId> {
     this.checkBodyParams(article);
     return this.articleService.createArticle(article);

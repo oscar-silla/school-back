@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import { SectionResponse } from "../../../../../external-libraries/openapi/models/SectionResponse";
-import { HttpCode } from "../../../../application/domain/http-code";
+import { HttpStatus } from "../../../../application/domain/http-status";
 
 import { Section } from "../../../../application/domain/section";
 import { CreateSectionUseCase } from "../../../../application/usecases/section/create-section.usecase";
@@ -12,7 +12,7 @@ import { authExtract } from "../../../middlewares/auth-extract";
 import { SectionControllerMapper } from "../mappers/section.controller.mapper";
 
 const router = express.Router();
-const { NO_CONTENT, OK, CREATED } = HttpCode;
+const { NO_CONTENT, OK, CREATED } = HttpStatus;
 
 const sectionMapper = new SectionControllerMapper();
 

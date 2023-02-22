@@ -1,5 +1,5 @@
 import { SectionRepository } from "../../infrastructure/repository/mongo/adapters/section.repository.adapter";
-import { HttpCode } from "../domain/http-code";
+import { HttpStatus } from "../domain/http-status";
 import { Section } from "../domain/section";
 import { CustomError } from "../exceptions/CustomError";
 import { SectionServicePort } from "../ports/in/services/section.service.port";
@@ -36,7 +36,7 @@ export class SectionService implements SectionServicePort {
 
   private checkIfExistsSection(section: Section): void {
     if (!section.getRef()) {
-      throw new CustomError("Section not found.", HttpCode.NOT_FOUND, {});
+      throw new CustomError("Section not found.", HttpStatus.NOT_FOUND, {});
     }
   }
 

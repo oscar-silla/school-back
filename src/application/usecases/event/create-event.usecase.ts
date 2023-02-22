@@ -1,6 +1,6 @@
 import { Event } from "../../domain/event";
 import { GeneratedId } from "../../domain/generated-id";
-import { HttpCode } from "../../domain/http-code";
+import { HttpStatus } from "../../domain/http-status";
 import { HttpMessage } from "../../domain/http-message";
 import { CustomError } from "../../exceptions/CustomError";
 import { EventServicePort } from "../../ports/in/services/event.service.port";
@@ -14,7 +14,7 @@ export class CreateEventUseCase implements CreateEventUseCasePort {
     if (!event.getTitle() || !event.getImg() || !event.getDescription()) {
       throw new CustomError(
         HttpMessage.MISSING_PARAMS,
-        HttpCode.BAD_REQUEST,
+        HttpStatus.BAD_REQUEST,
         {}
       );
     }

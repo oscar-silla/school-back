@@ -1,4 +1,4 @@
-import { HttpCode } from "../../domain/http-code";
+import { HttpStatus } from "../../domain/http-status";
 import { Section } from "../../domain/section";
 import { CustomError } from "../../exceptions/CustomError";
 import { ModifySectionUseCasePort } from "../../ports/in/usecases/section/modify-section.usecase.port";
@@ -9,13 +9,13 @@ export class ModifySectionUseCase implements ModifySectionUseCasePort {
 
   private checkPathParams(ref: string) {
     if (!ref) {
-      throw new CustomError("Missing path params.", HttpCode.BAD_REQUEST, {});
+      throw new CustomError("Missing path params.", HttpStatus.BAD_REQUEST, {});
     }
   }
 
   private checkBodyParams(section: Section) {
     if (!section.getTitle() && !section.getDescription() && !section.getImg()) {
-      throw new CustomError("Missing body params.", HttpCode.BAD_REQUEST, {});
+      throw new CustomError("Missing body params.", HttpStatus.BAD_REQUEST, {});
     }
   }
 

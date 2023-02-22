@@ -5,7 +5,7 @@ import { UserServicePort } from "../ports/in/services/user.service.port";
 import bcrypt from "bcrypt";
 import { CustomError } from "../exceptions/CustomError";
 import { HttpMessage } from "../domain/http-message";
-import { HttpCode } from "../domain/http-code";
+import { HttpStatus } from "../domain/http-status";
 import { UserRepositoryPort } from "../ports/out/user.repository.port";
 
 export class UserService implements UserServicePort {
@@ -48,19 +48,19 @@ export class UserService implements UserServicePort {
   private async checkIfUserExists(email: string) {
     const user: User = await this.userRepository.findOneByEmail(email);
     if (user.getId()) {
-      throw new CustomError(HttpMessage.CONFLICT, HttpCode.CONFLICT, {});
+      throw new CustomError(HttpMessage.CONFLICT, HttpStatus.CONFLICT, {});
     }
   }
 
   private checkIfUserNotExists(user: User) {
     if (!user.getId()) {
-      throw new CustomError(HttpMessage.NOT_FOUND, HttpCode.NOT_FOUND, {});
+      throw new CustomError(HttpMessage.NOT_FOUND, HttpStatus.NOT_FOUND, {});
     }
   }
 
   private checkIfUserListIsEmpty(users: User[]) {
     if (users.length === 0) {
-      throw new CustomError(HttpMessage.NOT_FOUND, HttpCode.NOT_FOUND, {});
+      throw new CustomError(HttpMessage.NOT_FOUND, HttpStatus.NOT_FOUND, {});
     }
   }
 }

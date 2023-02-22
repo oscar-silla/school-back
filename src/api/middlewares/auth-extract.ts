@@ -1,6 +1,6 @@
-import { NextFunction, Response, Request } from "express";
+import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { HttpCode } from "../../application/domain/http-code";
+import { HttpStatus } from "../../application/domain/http-status";
 import { HttpMessage } from "../../application/domain/http-message";
 import { CustomError } from "../../application/exceptions/CustomError";
 
@@ -29,5 +29,5 @@ export const authExtract = (
 };
 
 const throwError = () => {
-  throw new CustomError(HttpMessage.UNAUTHORIZED, HttpCode.UNAUTHORIZED, {});
+  throw new CustomError(HttpMessage.UNAUTHORIZED, HttpStatus.UNAUTHORIZED, {});
 };

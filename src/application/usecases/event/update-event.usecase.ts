@@ -5,7 +5,7 @@ import { Event } from "../../domain/event";
 import { checkObjectId } from "../../utils/check-objectid.util";
 import { CustomError } from "../../exceptions/CustomError";
 import { HttpMessage } from "../../domain/http-message";
-import { HttpCode } from "../../domain/http-code";
+import { HttpStatus } from "../../domain/http-status";
 
 export class UpdateEventUseCase implements UpdateEventUseCasePort {
   private eventService: EventServicePort = new EventService();
@@ -14,7 +14,7 @@ export class UpdateEventUseCase implements UpdateEventUseCasePort {
     if (!id || !checkObjectId(id)) {
       throw new CustomError(
         HttpMessage.MISSING_PARAMS,
-        HttpCode.BAD_REQUEST,
+        HttpStatus.BAD_REQUEST,
         {}
       );
     }
@@ -29,7 +29,7 @@ export class UpdateEventUseCase implements UpdateEventUseCasePort {
     ) {
       throw new CustomError(
         HttpMessage.MISSING_PARAMS,
-        HttpCode.BAD_REQUEST,
+        HttpStatus.BAD_REQUEST,
         {}
       );
     }

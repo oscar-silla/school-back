@@ -3,7 +3,7 @@ import { EventBody } from "../../../../../external-libraries/openapi/models/Even
 import { GeneratedIdResponse } from "../../../../../external-libraries/openapi/models/GeneratedIdResponse";
 import { Event } from "../../../../application/domain/event";
 import { GeneratedId } from "../../../../application/domain/generated-id";
-import { HttpCode } from "../../../../application/domain/http-code";
+import { HttpStatus } from "../../../../application/domain/http-status";
 import { CreateEventUseCasePort } from "../../../../application/ports/in/usecases/event/create-event.usecase.port";
 import { CreateEventUseCase } from "../../../../application/usecases/event/create-event.usecase";
 import { EventControllerMapper } from "../mappers/event.controller.mapper";
@@ -46,7 +46,7 @@ router.post(
       );
       const generatedIdResponse: GeneratedIdResponse =
         generatedIdMapper.toGeneratedIdResponse(generatedId);
-      res.status(HttpCode.CREATED).json(generatedIdResponse);
+      res.status(HttpStatus.CREATED).json(generatedIdResponse);
     } catch (err) {
       next(err);
     }
@@ -64,7 +64,7 @@ router.get(
       const event: Event = await getEventUseCase.getEvent(req?.params?.id);
       const eventResponse: EventResponse =
         eventControllerMapper.toEventResponse(event);
-      res.status(HttpCode.OK).json(eventResponse);
+      res.status(HttpStatus.OK).json(eventResponse);
     } catch (err) {
       next(err);
     }
@@ -81,7 +81,7 @@ router.get(
       );
       const eventsResponse: EventResponse[] =
         eventControllerMapper.toEventsResponse(events);
-      res.status(HttpCode.OK).json(eventsResponse);
+      res.status(HttpStatus.OK).json(eventsResponse);
     } catch (err) {
       next(err);
     }
@@ -98,7 +98,7 @@ router.patch(
     try {
       const event: Event = eventControllerMapper.toEvent(req?.body);
       await updateEventUseCase.updateEvent(req?.params?.id, event);
-      res.status(HttpCode.OK).send();
+      res.status(HttpStatus.OK).send();
     } catch (err) {
       next(err);
     }
@@ -114,7 +114,7 @@ router.delete(
   ) => {
     try {
       await deleteEventUseCase.deleteEvent(req?.params?.id);
-      res.status(HttpCode.NO_CONTENT).send();
+      res.status(HttpStatus.NO_CONTENT).send();
     } catch (err) {
       next(err);
     }

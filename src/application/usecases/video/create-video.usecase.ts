@@ -1,5 +1,5 @@
 import { GeneratedId } from "../../domain/generated-id";
-import { HttpCode } from "../../domain/http-code";
+import { HttpStatus } from "../../domain/http-status";
 import { Video } from "../../domain/video";
 import { CustomError } from "../../exceptions/CustomError";
 import { CreateVideoUseCasePort } from "../../ports/in/usecases/video/create-video.usecase.port";
@@ -12,7 +12,7 @@ export class CreateVideoUseCase implements CreateVideoUseCasePort {
     if (!video.getRef() || !video.getSrc()) {
       throw new CustomError(
         "Missing request body params.",
-        HttpCode.BAD_REQUEST,
+        HttpStatus.BAD_REQUEST,
         {}
       );
     }

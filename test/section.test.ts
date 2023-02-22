@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, test } from "@jest/globals";
 import { agent } from "supertest";
 import { baseUrl } from "../src/application/constants";
-import { HttpCode } from "../src/application/domain/http-code";
+import { HttpStatus } from "../src/application/domain/http-status";
 import { Section } from "../src/application/domain/section";
 import { createServer } from "../src/boot";
 import { mongo } from "../src/infrastructure/database/mongo";
@@ -27,25 +27,25 @@ describe("/sections", () => {
   });
   test("should respond with a 401 status code when try to create section with invalid auth in request headers", async () => {
     const res = await request.post(`${baseUrl}/sections`).send(sectionMock);
-    expect(res.statusCode).toBe(HttpCode.UNAUTHORIZED);
+    expect(res.statusCode).toBe(HttpStatus.UNAUTHORIZED);
   });
   test("should respond with a 401 status code when try to modify section with invalid auth in request headers", async () => {
     const res = await request
       .patch(`${baseUrl}/sections/${fakeRef}`)
       .send(sectionMock);
-    expect(res.statusCode).toBe(HttpCode.UNAUTHORIZED);
+    expect(res.statusCode).toBe(HttpStatus.UNAUTHORIZED);
   });
   test("should respond with a 401 status code when try to delete section with invalid auth in request headers", async () => {
     const res = await request.delete(`${baseUrl}/sections/${fakeRef}`).send();
-    expect(res.statusCode).toBe(HttpCode.UNAUTHORIZED);
+    expect(res.statusCode).toBe(HttpStatus.UNAUTHORIZED);
   });
   test("should respond with a 404 status code when not found sections", async () => {
     const response = await request.get("/api/v1/sections").send();
-    expect(response.statusCode).toBe(HttpCode.NOT_FOUND);
+    expect(response.statusCode).toBe(HttpStatus.NOT_FOUND);
   });
   test("should respond with a 404 status code when not found specific section", async () => {
     const response = await request.get("/api/v1/sections/home").send();
-    expect(response.statusCode).toBe(HttpCode.NOT_FOUND);
+    expect(response.statusCode).toBe(HttpStatus.NOT_FOUND);
   });
   test("should respond with a 404 status code when try to modify an inexisting section", async () => {
     sectionMock.setImg("nosection.jpg");
@@ -53,7 +53,7 @@ describe("/sections", () => {
       .patch("/api/v1/sections/nosection")
       .set(commonHeaders)
       .send(sectionMock);
-    expect(response.statusCode).toBe(HttpCode.NOT_FOUND);
+    expect(response.statusCode).toBe(HttpStatus.NOT_FOUND);
     sectionMock.setImg("home.jpg");
   });
   test("should respond with a 201 status code when create a new section", async () => {
@@ -61,7 +61,7 @@ describe("/sections", () => {
       .post("/api/v1/sections")
       .set(commonHeaders)
       .send(sectionMock);
-    expect(response.statusCode).toBe(HttpCode.CREATED);
+    expect(response.statusCode).toBe(HttpStatus.CREATED);
   });
   test("should response with a 200 status code when modify an existing section", async () => {
     sectionMock.setImg("anotherImage.jpg");
@@ -69,28 +69,28 @@ describe("/sections", () => {
       .patch("/api/v1/sections/home")
       .set(commonHeaders)
       .send(sectionMock);
-    expect(response.statusCode).toBe(HttpCode.OK);
+    expect(response.statusCode).toBe(HttpStatus.OK);
   });
   test("should respond with a 200 status code when find existing sections", async () => {
     const response = await request.get("/api/v1/sections").send();
-    expect(response.statusCode).toBe(HttpCode.OK);
+    expect(response.statusCode).toBe(HttpStatus.OK);
   });
   test("should respond with a 200 status code when find an existing section", async () => {
     const response = await request.get("/api/v1/sections/home").send();
-    expect(response.statusCode).toBe(HttpCode.OK);
+    expect(response.statusCode).toBe(HttpStatus.OK);
   });
   test("should respond with a 404 status code when try to delete an inexisting section", async () => {
     const response = await request
       .delete("/api/v1/sections/nosection")
       .set(commonHeaders)
       .send();
-    expect(response.statusCode).toBe(HttpCode.NOT_FOUND);
+    expect(response.statusCode).toBe(HttpStatus.NOT_FOUND);
   });
   test("should respond with a 204 status code with delete an existing section", async () => {
     const response = await request
       .delete("/api/v1/sections/home")
       .set(commonHeaders)
       .send();
-    expect(response.statusCode).toBe(HttpCode.NO_CONTENT);
+    expect(response.statusCode).toBe(HttpStatus.NO_CONTENT);
   });
 });
