@@ -14,7 +14,7 @@ import { DeleteStoryUseCase } from "../../../../application/usecases/article/del
 import { GetArticlesUseCase } from "../../../../application/usecases/article/get-articles.usecase";
 import { GetStoryUseCase } from "../../../../application/usecases/article/get-article.usecase";
 import { ModifyArticleUseCase } from "../../../../application/usecases/article/modify-article.usecase";
-import { authExtract } from "../../../middlewares/auth-extract";
+import { useExtract } from "../../../middlewares/use-extract";
 import { GeneratedIdMapper } from "../mappers/generated-id.mapper";
 import { ArticleControllerMapper } from "../mappers/article.controller.mapper";
 
@@ -32,7 +32,7 @@ const generatedIdMapper = new GeneratedIdMapper();
 
 router.post(
   "/",
-  authExtract,
+  useExtract,
   async (
     req: Request,
     res: Response<GeneratedIdResponse>,
@@ -88,7 +88,7 @@ router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
 
 router.patch(
   "/:id",
-  authExtract,
+  useExtract,
   async (req: Request, res: Response<void>, next: NextFunction) => {
     try {
       const story: Article = articleMapper.toArticle(req?.body);
@@ -102,7 +102,7 @@ router.patch(
 
 router.delete(
   "/:id",
-  authExtract,
+  useExtract,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       await deleteArticleUseCase.deleteArticle(req?.params?.id);

@@ -13,7 +13,7 @@ import { CreateUserUseCase } from "../../../../application/usecases/user/create-
 import { DeleteUserUseCase } from "../../../../application/usecases/user/delete-user.usecase";
 import { GetAllUsersUseCase } from "../../../../application/usecases/user/get-all-users.usecase";
 import { GetUserUseCase } from "../../../../application/usecases/user/get-user.usecase";
-import { authExtract } from "../../../middlewares/auth-extract";
+import { useExtract } from "../../../middlewares/use-extract";
 import { GeneratedIdMapper } from "../mappers/generated-id.mapper";
 import { UserControllerMapper } from "../mappers/user.controller.mapper";
 
@@ -48,7 +48,7 @@ router.post(
 
 router.get(
   "/:id",
-  authExtract,
+  useExtract,
   async (req: Request, res: Response<UserResponse>, next: NextFunction) => {
     try {
       const user = await getUserUseCase.getUser(req?.params?.id);
@@ -62,7 +62,7 @@ router.get(
 
 router.get(
   "/",
-  authExtract,
+  useExtract,
   async (_req: Request, res: Response<UserResponse[]>, next: NextFunction) => {
     try {
       const users: User[] = await getAllUsersUseCase.getAllUsers();
@@ -76,7 +76,7 @@ router.get(
 
 router.delete(
   "/:id",
-  authExtract,
+  useExtract,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       await deleteUserUseCase.deleteUser(req?.params?.id);

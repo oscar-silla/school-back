@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from "express";
+import express, { NextFunction, Request, Response, Router } from "express";
 import { EventBody } from "../../../../../external-libraries/openapi/models/EventBody";
 import { GeneratedIdResponse } from "../../../../../external-libraries/openapi/models/GeneratedIdResponse";
 import { Event } from "../../../../application/domain/event";
@@ -17,8 +17,9 @@ import { UpdateEventUseCasePort } from "../../../../application/ports/in/usecase
 import { UpdateEventUseCase } from "../../../../application/usecases/event/update-event.usecase";
 import { DeleteEventUseCase } from "../../../../application/usecases/event/delete-event.usecase";
 import { DeleteEventUseCasePort } from "../../../../application/ports/in/usecases/event/delete-event.usecase.port";
+import { useExtract } from "../../../middlewares/use-extract";
 
-const router = express.Router();
+const router: Router = express.Router();
 type idParamType = {
   id: string;
 };
@@ -34,8 +35,9 @@ const generatedIdMapper = new GeneratedIdMapper();
 
 router.post(
   "/",
+  useExtract,
   async (
-    req: Request<EventBody>,
+    req: Request<any, any, EventBody, any>,
     res: Response<GeneratedIdResponse>,
     next: NextFunction
   ) => {
@@ -90,6 +92,7 @@ router.get(
 
 router.patch(
   "/:id",
+  useExtract,
   async (
     req: Request<idParamType, any, EventBody, any>,
     res: Response<void>,
@@ -107,6 +110,7 @@ router.patch(
 
 router.delete(
   "/:id",
+  useExtract,
   async (
     req: Request<idParamType, any, any, any>,
     res: Response<void>,

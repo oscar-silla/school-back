@@ -4,7 +4,7 @@ import { HttpStatus } from "../../application/domain/http-status";
 import { HttpMessage } from "../../application/domain/http-message";
 import { CustomError } from "../../application/exceptions/CustomError";
 
-export const authExtract = (
+export const useExtract = (
   req: Request,
   _res: Response,
   next: NextFunction

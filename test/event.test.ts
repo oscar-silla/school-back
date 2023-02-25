@@ -86,7 +86,6 @@ describe("Event tests", () => {
       .set(commonHeaders)
       .send(eventMock);
     generatedId = res?.body?.generatedId;
-    expect(generatedId).not.toBeNull;
     expect(res.statusCode).toBe(HttpStatus.CREATED);
   });
   test("should respond with a 409 status code when try to create Event with title that already exists", async () => {

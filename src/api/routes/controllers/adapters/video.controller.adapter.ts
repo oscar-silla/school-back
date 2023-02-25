@@ -11,7 +11,7 @@ import { CreateVideoUseCase } from "../../../../application/usecases/video/creat
 import { DeleteVideoUseCase } from "../../../../application/usecases/video/delete-video.usecase";
 import { GetVideoUseCase } from "../../../../application/usecases/video/get-video.usecase";
 import { ModifyVideoUseCase } from "../../../../application/usecases/video/modify-video.usecase";
-import { authExtract } from "../../../middlewares/auth-extract";
+import { useExtract } from "../../../middlewares/use-extract";
 import { GeneratedIdMapper } from "../mappers/generated-id.mapper";
 import { VideoControllerMapper } from "../mappers/video.controller.mapper";
 
@@ -27,7 +27,7 @@ const generatedIdMapper = new GeneratedIdMapper();
 
 router.post(
   "/",
-  authExtract,
+  useExtract,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const video = videoMapper.toVideo(req?.body);

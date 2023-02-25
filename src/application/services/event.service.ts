@@ -11,7 +11,7 @@ export class EventService implements EventServicePort {
   private eventRepository: EventRepositoryPort = new EventRepositoryAdapter();
 
   async createEvent(event: Event): Promise<GeneratedId> {
-    const existsEvent = await this.eventRepository.findOneByTitle(
+    const existsEvent: Event = await this.eventRepository.findOneByTitle(
       event.getTitle()
     );
     if (existsEvent?.getId()) {
@@ -22,7 +22,7 @@ export class EventService implements EventServicePort {
 
   async getEvent(id: string): Promise<Event> {
     const event: Event = await this.eventRepository.findOneById(id);
-    if (!event) {
+    if (!event?.getId()) {
       throw new CustomError(HttpMessage.NOT_FOUND, HttpStatus.NOT_FOUND, {});
     }
     return event;

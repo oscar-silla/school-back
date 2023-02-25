@@ -8,7 +8,7 @@ import { DeleteSectionUseCase } from "../../../../application/usecases/section/d
 import { GetSectionUseCase } from "../../../../application/usecases/section/get-section.usecase";
 import { GetSectionsUseCase } from "../../../../application/usecases/section/get-sections.usecase";
 import { ModifySectionUseCase } from "../../../../application/usecases/section/modify-section.usecase";
-import { authExtract } from "../../../middlewares/auth-extract";
+import { useExtract } from "../../../middlewares/use-extract";
 import { SectionControllerMapper } from "../mappers/section.controller.mapper";
 
 const router = express.Router();
@@ -24,7 +24,7 @@ const deleteSectionUseCase = new DeleteSectionUseCase();
 
 router.post(
   "/",
-  authExtract,
+  useExtract,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const section: Section = sectionMapper.toSection(req.body);
@@ -68,7 +68,7 @@ router.get(
 
 router.patch(
   "/:ref",
-  authExtract,
+  useExtract,
   async (req: Request, res: Response<any>, next: NextFunction) => {
     try {
       const section = sectionMapper.toSection(req.body);
@@ -82,7 +82,7 @@ router.patch(
 
 router.delete(
   "/:ref",
-  authExtract,
+  useExtract,
   async (req: Request, res: Response<void>, next: NextFunction) => {
     try {
       await deleteSectionUseCase.deleteSection(req?.params?.ref);
