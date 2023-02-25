@@ -1,14 +1,16 @@
-import { HttpCode } from "../../domain/http-code";
+import { HttpStatus } from "../../domain/http-status";
 import { HttpMessage } from "../../domain/http-message";
 import { Section } from "../../domain/section";
 import { CustomError } from "../../exceptions/CustomError";
 import { CreateSectionUseCasePort } from "../../ports/in/usecases/section/create-section.usecase.port";
 import { SectionService } from "../../services/section.service";
+
 const { MISSING_PARAMS } = HttpMessage;
-const { BAD_REQUEST } = HttpCode;
+const { BAD_REQUEST } = HttpStatus;
 
 export class CreateSectionUseCase implements CreateSectionUseCasePort {
   private sectionService = new SectionService();
+
   checkParams(section: Section) {
     if (!section || !section.getTitle()) {
       throw new CustomError(MISSING_PARAMS, BAD_REQUEST, {});

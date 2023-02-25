@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, describe, expect, test } from "@jest/globals";
 import { agent } from "supertest";
-import { HttpCode } from "../src/application/domain/http-code";
+import { HttpStatus } from "../src/application/domain/http-status";
 import { LoginCredentials } from "../src/application/domain/login-credentials";
 import { User } from "../src/application/domain/user";
 import { createServer } from "../src/boot";
@@ -51,7 +51,7 @@ describe("login tests", () => {
     const res = await request
       .post(`${baseUrl}/login`)
       .send(loginCredentialsMock);
-    expect(res.statusCode).toBe(HttpCode.BAD_REQUEST);
+    expect(res.statusCode).toBe(HttpStatus.BAD_REQUEST);
     loginCredentialsMock.setEmail(email);
   });
   test("should respond with 400 status code when try login send null password in body params", async () => {
@@ -59,14 +59,14 @@ describe("login tests", () => {
     const res = await request
       .post(`${baseUrl}/login`)
       .send(loginCredentialsMock);
-    expect(res.statusCode).toBe(HttpCode.BAD_REQUEST);
+    expect(res.statusCode).toBe(HttpStatus.BAD_REQUEST);
     loginCredentialsMock.setPassword(password);
   });
   test("should respond with 404 status code when try to login with user that not exists", async () => {
     const res = await request
       .post(`${baseUrl}/login`)
       .send(loginCredentialsMock);
-    expect(res.statusCode).toBe(HttpCode.NOT_FOUND);
+    expect(res.statusCode).toBe(HttpStatus.NOT_FOUND);
   });
   test("should respond with 401 status code when try to login with an existing user but wrong password", async () => {
     const userResponse = await request.post(`${baseUrl}/users`).send(userMock);
@@ -74,7 +74,7 @@ describe("login tests", () => {
     const res = await request
       .post(`${baseUrl}/login`)
       .send(loginCredentialsMock);
-    expect(res.statusCode).toBe(HttpCode.UNAUTHORIZED);
+    expect(res.statusCode).toBe(HttpStatus.UNAUTHORIZED);
     await request
       .delete(`${baseUrl}/users/${generatedId}`)
       .set(commonHeaders)
@@ -87,7 +87,7 @@ describe("login tests", () => {
     const originalSecret = process.env.SECRET;
     process.env.SECRET = "";
     const res = await request.post(`${baseUrl}/login`).send(userMock);
-    expect(res.statusCode).toBe(HttpCode.NOT_FOUND);
+    expect(res.statusCode).toBe(HttpStatus.NOT_FOUND);
     process.env.SECRET = originalSecret;
     userMock.setPassword(wrongPassword);
     await request
@@ -102,7 +102,7 @@ describe("login tests", () => {
     const res = await request
       .post(`${baseUrl}/login`)
       .send(loginCredentialsMock);
-    expect(res.statusCode).toBe(HttpCode.OK);
+    expect(res.statusCode).toBe(HttpStatus.OK);
     await request
       .delete(`${baseUrl}/users/${generatedId}`)
       .set(commonHeaders)

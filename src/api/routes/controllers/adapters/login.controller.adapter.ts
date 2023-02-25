@@ -1,12 +1,13 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { LoginBody } from "../../../../../external-libraries/openapi/models/LoginBody";
 import { LoginResponse } from "../../../../../external-libraries/openapi/models/LoginResponse";
-import { HttpCode } from "../../../../application/domain/http-code";
+import { HttpStatus } from "../../../../application/domain/http-status";
 import { LoginCredentials } from "../../../../application/domain/login-credentials";
 import { Token } from "../../../../application/domain/token";
 import { LoginUseCasePort } from "../../../../application/ports/in/usecases/login/login.usecase.port";
 import { LoginUseCase } from "../../../../application/usecases/login/login.usecase";
 import { LoginControllerMapper } from "../mappers/login.controller.mapper";
+
 const router = express.Router();
 
 const loginUseCase: LoginUseCasePort = new LoginUseCase();
@@ -27,7 +28,7 @@ router.post(
       const loginResponse: LoginResponse = loginMapper.toLoginResponse(
         token.get()
       );
-      res.status(HttpCode.OK).json(loginResponse);
+      res.status(HttpStatus.OK).json(loginResponse);
     } catch (err) {
       next(err);
     }

@@ -1,7 +1,7 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { VideoResponse } from "../../../../../external-libraries/openapi/models/VideoResponse";
 import { GeneratedId } from "../../../../application/domain/generated-id";
-import { HttpCode } from "../../../../application/domain/http-code";
+import { HttpStatus } from "../../../../application/domain/http-status";
 import { Video } from "../../../../application/domain/video";
 import { CreateVideoUseCasePort } from "../../../../application/ports/in/usecases/video/create-video.usecase.port";
 import { DeleteVideoUseCasePort } from "../../../../application/ports/in/usecases/video/delete-video.usecase.port";
@@ -11,9 +11,10 @@ import { CreateVideoUseCase } from "../../../../application/usecases/video/creat
 import { DeleteVideoUseCase } from "../../../../application/usecases/video/delete-video.usecase";
 import { GetVideoUseCase } from "../../../../application/usecases/video/get-video.usecase";
 import { ModifyVideoUseCase } from "../../../../application/usecases/video/modify-video.usecase";
-import { authExtract } from "../../../middlewares/auth-extract";
+import { useExtract } from "../../../middlewares/use-extract";
 import { GeneratedIdMapper } from "../mappers/generated-id.mapper";
 import { VideoControllerMapper } from "../mappers/video.controller.mapper";
+
 const router = express.Router();
 
 const getVideoUseCase: GetVideoUseCasePort = new GetVideoUseCase();
@@ -26,7 +27,7 @@ const generatedIdMapper = new GeneratedIdMapper();
 
 router.post(
   "/",
-  authExtract,
+  useExtract,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const video = videoMapper.toVideo(req?.body);
@@ -35,7 +36,7 @@ router.post(
       );
       const generatedIdResponse =
         generatedIdMapper.toGeneratedIdResponse(generatedId);
-      res.status(HttpCode.CREATED).json(generatedIdResponse);
+      res.status(HttpStatus.CREATED).json(generatedIdResponse);
     } catch (err) {
       next(err);
     }
@@ -48,7 +49,7 @@ router.get(
     try {
       const video: Video = await getVideoUseCase.getVideo(req?.params?.ref);
       const videoResponse: VideoResponse = videoMapper.toVideoResponse(video);
-      res.status(HttpCode.OK).json(videoResponse);
+      res.status(HttpStatus.OK).json(videoResponse);
     } catch (err) {
       next(err);
     }
@@ -61,7 +62,7 @@ router.patch(
     try {
       const video = videoMapper.toVideo(req?.body);
       await modifyVideoUseCase.modifyVideo(req?.params?.id, video);
-      res.status(HttpCode.OK).send();
+      res.status(HttpStatus.OK).send();
     } catch (err) {
       next(err);
     }
@@ -73,7 +74,7 @@ router.delete(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       await deleteVideoUseCase.deleteVideo(req?.params?.id);
-      res.status(HttpCode.NO_CONTENT).send();
+      res.status(HttpStatus.NO_CONTENT).send();
     } catch (err) {
       next(err);
     }

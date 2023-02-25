@@ -1,15 +1,18 @@
 import express from "express";
-const router = express.Router();
-import videoController from "./controllers/adapters/video.controller.adapter";
-import sectionController from "./controllers/adapters/section.controller.adapter";
-import userController from "./controllers/adapters/user.controller.adapter";
-import loginController from "./controllers/adapters/login.controller.adapter";
-import articleController from "./controllers/adapters/article.controller.adapter";
+import videoControllerAdapter from "./controllers/adapters/video.controller.adapter";
+import sectionControllerAdapter from "./controllers/adapters/section.controller.adapter";
+import userControllerAdapter from "./controllers/adapters/user.controller.adapter";
+import loginControllerAdapter from "./controllers/adapters/login.controller.adapter";
+import articleControllerAdapter from "./controllers/adapters/article.controller.adapter";
+import eventControllerAdapter from "./controllers/adapters/event.controller.adapter";
 
-router.use("/video", videoController);
-router.use("/sections", sectionController);
-router.use("/users", userController);
-router.use("/login", loginController);
-router.use("/articles", articleController);
+const router = express.Router();
+
+router.use("/video", videoControllerAdapter);
+router.use("/sections", sectionControllerAdapter);
+router.use("/users", userControllerAdapter);
+router.use("/login", loginControllerAdapter);
+router.use("/articles", articleControllerAdapter);
+router.use("/events", eventControllerAdapter);
 
 export default router;

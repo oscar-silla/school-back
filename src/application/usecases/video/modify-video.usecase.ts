@@ -1,12 +1,13 @@
-import { HttpCode } from "../../domain/http-code";
+import { HttpStatus } from "../../domain/http-status";
 import { HttpMessage } from "../../domain/http-message";
 import { Video } from "../../domain/video";
 import { CustomError } from "../../exceptions/CustomError";
 import { ModifyVideoUseCasePort } from "../../ports/in/usecases/video/modify-video.usecase.port";
 import { VideoService } from "../../services/video.service";
 import { checkObjectId } from "../../utils/check-objectid.util";
+
 const { WRONG_ID_FORMAT, MISSING_PARAMS } = HttpMessage;
-const { BAD_REQUEST } = HttpCode;
+const { BAD_REQUEST } = HttpStatus;
 
 export class ModifyVideoUseCase implements ModifyVideoUseCasePort {
   private videoService = new VideoService();

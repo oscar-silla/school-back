@@ -1,4 +1,4 @@
-import { HttpCode } from "../../domain/http-code";
+import { HttpStatus } from "../../domain/http-status";
 import { HttpMessage } from "../../domain/http-message";
 import { LoginCredentials } from "../../domain/login-credentials";
 import { Token } from "../../domain/token";
@@ -18,7 +18,7 @@ export class LoginUseCase implements LoginUseCasePort {
     if (!loginCredentials.getEmail() || !loginCredentials.getPassword()) {
       throw new CustomError(
         HttpMessage.MISSING_PARAMS,
-        HttpCode.BAD_REQUEST,
+        HttpStatus.BAD_REQUEST,
         {}
       );
     }

@@ -1,10 +1,11 @@
-import { HttpCode } from "../../domain/http-code";
+import { HttpStatus } from "../../domain/http-status";
 import { HttpMessage } from "../../domain/http-message";
 import { CustomError } from "../../exceptions/CustomError";
 import { DeleteSectionUseCasePort } from "../../ports/in/usecases/section/delete-section.usecase.port";
 import { SectionService } from "../../services/section.service";
+
 const { MISSING_PARAMS } = HttpMessage;
-const { BAD_REQUEST } = HttpCode;
+const { BAD_REQUEST } = HttpStatus;
 
 export class DeleteSectionUseCase implements DeleteSectionUseCasePort {
   private sectionService = new SectionService();

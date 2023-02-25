@@ -1,4 +1,4 @@
-import { HttpCode } from "../../domain/http-code";
+import { HttpStatus } from "../../domain/http-status";
 import { HttpMessage } from "../../domain/http-message";
 import { Article } from "../../domain/article";
 import { CustomError } from "../../exceptions/CustomError";
@@ -14,7 +14,7 @@ export class GetStoryUseCase implements GetArticleUseCasePort {
     if (!id || !checkObjectId(id)) {
       throw new CustomError(
         HttpMessage.MISSING_PARAMS,
-        HttpCode.BAD_REQUEST,
+        HttpStatus.BAD_REQUEST,
         {}
       );
     }

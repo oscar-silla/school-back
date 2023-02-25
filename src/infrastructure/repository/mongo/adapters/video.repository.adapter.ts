@@ -2,28 +2,28 @@ import { GeneratedId } from "../../../../application/domain/generated-id";
 import { Video } from "../../../../application/domain/video";
 import { VideoRepositoryPort } from "../../../../application/ports/out/video.repository.port";
 import { VideosCollection } from "../collections/videos.collection";
-import { GeneratedIdMapperModel } from "../mappers/generated-id.mapper.model";
-import { VideoMapperModel } from "../mappers/video.mapper.model";
+import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
+import { VideoMapperModel } from "../mappers/video.model.mapper";
 import { VideoModel } from "../models/video.model";
 
 export class VideoRepositoryAdapter implements VideoRepositoryPort {
   private videosCollection = new VideosCollection();
-  private videoMapperModel = new VideoMapperModel();
-  private generatedIdMapperModel = new GeneratedIdMapperModel();
+  private videoModelMapper = new VideoMapperModel();
+  private generatedIdModelMapper = new GeneratedIdModelMapper();
 
   async save(videoRequest: Video): Promise<GeneratedId> {
     const response = await this.videosCollection.save(videoRequest);
-    return this.generatedIdMapperModel.toGeneratedId(response);
+    return this.generatedIdModelMapper.toGeneratedId(response);
   }
 
   async getOneByRef(ref: string): Promise<Video> {
     const response: VideoModel = await this.videosCollection.getOneByRef(ref);
-    return this.videoMapperModel.toVideo(response);
+    return this.videoModelMapper.toVideo(response);
   }
 
   async getOneById(id: string): Promise<Video> {
     const response: VideoModel = await this.videosCollection.getOneById(id);
-    return this.videoMapperModel.toVideo(response);
+    return this.videoModelMapper.toVideo(response);
   }
 
   async modify(id: string, payload: Video): Promise<void> {

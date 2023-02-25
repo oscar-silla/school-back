@@ -1,4 +1,4 @@
-import { HttpCode } from "../../domain/http-code";
+import { HttpStatus } from "../../domain/http-status";
 import { HttpMessage } from "../../domain/http-message";
 import { User } from "../../domain/user";
 import { CustomError } from "../../exceptions/CustomError";
@@ -11,7 +11,7 @@ export class GetUserUseCase implements GetUserUseCasePort {
 
   private checkPathParams(id: string) {
     if (!id || !checkObjectId(id)) {
-      throw new CustomError(HttpMessage.MISSING_PARAMS, HttpCode.BAD_REQUEST);
+      throw new CustomError(HttpMessage.MISSING_PARAMS, HttpStatus.BAD_REQUEST);
     }
   }
 

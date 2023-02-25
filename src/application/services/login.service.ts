@@ -5,7 +5,7 @@ import { Token } from "../domain/token";
 import { LoginServicePort } from "../ports/in/services/login.service.port";
 import { CustomError } from "../exceptions/CustomError";
 import { HttpMessage } from "../domain/http-message";
-import { HttpCode } from "../domain/http-code";
+import { HttpStatus } from "../domain/http-status";
 
 export class LoginService implements LoginServicePort {
   private async checkPassword(password: string, passworToCompare: string) {
@@ -13,7 +13,7 @@ export class LoginService implements LoginServicePort {
     if (!samePassword) {
       throw new CustomError(
         HttpMessage.UNAUTHORIZED,
-        HttpCode.UNAUTHORIZED,
+        HttpStatus.UNAUTHORIZED,
         {}
       );
     }
@@ -23,7 +23,7 @@ export class LoginService implements LoginServicePort {
     if (!process.env.SECRET) {
       throw new CustomError(
         HttpMessage.ENVIRONMENT_VAR_NOT_FOUND,
-        HttpCode.NOT_FOUND,
+        HttpStatus.NOT_FOUND,
         {}
       );
     }

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.configureAuthMethods = void 0;
 /**
- * Creates the authentication methods from a swagger description.
+ * Creates the authentication methods from a contracts description.
  *
  */
 function configureAuthMethods(config) {

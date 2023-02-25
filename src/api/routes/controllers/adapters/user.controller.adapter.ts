@@ -3,7 +3,7 @@ import { GeneratedIdResponse } from "../../../../../external-libraries/openapi/m
 import { UserBody } from "../../../../../external-libraries/openapi/models/UserBody";
 import { UserResponse } from "../../../../../external-libraries/openapi/models/UserResponse";
 import { GeneratedId } from "../../../../application/domain/generated-id";
-import { HttpCode } from "../../../../application/domain/http-code";
+import { HttpStatus } from "../../../../application/domain/http-status";
 import { User } from "../../../../application/domain/user";
 import { CreateUserUseCasePort } from "../../../../application/ports/in/usecases/user/create-user.usecase.port";
 import { DeleteUserUseCasePort } from "../../../../application/ports/in/usecases/user/delete-user.usecase.port";
@@ -13,9 +13,10 @@ import { CreateUserUseCase } from "../../../../application/usecases/user/create-
 import { DeleteUserUseCase } from "../../../../application/usecases/user/delete-user.usecase";
 import { GetAllUsersUseCase } from "../../../../application/usecases/user/get-all-users.usecase";
 import { GetUserUseCase } from "../../../../application/usecases/user/get-user.usecase";
-import { authExtract } from "../../../middlewares/auth-extract";
+import { useExtract } from "../../../middlewares/use-extract";
 import { GeneratedIdMapper } from "../mappers/generated-id.mapper";
 import { UserControllerMapper } from "../mappers/user.controller.mapper";
+
 const router = express.Router();
 
 const createUserUseCase: CreateUserUseCasePort = new CreateUserUseCase();
@@ -38,7 +39,7 @@ router.post(
       const generatedId: GeneratedId = await createUserUseCase.createUser(user);
       const response: GeneratedIdResponse =
         generatedIdMapper.toGeneratedIdResponse(generatedId);
-      res.status(HttpCode.CREATED).json(response);
+      res.status(HttpStatus.CREATED).json(response);
     } catch (err) {
       next(err);
     }
@@ -47,12 +48,12 @@ router.post(
 
 router.get(
   "/:id",
-  authExtract,
+  useExtract,
   async (req: Request, res: Response<UserResponse>, next: NextFunction) => {
     try {
       const user = await getUserUseCase.getUser(req?.params?.id);
       const userResponse = userMapper.toUserResponse(user);
-      res.status(HttpCode.OK).json(userResponse);
+      res.status(HttpStatus.OK).json(userResponse);
     } catch (err) {
       next(err);
     }
@@ -61,12 +62,12 @@ router.get(
 
 router.get(
   "/",
-  authExtract,
+  useExtract,
   async (_req: Request, res: Response<UserResponse[]>, next: NextFunction) => {
     try {
       const users: User[] = await getAllUsersUseCase.getAllUsers();
       const usersResponse: UserResponse[] = userMapper.toUsersResponse(users);
-      res.status(HttpCode.OK).json(usersResponse);
+      res.status(HttpStatus.OK).json(usersResponse);
     } catch (err) {
       next(err);
     }
@@ -75,11 +76,11 @@ router.get(
 
 router.delete(
   "/:id",
-  authExtract,
+  useExtract,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       await deleteUserUseCase.deleteUser(req?.params?.id);
-      res.status(HttpCode.NO_CONTENT).send();
+      res.status(HttpStatus.NO_CONTENT).send();
     } catch (err) {
       next(err);
     }

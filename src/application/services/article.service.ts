@@ -1,6 +1,6 @@
 import { ArticleRepositoryAdapter } from "../../infrastructure/repository/mongo/adapters/article.repository.adapter";
 import { GeneratedId } from "../domain/generated-id";
-import { HttpCode } from "../domain/http-code";
+import { HttpStatus } from "../domain/http-status";
 import { HttpMessage } from "../domain/http-message";
 import { Article } from "../domain/article";
 import { CustomError } from "../exceptions/CustomError";
@@ -65,12 +65,13 @@ export class ArticleService implements ArticleServicePort {
 
   private checkIfIsItAnEmptyArticle(article: Article): void {
     if (!article.getId()) {
-      throw new CustomError(HttpMessage.NOT_FOUND, HttpCode.NOT_FOUND, {});
+      throw new CustomError(HttpMessage.NOT_FOUND, HttpStatus.NOT_FOUND, {});
     }
   }
+
   private checkIfIsItAnEmptyArticleList(articles: Article[]): void {
     if (articles.length === 0) {
-      throw new CustomError(HttpMessage.NOT_FOUND, HttpCode.NOT_FOUND, {});
+      throw new CustomError(HttpMessage.NOT_FOUND, HttpStatus.NOT_FOUND, {});
     }
   }
 }
