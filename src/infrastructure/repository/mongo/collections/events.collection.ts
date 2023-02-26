@@ -20,7 +20,6 @@ export class EventsCollection {
 
   async find(limit: number, page: number): Promise<EventModel[]> {
     const { mongo } = global.database;
-    console.log("limit: " + limit + " page: " + page);
     return await mongo
       .collection("events")
       .find({})
