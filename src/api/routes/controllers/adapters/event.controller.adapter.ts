@@ -79,7 +79,7 @@ router.get(
     try {
       const events: Event[] = await getEventsUseCase.getEvents(
         +(req?.query?.limit ?? 0),
-        +(req?.query?.limit ?? 0)
+        +(req?.query?.page ?? 0)
       );
       const eventsResponse: EventResponse[] =
         eventControllerMapper.toEventsResponse(events);
