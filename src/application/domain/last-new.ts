@@ -1,4 +1,4 @@
-export class Article {
+export class LastNew {
   private id?: string;
   private title: string;
   private description: string;
@@ -20,15 +20,19 @@ export class Article {
   getId() {
     return this.id;
   }
+
   getTitle() {
     return this.title;
   }
+
   getDescription() {
     return this.description;
   }
+
   getImg() {
     return this.img;
   }
+
   getContent() {
     return this.content;
   }
@@ -36,15 +40,19 @@ export class Article {
   setId(id: string) {
     this.id = id;
   }
+
   setTitle(title: string) {
     this.title = title;
   }
+
   setDescription(description: string) {
     this.description = description;
   }
+
   setImg(img: string) {
     this.img = img;
   }
+
   setContent(content: string) {
     this.content = content;
   }

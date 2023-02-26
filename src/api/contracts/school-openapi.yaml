@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   title: School API
   description: School API
-  version: 1.0.5
+  version: 1.0.6
   contact:
     email: orscarsilla@outlook.com
 tags:
@@ -14,8 +14,8 @@ tags:
     description: Manage users from school web page
   - name: Login
     description: Manage login from school web page
-  - name: Articles
-    description: Manage articles from school web page
+  - name: Last news
+    description: Manage last news from school web page
   - name: Events
     description: Manage events form school web page
 consumes:
@@ -195,32 +195,6 @@ paths:
           description: Not found.
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /video/{ref}:
-    get:
-      tags:
-        - "Video"
-      summary: "Get an existing video"
-      description: "Get existing video by ObjectId."
-      operationId: "getVideo"
-      parameters:
-        - $ref: "#/parameters/idParam"
-      responses:
-        '200':
-          description: OK.
-          schema:
-            $ref: '#/definitions/VideoResponse'
-        '400':
-          description: Bad request.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '401':
-          description: Unauthorized.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '404':
-          description: Not found.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
   /sections:
     post:
       tags:
@@ -359,13 +333,13 @@ paths:
           description: Bad request.
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /articles:
+  /lastNews:
     get:
       tags:
-        - "Articles"
-      summary: "Get articles"
-      description: "Get all articles"
-      operationId: "getArticles"
+        - "Last news"
+      summary: "Get last news"
+      description: "Get all last news"
+      operationId: "getLastNews"
       parameters:
         - $ref: "#/parameters/limitParam"
         - $ref: "#/parameters/pageParam"
@@ -373,17 +347,17 @@ paths:
         '200':
           description: OK.
           schema:
-            $ref: "#/definitions/ArticlesResponse"
+            $ref: "#/definitions/LastNewsResponse"
         '404':
           description: Not found.
           schema:
             $ref: "#/definitions/ErrorResponse"
     post:
       tags:
-        - "Articles"
-      summary: "Create article"
-      description: "Create article"
-      operationId: "createArticle"
+        - "Last news"
+      summary: "Create last new"
+      description: "Create last new"
+      operationId: "createLastNew"
       parameters:
         - $ref: "#/parameters/newBodyParam"
       responses:
@@ -403,20 +377,20 @@ paths:
           description: Not found.
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /articles/{id}:
+  /lastNews/{id}:
     get:
       tags:
-        - "Articles"
-      summary: "Get article"
-      description: "Get article by id"
-      operationId: "getArticle"
+        - "Last news"
+      summary: "Get last new"
+      description: "Get last new by id"
+      operationId: "getLastNew"
       parameters:
         - $ref: "#/parameters/idParam"
       responses:
         '200':
           description: OK.
           schema:
-            $ref: "#/definitions/ArticleResponse"
+            $ref: "#/definitions/LastNewResponse"
         '400':
           description: Bad request.
           schema:
@@ -427,10 +401,10 @@ paths:
             $ref: "#/definitions/ErrorResponse"
     patch:
       tags:
-        - "Articles"
-      summary: "Update article"
-      description: "Update article by id"
-      operationId: "updateArticle"
+        - "Last news"
+      summary: "Update last new"
+      description: "Update last new by id"
+      operationId: "updateLastNew"
       parameters:
         - $ref: "#/parameters/idParam"
         - $ref: "#/parameters/newBodyParam"
@@ -451,10 +425,10 @@ paths:
             $ref: "#/definitions/ErrorResponse"
     delete:
       tags:
-        - "Articles"
-      summary: "Delete article"
-      description: "Delete article by id"
-      operationId: "deleteArticle"
+        - "Last news"
+      summary: "Delete last new"
+      description: "Delete last new by id"
+      operationId: "deleteLastNew"
       parameters:
         - $ref: "#/parameters/idParam"
       responses:
@@ -640,7 +614,7 @@ definitions:
         type: string
         format: string
         example: "<h1>Event content</h1>"
-  ArticleBody:
+  LastNewBody:
     type: object
     required:
       - "title"
@@ -653,7 +627,7 @@ definitions:
       description:
         type: string
         format: string
-        example: "Article description"
+        example: "Last new description"
       img:
         type: string
         format: string
@@ -662,11 +636,11 @@ definitions:
         type: string
         format: string
         example: "<h1>Content</h1>"
-  ArticlesResponse:
+  LastNewsResponse:
     type: array
     items:
-      $ref: "#/definitions/ArticleResponse"
-  ArticleResponse:
+      $ref: "#/definitions/LastNewResponse"
+  LastNewResponse:
     type: object
     required:
       - "_id"
@@ -684,7 +658,7 @@ definitions:
       description:
         type: string
         format: string
-        example: "Article description"
+        example: "Last new description"
       img:
         type: string
         format: string
@@ -890,7 +864,7 @@ definitions:
         example: "63b04cf26cff5203de1659ca"
 parameters:
   idParam:
-    name: "_id"
+    name: "id"
     description: "ObjectId param."
     in: path
     required: true
@@ -940,11 +914,11 @@ parameters:
       $ref: "#/definitions/LoginBody"
   newBodyParam:
     name: "body"
-    description: "Article body param"
+    description: "Last new body param"
     in: body
     required: true
     schema:
-      $ref: "#/definitions/ArticleBody"
+      $ref: "#/definitions/LastNewBody"
   eventBodyParam:
     name: "body"
     description: "Event body param"
