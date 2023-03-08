@@ -9,6 +9,8 @@ import { HttpStatus } from "../src/application/domain/http-status";
 const httpServer = createServer();
 const request = agent(httpServer);
 
+let generatedId: string;
+const emptySlogan: Slogan = new Slogan();
 const slogan: Slogan = new Slogan(
   "Slogan title",
   "Slogan description",
@@ -82,6 +84,20 @@ describe("Slogan tests", () => {
       .send();
     expect(res.statusCode).toBe(HttpStatus.BAD_REQUEST);
   });
+  test("should respond with a 400 status code when try to modify slogan with bad id format", async () => {
+    const res = await request
+      .patch(`${baseUrl}/slogan/1234}`)
+      .set(commonHeaders)
+      .send(slogan);
+    expect(res.statusCode).toBe(HttpStatus.BAD_REQUEST);
+  });
+  test("should respond with a 400 status code when try to modify slogan without any body param", async () => {
+    const res = await request
+      .patch(`${baseUrl}/slogan/${fakeId}`)
+      .set(commonHeaders)
+      .send(emptySlogan);
+    expect(res.statusCode).toBe(HttpStatus.BAD_REQUEST);
+  });
   test("should respond with a 404 status code when try to get all slogans but don't exists anyone", async () => {
     const res = await request
       .get(`${baseUrl}/slogan`)
@@ -109,5 +125,50 @@ describe("Slogan tests", () => {
       .set(commonHeaders)
       .send();
     expect(res.statusCode).toBe(HttpStatus.NOT_FOUND);
+  });
+  test("should respond with a 201 status code when create slogan successfully", async () => {
+    const res = await request
+      .post(`${baseUrl}/slogan`)
+      .set(commonHeaders)
+      .send(slogan);
+    generatedId = res?.body?.generatedId ?? "";
+    expect(generatedId).not.toBe("");
+    expect(res.statusCode).toBe(HttpStatus.CREATED);
+  });
+  test("should respond with a 409 status code when create slogan but already exists one", async () => {
+    const res = await request
+      .post(`${baseUrl}/slogan`)
+      .set(commonHeaders)
+      .send(slogan);
+    expect(res.statusCode).toBe(HttpStatus.CONFLICT);
+  });
+  test("should respond with a 200 status code when get slogans", async () => {
+    const res = await request
+      .get(`${baseUrl}/slogan`)
+      .set(commonHeaders)
+      .send();
+    expect(res.statusCode).toBe(HttpStatus.OK);
+  });
+  test("should respond with a 200 status code when get slogan", async () => {
+    const res = await request
+      .get(`${baseUrl}/slogan/${generatedId}`)
+      .set(commonHeaders)
+      .send();
+    expect(res.statusCode).toBe(HttpStatus.OK);
+  });
+  test("should respond with a 200 status code when modify slogan", async () => {
+    slogan.setTitle("Slogan title modified");
+    const res = await request
+      .patch(`${baseUrl}/slogan/${generatedId}`)
+      .set(commonHeaders)
+      .send(slogan);
+    expect(res).toBe(HttpStatus.OK);
+  });
+  test("should respond with a 204 status code when delete slogan", async () => {
+    const res = await request
+      .delete(`${baseUrl}/slogan/${generatedId}`)
+      .set(commonHeaders)
+      .send();
+    expect(res.statusCode).toBe(HttpStatus.NO_CONTENT);
   });
 });
