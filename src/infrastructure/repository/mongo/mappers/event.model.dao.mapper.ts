@@ -1,7 +1,7 @@
 import { EventDao } from "../models/event.dao";
 import { Event } from "../../../../application/domain/event";
 
-export class EventModelMapper {
+export class EventModelDaoMapper {
   toEvent(eventModel: EventDao): Event {
     const event: Event = new Event();
     event.setId(eventModel?._id ?? "");

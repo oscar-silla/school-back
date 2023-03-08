@@ -2,14 +2,14 @@ import { Event } from "../../../../application/domain/event";
 import { GeneratedId } from "../../../../application/domain/generated-id";
 import { EventRepositoryPort } from "../../../../application/ports/out/event.repository.port";
 import { EventsCollection } from "../collections/events.collection";
-import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
+import { GeneratedIdDaoMapper } from "../mappers/generated-id.dao.mapper";
 import { EventDao } from "../models/event.dao";
-import { EventModelMapper } from "../mappers/event.model.mapper";
+import { EventModelDaoMapper } from "../mappers/event.model.dao.mapper";
 
 export class EventRepositoryAdapter implements EventRepositoryPort {
   private eventsCollection = new EventsCollection();
-  private eventModelMapper = new EventModelMapper();
-  private generatedIdModelMapper = new GeneratedIdModelMapper();
+  private eventModelMapper = new EventModelDaoMapper();
+  private generatedIdModelMapper = new GeneratedIdDaoMapper();
 
   async save(event: Event): Promise<GeneratedId> {
     const response = await this.eventsCollection.save(event);
