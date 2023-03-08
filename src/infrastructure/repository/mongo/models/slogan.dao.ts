@@ -1,24 +1,10 @@
-export class Slogan {
+export class SloganDao {
   private id?: string;
-  private title?: string;
-  private description?: string;
-  private img?: string;
+  private title!: string;
+  private description!: string;
+  private img!: string;
   private textButton?: string;
   private url?: string;
-
-  constructor(
-    title?: string,
-    description?: string,
-    img?: string,
-    textButton?: string,
-    url?: string
-  ) {
-    this.title = title ? title : "";
-    this.description = description ? description : "";
-    this.img = img ? img : "";
-    this.textButton = textButton ? textButton : "";
-    this.url = url ? url : "";
-  }
 
   getId() {
     return this.id;
@@ -41,6 +27,7 @@ export class Slogan {
   setId(id: string) {
     this.id = id;
   }
+
   setTitle(title: string) {
     this.title = title;
   }
