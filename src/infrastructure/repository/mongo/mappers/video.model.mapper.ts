@@ -1,8 +1,8 @@
 import { Video } from "../../../../application/domain/video";
-import { VideoModel } from "../models/video.model";
+import { VideoDao } from "../models/video.dao";
 
 export class VideoMapperModel {
-  toVideo(videoModel: VideoModel): Video {
+  toVideo(videoModel: VideoDao): Video {
     const video = new Video();
     video.setId(videoModel?._id);
     video.setRef(videoModel?.ref);

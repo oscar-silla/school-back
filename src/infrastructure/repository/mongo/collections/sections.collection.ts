@@ -1,16 +1,16 @@
 import { Section } from "../../../../application/domain/section";
-import { SectionModel } from "../models/section.model";
+import { SectionDao } from "../models/section.dao";
 
 export class SectionsCollection {
   async save(section: Section): Promise<void> {
     const { mongo } = global.database;
     return await mongo.collection("sections").insertOne(section);
   }
-  async find(): Promise<SectionModel[]> {
+  async find(): Promise<SectionDao[]> {
     const { mongo } = global.database;
     return await mongo.collection("sections").find({}).toArray();
   }
-  async findOne(ref: string): Promise<SectionModel> {
+  async findOne(ref: string): Promise<SectionDao> {
     const { mongo } = global.database;
     return await mongo.collection("sections").findOne({ ref });
   }

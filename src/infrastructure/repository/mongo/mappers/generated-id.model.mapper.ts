@@ -1,8 +1,8 @@
 import { GeneratedId } from "../../../../application/domain/generated-id";
-import { GeneratedIdModel } from "../models/generated-id.model";
+import { GeneratedIdDao } from "../models/generated-id.dao";
 
 export class GeneratedIdModelMapper {
-  toGeneratedId(generatedId: GeneratedIdModel): GeneratedId {
+  toGeneratedId(generatedId: GeneratedIdDao): GeneratedId {
     return new GeneratedId(generatedId?.insertedId?.toString());
   }
 }

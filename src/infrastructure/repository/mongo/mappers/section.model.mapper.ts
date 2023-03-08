@@ -1,13 +1,13 @@
 import { Section } from "../../../../application/domain/section";
-import { SectionModel } from "../models/section.model";
+import { SectionDao } from "../models/section.dao";
 
 export class SectionModelMapper {
-  toSection(sectionModel: SectionModel): Section {
+  toSection(sectionModel: SectionDao): Section {
     const { title, description, img, ref } = sectionModel ?? {};
     return new Section(title ?? "", description ?? "", img ?? "", ref ?? "");
   }
 
-  toSections(sectionModels: SectionModel[]): Section[] {
+  toSections(sectionModels: SectionDao[]): Section[] {
     return sectionModels.map((sectionModel) => this.toSection(sectionModel));
   }
 }

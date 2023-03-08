@@ -4,7 +4,7 @@ import { VideoRepositoryPort } from "../../../../application/ports/out/video.rep
 import { VideosCollection } from "../collections/videos.collection";
 import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
 import { VideoMapperModel } from "../mappers/video.model.mapper";
-import { VideoModel } from "../models/video.model";
+import { VideoDao } from "../models/video.dao";
 
 export class VideoRepositoryAdapter implements VideoRepositoryPort {
   private videosCollection = new VideosCollection();
@@ -17,12 +17,12 @@ export class VideoRepositoryAdapter implements VideoRepositoryPort {
   }
 
   async getOneByRef(ref: string): Promise<Video> {
-    const response: VideoModel = await this.videosCollection.getOneByRef(ref);
+    const response: VideoDao = await this.videosCollection.getOneByRef(ref);
     return this.videoModelMapper.toVideo(response);
   }
 
   async getOneById(id: string): Promise<Video> {
-    const response: VideoModel = await this.videosCollection.getOneById(id);
+    const response: VideoDao = await this.videosCollection.getOneById(id);
     return this.videoModelMapper.toVideo(response);
   }
 

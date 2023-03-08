@@ -1,24 +1,24 @@
 import { Event } from "../../../../application/domain/event";
-import { GeneratedIdModel } from "../models/generated-id.model";
-import { EventModel } from "../models/EventModel";
+import { GeneratedIdDao } from "../models/generated-id.dao";
+import { EventDao } from "../models/event.dao";
 
 export class EventsCollection {
-  async save(event: Event): Promise<GeneratedIdModel> {
+  async save(event: Event): Promise<GeneratedIdDao> {
     const { mongo } = global.database;
     return await mongo.collection("events").insertOne(event);
   }
 
-  async findOneById(id: string): Promise<EventModel> {
+  async findOneById(id: string): Promise<EventDao> {
     const { ObjectId, mongo } = global.database;
     return await mongo.collection("events").findOne({ _id: ObjectId(id) });
   }
 
-  async findOneByTitle(title: string): Promise<EventModel> {
+  async findOneByTitle(title: string): Promise<EventDao> {
     const { mongo } = global.database;
     return await mongo.collection("events").findOne({ title });
   }
 
-  async find(limit: number, page: number): Promise<EventModel[]> {
+  async find(limit: number, page: number): Promise<EventDao[]> {
     const { mongo } = global.database;
     return await mongo
       .collection("events")

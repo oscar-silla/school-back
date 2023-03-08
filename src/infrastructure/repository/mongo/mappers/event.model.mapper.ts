@@ -1,8 +1,8 @@
-import { EventModel } from "../models/EventModel";
+import { EventDao } from "../models/event.dao";
 import { Event } from "../../../../application/domain/event";
 
 export class EventModelMapper {
-  toEvent(eventModel: EventModel): Event {
+  toEvent(eventModel: EventDao): Event {
     const event: Event = new Event();
     event.setId(eventModel?._id ?? "");
     event.setTitle(eventModel?.title ?? "");
@@ -12,7 +12,7 @@ export class EventModelMapper {
     return event;
   }
 
-  toEvents(eventModels: EventModel[]): Event[] {
+  toEvents(eventModels: EventDao[]): Event[] {
     return eventModels.map((eventModel) => this.toEvent(eventModel));
   }
 }

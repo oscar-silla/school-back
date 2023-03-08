@@ -3,7 +3,7 @@ import { GeneratedId } from "../../../../application/domain/generated-id";
 import { EventRepositoryPort } from "../../../../application/ports/out/event.repository.port";
 import { EventsCollection } from "../collections/events.collection";
 import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
-import { EventModel } from "../models/EventModel";
+import { EventDao } from "../models/event.dao";
 import { EventModelMapper } from "../mappers/event.model.mapper";
 
 export class EventRepositoryAdapter implements EventRepositoryPort {
@@ -17,22 +17,19 @@ export class EventRepositoryAdapter implements EventRepositoryPort {
   }
 
   async findOneById(id: string): Promise<Event> {
-    const response: EventModel = await this.eventsCollection.findOneById(id);
+    const response: EventDao = await this.eventsCollection.findOneById(id);
     return this.eventModelMapper.toEvent(response);
   }
 
   async findOneByTitle(title: string): Promise<Event> {
-    const response: EventModel = await this.eventsCollection.findOneByTitle(
+    const response: EventDao = await this.eventsCollection.findOneByTitle(
       title
     );
     return this.eventModelMapper.toEvent(response);
   }
 
   async find(limit: number, page: number): Promise<Event[]> {
-    const response: EventModel[] = await this.eventsCollection.find(
-      limit,
-      page
-    );
+    const response: EventDao[] = await this.eventsCollection.find(limit, page);
     return this.eventModelMapper.toEvents(response);
   }
 
