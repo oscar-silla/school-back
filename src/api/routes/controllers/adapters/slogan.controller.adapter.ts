@@ -11,11 +11,14 @@ import { HttpStatus } from "../../../../application/domain/http-status";
 import { SloganResponse } from "../../../../../external-libraries/openapi/models/SloganResponse";
 import { GetSlogansUseCase } from "../../../../application/usecases/slogan/get-slogans.usecase";
 import { GetSlogansUseCasePort } from "../../../../application/ports/in/usecases/slogan/get-slogans.usecase.port";
+import { GetSloganUseCase } from "../../../../application/usecases/slogan/get-slogan.usecase";
+import { GetSloganUseCasePort } from "../../../../application/ports/in/usecases/slogan/get-slogan.usecase.port";
 
 const router = express.Router();
 
 const saveSloganUseCase: SaveSloganUseCasePort = new SaveSloganUseCase();
 const getSlogansUseCase: GetSlogansUseCasePort = new GetSlogansUseCase();
+const getSloganUseCase: GetSloganUseCasePort = new GetSloganUseCase();
 
 const sloganControllerMapper: SloganControllerMapper =
   new SloganControllerMapper();
@@ -42,11 +45,33 @@ router.post(
 
 router.get(
   "/",
-  async (req: Request, res: Response<SloganResponse[]>, next: NextFunction) => {
+  async (
+    _req: Request,
+    res: Response<SloganResponse[]>,
+    next: NextFunction
+  ) => {
     try {
       const slogans: Slogan[] = await getSlogansUseCase.execute();
       const sloganResponse: SloganResponse[] =
         sloganControllerMapper.toSlogansResponse(slogans);
+      res.status(HttpStatus.OK).json(sloganResponse);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.get(
+  "/:id",
+  async (
+    req: Request<any, any, string, any>,
+    res: Response<SloganResponse>,
+    next: NextFunction
+  ) => {
+    try {
+      const slogan: Slogan = await getSloganUseCase.execute(req?.params?.id);
+      const sloganResponse: SloganResponse =
+        sloganControllerMapper.toSloganResponse(slogan);
       res.status(HttpStatus.OK).json(sloganResponse);
     } catch (err) {
       next(err);

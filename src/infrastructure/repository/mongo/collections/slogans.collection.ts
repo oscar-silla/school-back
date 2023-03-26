@@ -10,4 +10,8 @@ export class SlogansCollection {
     const { mongo } = global.database;
     return await mongo.collection("slogans").find({}).toArray();
   }
+  async findById(id: string): Promise<SloganDao> {
+    const { ObjectId, mongo } = global.database;
+    return await mongo.collection("slogans").find({ _id: ObjectId(id) });
+  }
 }
