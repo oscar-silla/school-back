@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   title: School API
   description: School API
-  version: 1.0.6
+  version: 1.0.7
   contact:
     email: orscarsilla@outlook.com
 tags:
@@ -17,7 +17,9 @@ tags:
   - name: Last news
     description: Manage last news from school web page
   - name: Events
-    description: Manage events form school web page
+    description: Manage events from school web page
+  - name: Slogan
+    description: Manage slogan from school web page
 consumes:
   - application/json
 produces:
@@ -563,7 +565,192 @@ paths:
           description: Not found.
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /slogan:
+    get:
+      tags:
+        - "Slogan"
+      summary: "Get slogans"
+      description: "Get all slogans"
+      operationId: "getSlogans"
+      responses:
+        '200':
+          description: Ok.
+          schema:
+            $ref: "#/definitions/SlogansResponse"
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '401':
+          description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      tags:
+        - "Slogan"
+      summary: "Create slogan"
+      description: "Create new slogan"
+      operationId: "createSlogan"
+      parameters:
+        - $ref: "#/parameters/sloganBodyParam"
+      responses:
+        '201':
+          description: Created successfully.
+          schema:
+            $ref: "#/definitions/GeneratedIdResponse"
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '401':
+          description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /slogan/{id}:
+    get:
+      tags:
+        - "Slogan"
+      summary: "Get slogan"
+      description: "Get slogan by id"
+      operationId: "getSlogan"
+      parameters:
+        - $ref: "#/parameters/idParam"
+      responses:
+        '200':
+          description: Ok.
+          schema:
+            $ref: "#/definitions/SloganResponse"
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '401':
+          description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    patch:
+      tags:
+        - "Slogan"
+      summary: "Modify slogan"
+      description: "Modify slogan by id"
+      operationId: "modifySlogan"
+      parameters:
+        - $ref: "#/parameters/idParam"
+        - $ref: "#/parameters/sloganBodyParam"
+      responses:
+        '200':
+          description: Ok.
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '401':
+          description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    delete:
+      tags:
+        - "Slogan"
+      summary: "Delete slogan"
+      description: "Delete slogan by id"
+      operationId: "deleteSlogan"
+      parameters:
+        - $ref: "#/parameters/idParam"
+      responses:
+        '204':
+          description: No content.
+        '400':
+          description: Bad request.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '401':
+          description: Unauthorized.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        '404':
+          description: Not found.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
 definitions:
+  SlogansResponse:
+    type: array
+    items:
+      $ref: "#/definitions/SloganResponse"
+  SloganResponse:
+    type: object
+    required:
+      - "id"
+      - "title"
+      - "description"
+      - "img"
+    properties:
+      id:
+        type: string
+        format: string
+        example: "507f191e810c19729de860ea"
+      title:
+        type: string
+        format: string
+        example: "Slogan"
+      description:
+        type: string
+        format: string
+        example: "Slogan description"
+      img:
+        type: string
+        format: string
+        example: "slogan.png"
+      textButton:
+        type: string
+        format: string
+        example: "KNOW MORE"
+      url:
+        type: string
+        format: string
+        example: "http://localhost/home"
+  SloganBody:
+    type: object
+    required:
+      - "title"
+      - "description"
+      - "img"
+    properties:
+      title:
+        type: string
+        format: string
+        example: "Slogan"
+      description:
+        type: string
+        format: string
+        example: "Slogan description"
+      img:
+        type: string
+        format: string
+        example: "slogan.png"
+      textButton:
+        type: string
+        format: string
+        example: "KNOW MORE"
+      url:
+        type: string
+        format: string
+        example: "http://localhost/home"
   EventBody:
     type: object
     required:
@@ -938,3 +1125,10 @@ parameters:
     in: query
     type: string
     format: string
+  sloganBodyParam:
+    name: "body"
+    description: "Slogan body param"
+    in: body
+    required: true
+    schema:
+      $ref: "#/definitions/SloganBody"

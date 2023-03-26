@@ -1,8 +1,8 @@
 import { LastNew } from "../../../../application/domain/last-new";
-import { LastNewModel } from "../models/last-new.model";
+import { LastNewDao } from "../models/last-new.dao";
 
 export class LastNewMapperModel {
-  toLastNew(lastNewModel: LastNewModel): LastNew {
+  toLastNew(lastNewModel: LastNewDao): LastNew {
     const lastNew: LastNew = new LastNew();
     lastNew.setId(lastNewModel?._id ?? "");
     lastNew.setTitle(lastNewModel?.title ?? "");
@@ -12,8 +12,8 @@ export class LastNewMapperModel {
     return lastNew;
   }
 
-  toLastNews(lastNewModels: LastNewModel[]): LastNew[] {
-    return lastNewModels.map((lastNewModel: LastNewModel) =>
+  toLastNews(lastNewModels: LastNewDao[]): LastNew[] {
+    return lastNewModels.map((lastNewModel: LastNewDao) =>
       this.toLastNew(lastNewModel)
     );
   }

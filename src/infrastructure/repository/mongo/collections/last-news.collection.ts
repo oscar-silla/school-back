@@ -1,14 +1,14 @@
 import { LastNew } from "../../../../application/domain/last-new";
-import { GeneratedIdModel } from "../models/generated-id.model";
-import { LastNewModel } from "../models/last-new.model";
+import { GeneratedIdDao } from "../models/generated-id.dao";
+import { LastNewDao } from "../models/last-new.dao";
 
 export class LastNewsCollection {
-  async save(lastNew: LastNew): Promise<GeneratedIdModel> {
+  async save(lastNew: LastNew): Promise<GeneratedIdDao> {
     const { mongo } = global.database;
     return await mongo.collection("last_news").insertOne(lastNew);
   }
 
-  async find(limit: number, page: number): Promise<LastNewModel[]> {
+  async find(limit: number, page: number): Promise<LastNewDao[]> {
     const { mongo } = global.database;
     return await mongo
       .collection("last_news")
@@ -18,7 +18,7 @@ export class LastNewsCollection {
       .toArray();
   }
 
-  async findOne(id: string): Promise<LastNewModel> {
+  async findOne(id: string): Promise<LastNewDao> {
     const { ObjectId, mongo } = global.database;
     return await mongo.collection("last_news").findOne({ _id: ObjectId(id) });
   }

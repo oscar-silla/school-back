@@ -1,5 +1,5 @@
 import { User } from "../../../../application/domain/user";
-import { UserModel } from "../models/user.model";
+import { UserDao } from "../models/user.dao";
 
 export class UsersCollection {
   async save(user: User) {
@@ -14,7 +14,7 @@ export class UsersCollection {
     const { mongo } = global.database;
     return await mongo.collection("users").findOne({ email });
   }
-  async find(): Promise<UserModel[]> {
+  async find(): Promise<UserDao[]> {
     const { mongo } = global.database;
     return await mongo.collection("users").find().toArray();
   }

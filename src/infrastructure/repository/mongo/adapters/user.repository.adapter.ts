@@ -2,14 +2,14 @@ import { GeneratedId } from "../../../../application/domain/generated-id";
 import { User } from "../../../../application/domain/user";
 import { UserRepositoryPort } from "../../../../application/ports/out/user.repository.port";
 import { UsersCollection } from "../collections/users.collection";
-import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
-import { UserMapperModel } from "../mappers/user.model.mapper";
-import { UserModel } from "../models/user.model";
+import { GeneratedIdDaoMapper } from "../mappers/generated-id.dao.mapper";
+import { UserMapperModel } from "../mappers/user.dao.mapper";
+import { UserDao } from "../models/user.dao";
 
 export class UserRepositoryAdapter implements UserRepositoryPort {
   private usersCollection = new UsersCollection();
 
-  private generatedIdModelMapper = new GeneratedIdModelMapper();
+  private generatedIdModelMapper = new GeneratedIdDaoMapper();
   private userModelMapper = new UserMapperModel();
 
   async save(user: User): Promise<GeneratedId> {
@@ -18,19 +18,17 @@ export class UserRepositoryAdapter implements UserRepositoryPort {
   }
 
   async find(): Promise<User[]> {
-    const response: UserModel[] = await this.usersCollection.find();
+    const response: UserDao[] = await this.usersCollection.find();
     return this.userModelMapper.toUsers(response);
   }
 
   async findOneById(id: string): Promise<User> {
-    const response: UserModel = await this.usersCollection.findOneById(id);
+    const response: UserDao = await this.usersCollection.findOneById(id);
     return this.userModelMapper.toUser(response);
   }
 
   async findOneByEmail(email: string): Promise<User> {
-    const response: UserModel = await this.usersCollection.findOneByEmail(
-      email
-    );
+    const response: UserDao = await this.usersCollection.findOneByEmail(email);
     return this.userModelMapper.toUser(response);
   }
 

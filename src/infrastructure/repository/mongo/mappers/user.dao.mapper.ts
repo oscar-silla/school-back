@@ -1,8 +1,8 @@
 import { User } from "../../../../application/domain/user";
-import { UserModel } from "../models/user.model";
+import { UserDao } from "../models/user.dao";
 
 export class UserMapperModel {
-  toUser(userModel: UserModel): User {
+  toUser(userModel: UserDao): User {
     const user: User = new User();
     user.setId(userModel?._id ? userModel._id : "");
     user.setUsername(userModel?.username ? userModel.username : "");
@@ -13,7 +13,7 @@ export class UserMapperModel {
     user.setAvatar(userModel?.avatar ? userModel.avatar : "");
     return user;
   }
-  toUsers(userModels: UserModel[]): User[] {
+  toUsers(userModels: UserDao[]): User[] {
     return userModels.map((userModel) => this.toUser(userModel));
   }
 }

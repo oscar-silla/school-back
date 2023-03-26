@@ -1,4 +1,4 @@
-export interface UserModel {
+export interface UserDao {
   _id?: string;
   username?: string;
   password?: string;
