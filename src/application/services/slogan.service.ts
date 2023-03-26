@@ -7,7 +7,11 @@ import { SloganRepositoryAdapter } from "../../infrastructure/repository/mongo/a
 export class SloganService implements SloganServicePort {
   private sloganRepository: SloganRepositoryPort =
     new SloganRepositoryAdapter();
+
   async save(slogan: Slogan): Promise<GeneratedId> {
     return await this.sloganRepository.save(slogan);
+  }
+  async findAll(): Promise<Slogan[]> {
+    return await this.sloganRepository.findAll();
   }
 }

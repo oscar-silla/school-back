@@ -6,4 +6,8 @@ export class SlogansCollection {
     const { mongo } = global.database;
     return await mongo.collection("slogans").insertOne(sloganDao);
   }
+  async findAll(): Promise<SloganDao[]> {
+    const { mongo } = global.database;
+    return await mongo.collection("slogans").find({}).toArray();
+  }
 }
