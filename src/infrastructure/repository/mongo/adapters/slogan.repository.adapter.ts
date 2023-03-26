@@ -24,4 +24,8 @@ export class SloganRepositoryAdapter implements SloganRepositoryPort {
     const response: SloganDao[] = await this.slogansCollection.findAll();
     return this.sloganDaoMapper.toSlogans(response);
   }
+  async findById(id: string): Promise<Slogan> {
+    const response: SloganDao = await this.slogansCollection.findById(id);
+    return this.sloganDaoMapper.toSlogan(response);
+  }
 }
