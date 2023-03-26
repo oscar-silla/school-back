@@ -22,6 +22,6 @@ export class GetSloganUseCase implements GetSloganUseCasePort {
 
   async execute(id: string): Promise<Slogan> {
     this.checkPathParams(id);
-    return await this.sloganService.findById(id);
+    return await this.sloganService.findSloganById(id);
   }
 }

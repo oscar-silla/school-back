@@ -28,4 +28,8 @@ export class SloganRepositoryAdapter implements SloganRepositoryPort {
     const response: SloganDao = await this.slogansCollection.findById(id);
     return this.sloganDaoMapper.toSlogan(response);
   }
+  async modifyOneById(id: string, slogan: Slogan): Promise<void> {
+    const sloganDao: SloganDao = this.sloganDaoMapper.toSloganDao(slogan);
+    await this.slogansCollection.modifyOneById(id, sloganDao);
+  }
 }

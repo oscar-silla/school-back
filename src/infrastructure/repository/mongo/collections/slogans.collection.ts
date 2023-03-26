@@ -14,4 +14,10 @@ export class SlogansCollection {
     const { ObjectId, mongo } = global.database;
     return await mongo.collection("slogans").find({ _id: ObjectId(id) });
   }
+  async modifyOneById(id: string, slogan: SloganDao): Promise<void> {
+    const { ObjectId, mongo } = global.database;
+    return await mongo
+      .collection("slogans")
+      .updateOne({ _id: ObjectId(id) }, { $set: slogan });
+  }
 }

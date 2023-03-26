@@ -11,21 +11,43 @@ export class SloganService implements SloganServicePort {
   private sloganRepository: SloganRepositoryPort =
     new SloganRepositoryAdapter();
 
-  async save(slogan: Slogan): Promise<GeneratedId> {
+  async createSlogan(slogan: Slogan): Promise<GeneratedId> {
     return await this.sloganRepository.save(slogan);
   }
-  async findAll(): Promise<Slogan[]> {
+
+  async findSlogans(): Promise<Slogan[]> {
     return await this.sloganRepository.findAll();
   }
-  async findById(id: string): Promise<Slogan> {
+
+  async findSloganById(id: string): Promise<Slogan> {
     const slogan: Slogan = await this.sloganRepository.findById(id);
     this.checkIfSloganIsPresent(slogan);
     return slogan;
+  }
+
+  async modifySloganById(id: string, newSlogan: Slogan): Promise<void> {
+    const currentSlogan: Slogan = await this.findSloganById(id);
+    const slogan: Slogan = this.buildSloganToModify(newSlogan, currentSlogan);
+    this.sloganRepository.modifyOneById(id, slogan);
   }
 
   private checkIfSloganIsPresent(slogan: Slogan) {
     if (!slogan.getId()) {
       throw new CustomError(HttpMessage.NOT_FOUND, HttpStatus.NOT_FOUND, {});
     }
+  }
+
+  private buildSloganToModify(newSlogan: Slogan, currentSlogan: Slogan) {
+    return new Slogan(
+      newSlogan?.getTitle() ? newSlogan.getTitle() : currentSlogan?.getTitle(),
+      newSlogan?.getDescription()
+        ? newSlogan.getDescription()
+        : currentSlogan?.getDescription(),
+      newSlogan?.getImg() ? newSlogan.getImg() : currentSlogan?.getImg(),
+      newSlogan?.getTextButton()
+        ? newSlogan.getTextButton()
+        : currentSlogan?.getTextButton(),
+      newSlogan?.getUrl() ? newSlogan.getUrl() : currentSlogan?.getUrl()
+    );
   }
 }

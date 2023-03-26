@@ -13,12 +13,19 @@ import { GetSlogansUseCase } from "../../../../application/usecases/slogan/get-s
 import { GetSlogansUseCasePort } from "../../../../application/ports/in/usecases/slogan/get-slogans.usecase.port";
 import { GetSloganUseCase } from "../../../../application/usecases/slogan/get-slogan.usecase";
 import { GetSloganUseCasePort } from "../../../../application/ports/in/usecases/slogan/get-slogan.usecase.port";
+import { ModifySloganUseCasePort } from "../../../../application/ports/in/usecases/slogan/modify-slogan.usecase.port";
+import { ModifySloganUseCase } from "../../../../application/usecases/slogan/modify-slogan.usecase";
 
 const router = express.Router();
+
+type idParamType = {
+  id: string;
+};
 
 const saveSloganUseCase: SaveSloganUseCasePort = new SaveSloganUseCase();
 const getSlogansUseCase: GetSlogansUseCasePort = new GetSlogansUseCase();
 const getSloganUseCase: GetSloganUseCasePort = new GetSloganUseCase();
+const modifySloganUseCase: ModifySloganUseCasePort = new ModifySloganUseCase();
 
 const sloganControllerMapper: SloganControllerMapper =
   new SloganControllerMapper();
@@ -64,7 +71,7 @@ router.get(
 router.get(
   "/:id",
   async (
-    req: Request<any, any, string, any>,
+    req: Request<any, any, idParamType, any>,
     res: Response<SloganResponse>,
     next: NextFunction
   ) => {
@@ -73,6 +80,24 @@ router.get(
       const sloganResponse: SloganResponse =
         sloganControllerMapper.toSloganResponse(slogan);
       res.status(HttpStatus.OK).json(sloganResponse);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.put(
+  "/:id",
+  async (
+    req: Request<idParamType, any, SloganBody, any>,
+    res: Response<void>,
+    next: NextFunction
+  ) => {
+    try {
+      const slogan: Slogan = sloganControllerMapper.toSlogan(req?.body);
+      const id: string = req?.params?.id;
+      modifySloganUseCase.execute(id, slogan);
+      res.status(HttpStatus.OK).send();
     } catch (err) {
       next(err);
     }

@@ -7,6 +7,6 @@ export class GetSlogansUseCase implements GetSlogansUseCasePort {
   private sloganService: SloganServicePort = new SloganService();
 
   async execute(): Promise<Slogan[]> {
-    return await this.sloganService.findAll();
+    return await this.sloganService.findSlogans();
   }
 }
