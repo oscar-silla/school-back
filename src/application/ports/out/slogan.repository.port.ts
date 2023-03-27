@@ -6,4 +6,5 @@ export interface SloganRepositoryPort {
   findAll(): Promise<Slogan[]>;
   findById(id: string): Promise<Slogan>;
   modifyOneById(id: string, slogan: Slogan): Promise<void>;
+  deleteOneById(id: string): Promise<void>;
 }

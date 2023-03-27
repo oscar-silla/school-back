@@ -31,6 +31,11 @@ export class SloganService implements SloganServicePort {
     this.sloganRepository.modifyOneById(id, slogan);
   }
 
+  async deleteSloganById(id: string): Promise<void> {
+    await this.findSloganById(id);
+    await this.sloganRepository.deleteOneById(id);
+  }
+
   private checkIfSloganIsPresent(slogan: Slogan) {
     if (!slogan.getId()) {
       throw new CustomError(HttpMessage.NOT_FOUND, HttpStatus.NOT_FOUND, {});

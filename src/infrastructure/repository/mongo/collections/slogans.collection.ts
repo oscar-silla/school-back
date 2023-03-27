@@ -16,8 +16,12 @@ export class SlogansCollection {
   }
   async modifyOneById(id: string, slogan: SloganDao): Promise<void> {
     const { ObjectId, mongo } = global.database;
-    return await mongo
+    await mongo
       .collection("slogans")
       .updateOne({ _id: ObjectId(id) }, { $set: slogan });
+  }
+  async deleteOneById(id: string): Promise<void> {
+    const { ObjectId, mongo } = global.database;
+    await mongo.collection("slogans").deleteOne({ _id: ObjectId(id) });
   }
 }

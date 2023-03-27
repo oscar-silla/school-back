@@ -32,4 +32,7 @@ export class SloganRepositoryAdapter implements SloganRepositoryPort {
     const sloganDao: SloganDao = this.sloganDaoMapper.toSloganDao(slogan);
     await this.slogansCollection.modifyOneById(id, sloganDao);
   }
+  async deleteOneById(id: string): Promise<void> {
+    await this.slogansCollection.deleteOneById(id);
+  }
 }

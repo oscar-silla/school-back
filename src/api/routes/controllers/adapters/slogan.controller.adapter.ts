@@ -15,6 +15,8 @@ import { GetSloganUseCase } from "../../../../application/usecases/slogan/get-sl
 import { GetSloganUseCasePort } from "../../../../application/ports/in/usecases/slogan/get-slogan.usecase.port";
 import { ModifySloganUseCasePort } from "../../../../application/ports/in/usecases/slogan/modify-slogan.usecase.port";
 import { ModifySloganUseCase } from "../../../../application/usecases/slogan/modify-slogan.usecase";
+import { DeleteSloganUseCasePort } from "../../../../application/ports/in/usecases/slogan/delete-slogan.usecase.port";
+import { DeleteSloganUseCase } from "../../../../application/usecases/slogan/delete-slogan.usecase";
 
 const router = express.Router();
 
@@ -26,6 +28,7 @@ const saveSloganUseCase: SaveSloganUseCasePort = new SaveSloganUseCase();
 const getSlogansUseCase: GetSlogansUseCasePort = new GetSlogansUseCase();
 const getSloganUseCase: GetSloganUseCasePort = new GetSloganUseCase();
 const modifySloganUseCase: ModifySloganUseCasePort = new ModifySloganUseCase();
+const deleteSloganUseCase: DeleteSloganUseCasePort = new DeleteSloganUseCase();
 
 const sloganControllerMapper: SloganControllerMapper =
   new SloganControllerMapper();
@@ -98,6 +101,23 @@ router.put(
       const id: string = req?.params?.id;
       modifySloganUseCase.execute(id, slogan);
       res.status(HttpStatus.OK).send();
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.delete(
+  "/:id",
+  async (
+    req: Request<idParamType, any, any, any>,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const id: string = req?.params?.id;
+      await deleteSloganUseCase.execute(id);
+      res.status(HttpStatus.NO_CONTENT).send();
     } catch (err) {
       next(err);
     }
