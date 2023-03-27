@@ -22,6 +22,6 @@ export class SaveSloganUseCase implements SaveSloganUseCasePort {
 
   async execute(slogan: Slogan): Promise<GeneratedId> {
     this.checkBodyParams(slogan);
-    return await this.sloganService.save(slogan);
+    return await this.sloganService.createSlogan(slogan);
   }
 }
