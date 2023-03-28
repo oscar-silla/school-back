@@ -17,6 +17,7 @@ import { ModifySloganUseCasePort } from "../../../../application/ports/in/usecas
 import { ModifySloganUseCase } from "../../../../application/usecases/slogan/modify-slogan.usecase";
 import { DeleteSloganUseCasePort } from "../../../../application/ports/in/usecases/slogan/delete-slogan.usecase.port";
 import { DeleteSloganUseCase } from "../../../../application/usecases/slogan/delete-slogan.usecase";
+import { useExtract } from "../../../middlewares/use-extract";
 
 const router = express.Router();
 
@@ -36,6 +37,7 @@ const generatedIdMapper: GeneratedIdMapper = new GeneratedIdMapper();
 
 router.post(
   "/",
+  useExtract,
   async (
     req: Request<any, any, SloganBody, any>,
     res: Response<GeneratedIdResponse>,
@@ -89,8 +91,9 @@ router.get(
   }
 );
 
-router.put(
+router.patch(
   "/:id",
+  useExtract,
   async (
     req: Request<idParamType, any, SloganBody, any>,
     res: Response<void>,
@@ -109,6 +112,7 @@ router.put(
 
 router.delete(
   "/:id",
+  useExtract,
   async (
     req: Request<idParamType, any, any, any>,
     res: Response,
@@ -123,3 +127,5 @@ router.delete(
     }
   }
 );
+
+export default router;

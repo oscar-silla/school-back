@@ -36,7 +36,7 @@ describe("Slogan tests", () => {
     expect(res.statusCode).toBe(HttpStatus.UNAUTHORIZED);
   });
   test("should respond with a 401 status code when try to modify an existing slogan without token", async () => {
-    const res = await request.patch(`${baseUrl}/slogan`).send(slogan);
+    const res = await request.patch(`${baseUrl}/slogan/${fakeId}`).send(slogan);
     expect(res.statusCode).toBe(HttpStatus.UNAUTHORIZED);
   });
   test("should respond with a 401 status code when try to delete an existing slogan without token", async () => {
@@ -86,7 +86,7 @@ describe("Slogan tests", () => {
   });
   test("should respond with a 400 status code when try to modify slogan with bad id format", async () => {
     const res = await request
-      .patch(`${baseUrl}/slogan/1234}`)
+      .patch(`${baseUrl}/slogan/1234`)
       .set(commonHeaders)
       .send(slogan);
     expect(res.statusCode).toBe(HttpStatus.BAD_REQUEST);
