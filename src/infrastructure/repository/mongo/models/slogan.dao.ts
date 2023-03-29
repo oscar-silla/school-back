@@ -1,5 +1,5 @@
 export class SloganDao {
-  private id?: string;
+  private _id?: string;
   private title!: string;
   private description!: string;
   private img!: string;
@@ -7,7 +7,7 @@ export class SloganDao {
   private url?: string;
 
   getId() {
-    return this.id;
+    return this._id;
   }
   getTitle() {
     return this.title;
@@ -25,7 +25,7 @@ export class SloganDao {
     return this.url;
   }
   setId(id: string) {
-    this.id = id;
+    this._id = id;
   }
 
   setTitle(title: string) {

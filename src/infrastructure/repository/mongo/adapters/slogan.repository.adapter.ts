@@ -35,4 +35,11 @@ export class SloganRepositoryAdapter implements SloganRepositoryPort {
   async deleteOneById(id: string): Promise<void> {
     await this.slogansCollection.deleteOneById(id);
   }
+
+  async findByTitle(title: string): Promise<Slogan> {
+    const sloganDao: SloganDao = await this.slogansCollection.findByTitle(
+      title
+    );
+    return this.sloganDaoMapper.toSlogan(sloganDao);
+  }
 }
