@@ -159,10 +159,10 @@ describe("Slogan tests", () => {
   test("should respond with a 200 status code when modify slogan", async () => {
     slogan.setTitle("Slogan title modified");
     const res = await request
-      .patch(`${baseUrl}/slogan/642490b4a27055cd7eeb6736`)
+      .patch(`${baseUrl}/slogan/${generatedId}`)
       .set(commonHeaders)
       .send(slogan);
-    expect(res).toBe(HttpStatus.OK);
+    expect(res.statusCode).toBe(HttpStatus.OK);
   });
   test("should respond with a 204 status code when delete slogan", async () => {
     const res = await request
