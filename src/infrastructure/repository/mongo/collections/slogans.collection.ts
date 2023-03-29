@@ -12,7 +12,11 @@ export class SlogansCollection {
   }
   async findById(id: string): Promise<SloganDao> {
     const { ObjectId, mongo } = global.database;
-    return await mongo.collection("slogans").find({ _id: ObjectId(id) });
+    return await mongo.collection("slogans").findOne({ _id: ObjectId(id) });
+  }
+  async findByTitle(title: string) {
+    const { mongo } = global.database;
+    return await mongo.collection("slogans").findOne({ title });
   }
   async modifyOneById(id: string, slogan: SloganDao): Promise<void> {
     const { ObjectId, mongo } = global.database;

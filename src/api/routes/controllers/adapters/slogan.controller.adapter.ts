@@ -102,7 +102,7 @@ router.patch(
     try {
       const slogan: Slogan = sloganControllerMapper.toSlogan(req?.body);
       const id: string = req?.params?.id;
-      modifySloganUseCase.execute(id, slogan);
+      await modifySloganUseCase.execute(id, slogan);
       res.status(HttpStatus.OK).send();
     } catch (err) {
       next(err);

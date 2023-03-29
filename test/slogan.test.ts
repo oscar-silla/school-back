@@ -162,7 +162,7 @@ describe("Slogan tests", () => {
       .patch(`${baseUrl}/slogan/${generatedId}`)
       .set(commonHeaders)
       .send(slogan);
-    expect(res).toBe(HttpStatus.OK);
+    expect(res.statusCode).toBe(HttpStatus.OK);
   });
   test("should respond with a 204 status code when delete slogan", async () => {
     const res = await request

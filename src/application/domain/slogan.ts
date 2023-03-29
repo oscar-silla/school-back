@@ -41,7 +41,8 @@ export class Slogan {
   setId(id: string) {
     this.id = id;
   }
-  setTitle(title: string) {
+
+  setTitle(title: string | undefined) {
     this.title = title;
   }
   setDescription(description: string) {

@@ -43,6 +43,6 @@ export class ModifySloganUseCase implements ModifySloganUseCasePort {
 
   async execute(id: string, slogan: Slogan): Promise<void> {
     this.checkParams(id, slogan);
-    this.sloganService.modifySloganById(id, slogan);
+    await this.sloganService.modifySloganById(id, slogan);
   }
 }

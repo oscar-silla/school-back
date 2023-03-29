@@ -12,11 +12,14 @@ export class SloganService implements SloganServicePort {
     new SloganRepositoryAdapter();
 
   async createSlogan(slogan: Slogan): Promise<GeneratedId> {
+    await this.checkIfAlreadyExistsSlogan(slogan);
     return await this.sloganRepository.save(slogan);
   }
 
   async findSlogans(): Promise<Slogan[]> {
-    return await this.sloganRepository.findAll();
+    const slogans: Slogan[] = await this.sloganRepository.findAll();
+    this.checkSlogansSize(slogans);
+    return slogans;
   }
 
   async findSloganById(id: string): Promise<Slogan> {
@@ -28,12 +31,27 @@ export class SloganService implements SloganServicePort {
   async modifySloganById(id: string, newSlogan: Slogan): Promise<void> {
     const currentSlogan: Slogan = await this.findSloganById(id);
     const slogan: Slogan = this.buildSloganToModify(newSlogan, currentSlogan);
-    this.sloganRepository.modifyOneById(id, slogan);
+    await this.sloganRepository.modifyOneById(id, slogan);
   }
 
   async deleteSloganById(id: string): Promise<void> {
     await this.findSloganById(id);
     await this.sloganRepository.deleteOneById(id);
+  }
+
+  private async checkIfAlreadyExistsSlogan(slogan: Slogan): Promise<void> {
+    const possibleSlogan: Slogan = await this.sloganRepository.findByTitle(
+      slogan.getTitle() ?? ""
+    );
+    if (possibleSlogan.getTitle()) {
+      throw new CustomError(HttpMessage.CONFLICT, HttpStatus.CONFLICT, {});
+    }
+  }
+
+  private checkSlogansSize(slogans: Slogan[]): void {
+    if (slogans.length === 0) {
+      throw new CustomError(HttpMessage.NOT_FOUND, HttpStatus.NOT_FOUND, {});
+    }
   }
 
   private checkIfSloganIsPresent(slogan: Slogan) {
