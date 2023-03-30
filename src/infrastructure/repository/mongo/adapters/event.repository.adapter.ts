@@ -4,12 +4,12 @@ import { EventRepositoryPort } from "../../../../application/ports/out/event.rep
 import { EventsCollection } from "../collections/events.collection";
 import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
 import { EventModel } from "../models/event.model";
-import { EventModelDaoMapper } from "../mappers/event.model.dao.mapper";
+import { EventModelModelMapper } from "../mappers/event.model.model.mapper";
 import { GeneratedIdModel } from "../models/generated-id.model";
 
 export class EventRepositoryAdapter implements EventRepositoryPort {
   private eventsCollection = new EventsCollection();
-  private eventModelMapper = new EventModelDaoMapper();
+  private eventModelMapper = new EventModelModelMapper();
   private generatedIdModelMapper = new GeneratedIdModelMapper();
 
   async save(event: Event): Promise<GeneratedId> {
@@ -40,8 +40,9 @@ export class EventRepositoryAdapter implements EventRepositoryPort {
     return this.eventModelMapper.toEvents(response);
   }
 
-  async updateOne(id: string, event: Event): Promise<void> {
-    await this.eventsCollection.updateOne(id, event);
+  async updateOne(event: Event): Promise<void> {
+    const eventModel: EventModel = this.eventModelMapper.toEventModel(event);
+    await this.eventsCollection.updateOne(eventModel);
   }
 
   async deleteOne(id: string): Promise<void> {

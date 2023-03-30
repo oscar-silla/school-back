@@ -1,22 +1,26 @@
 import { EventModel } from "../models/event.model";
 import { Event } from "../../../../application/domain/event";
 
-export class EventModelDaoMapper {
+export class EventModelModelMapper {
   toEventModel(event: Event | any): EventModel {
     const eventModel: EventModel = new EventModel();
     if (event instanceof Event) {
+      event?.getTitle() && eventModel.setTitle(event.getTitle());
       eventModel.setTitle(event.getTitle());
       eventModel.setDescription(event.getDescription());
       eventModel.setImg(event.getImg());
       eventModel.setContent(eventModel.getContent() ?? "");
     } else {
-      event.setId(event._id ?? "");
-      event.setTitle(event.title ?? "");
-      event.setDescription(event.description ?? "");
-      event.setImg(event.img ?? "");
-      event.setContent(event.content ?? "");
+      eventModel.setId(event?._id ?? "");
+      eventModel.setTitle(event?.title ?? "");
+      eventModel.setDescription(event?.description ?? "");
+      eventModel.setImg(event?.img ?? "");
+      eventModel.setContent(event?.content ?? "");
     }
     return eventModel;
+  }
+  toEventModels(events: Event[] | any[]): EventModel[] {
+    return events.map((event: Event | any) => this.toEventModel(event));
   }
   toEvent(eventModel: EventModel): Event {
     const event: Event = new Event();
