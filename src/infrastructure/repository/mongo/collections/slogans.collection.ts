@@ -1,8 +1,8 @@
 import { SloganDao } from "../models/slogan.dao";
-import { GeneratedIdDao } from "../models/generated-id.dao";
+import { GeneratedIdModel } from "../models/generated-id.model";
 
 export class SlogansCollection {
-  async save(sloganDao: SloganDao): Promise<GeneratedIdDao> {
+  async save(sloganDao: SloganDao): Promise<GeneratedIdModel> {
     const { mongo } = global.database;
     return await mongo.collection("slogans").insertOne(sloganDao);
   }

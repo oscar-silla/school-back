@@ -1,9 +1,9 @@
 import { LastNew } from "../../../../application/domain/last-new";
-import { GeneratedIdDao } from "../models/generated-id.dao";
+import { GeneratedIdModel } from "../models/generated-id.model";
 import { LastNewDao } from "../models/last-new.dao";
 
 export class LastNewsCollection {
-  async save(lastNew: LastNew): Promise<GeneratedIdDao> {
+  async save(lastNew: LastNew): Promise<GeneratedIdModel> {
     const { mongo } = global.database;
     return await mongo.collection("last_news").insertOne(lastNew);
   }

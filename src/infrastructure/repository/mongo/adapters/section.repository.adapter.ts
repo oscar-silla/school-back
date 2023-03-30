@@ -1,12 +1,12 @@
 import { Section } from "../../../../application/domain/section";
 import { SectionRepositoryPort } from "../../../../application/ports/out/section.repository.port";
 import { SectionsCollection } from "../collections/sections.collection";
-import { SectionDaoMapper } from "../mappers/section.dao.mapper";
+import { SectionModelMapper } from "../mappers/section.model.mapper";
 import { SectionDao } from "../models/section.dao";
 
 export class SectionRepository implements SectionRepositoryPort {
   private sectionsCollection = new SectionsCollection();
-  private sectionModelMapper = new SectionDaoMapper();
+  private sectionModelMapper = new SectionModelMapper();
 
   async save(section: Section): Promise<void> {
     return await this.sectionsCollection.save(section);
