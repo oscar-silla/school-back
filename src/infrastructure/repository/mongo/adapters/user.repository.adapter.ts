@@ -2,14 +2,14 @@ import { GeneratedId } from "../../../../application/domain/generated-id";
 import { User } from "../../../../application/domain/user";
 import { UserRepositoryPort } from "../../../../application/ports/out/user.repository.port";
 import { UsersCollection } from "../collections/users.collection";
-import { GeneratedIdDaoMapper } from "../mappers/generated-id.dao.mapper";
-import { UserMapperModel } from "../mappers/user.dao.mapper";
+import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
+import { UserMapperModel } from "../mappers/user.model.mapper";
 import { UserDao } from "../models/user.dao";
 
 export class UserRepositoryAdapter implements UserRepositoryPort {
   private usersCollection = new UsersCollection();
 
-  private generatedIdModelMapper = new GeneratedIdDaoMapper();
+  private generatedIdModelMapper = new GeneratedIdModelMapper();
   private userModelMapper = new UserMapperModel();
 
   async save(user: User): Promise<GeneratedId> {

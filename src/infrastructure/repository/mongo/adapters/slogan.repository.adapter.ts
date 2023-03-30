@@ -1,21 +1,21 @@
 import { SloganRepositoryPort } from "../../../../application/ports/out/slogan.repository.port";
 import { Slogan } from "../../../../application/domain/slogan";
 import { GeneratedId } from "../../../../application/domain/generated-id";
-import { SloganDaoMapper } from "../mappers/slogan.dao.mapper";
+import { SloganModelMapper } from "../mappers/slogan.model.mapper";
 import { SlogansCollection } from "../collections/slogans.collection";
-import { GeneratedIdDao } from "../models/generated-id.dao";
-import { GeneratedIdDaoMapper } from "../mappers/generated-id.dao.mapper";
+import { GeneratedIdModel } from "../models/generated-id.model";
+import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
 import { SloganDao } from "../models/slogan.dao";
 
 export class SloganRepositoryAdapter implements SloganRepositoryPort {
   private slogansCollection: SlogansCollection = new SlogansCollection();
-  private sloganDaoMapper: SloganDaoMapper = new SloganDaoMapper();
-  private generatedIdDaoMapper: GeneratedIdDaoMapper =
-    new GeneratedIdDaoMapper();
+  private sloganDaoMapper: SloganModelMapper = new SloganModelMapper();
+  private generatedIdDaoMapper: GeneratedIdModelMapper =
+    new GeneratedIdModelMapper();
 
   async save(slogan: Slogan): Promise<GeneratedId> {
     const sloganDao = this.sloganDaoMapper.toSloganDao(slogan);
-    const generatedIdDao: GeneratedIdDao = await this.slogansCollection.save(
+    const generatedIdDao: GeneratedIdModel = await this.slogansCollection.save(
       sloganDao
     );
     return this.generatedIdDaoMapper.toGeneratedId(generatedIdDao);

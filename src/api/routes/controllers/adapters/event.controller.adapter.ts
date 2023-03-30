@@ -42,6 +42,7 @@ router.post(
     next: NextFunction
   ) => {
     try {
+      console.log("POST event");
       const event: Event = eventControllerMapper.toEvent(req?.body);
       const generatedId: GeneratedId = await createEventUseCase.createEvent(
         event
@@ -63,7 +64,7 @@ router.get(
     next: NextFunction
   ) => {
     try {
-      console.log("GET slogan /:id");
+      console.log("GET event /:id");
       const event: Event = await getEventUseCase.getEvent(req?.params?.id);
       const eventResponse: EventResponse =
         eventControllerMapper.toEventResponse(event);
@@ -78,6 +79,7 @@ router.get(
   "/",
   async (req: Request, res: Response<EventResponse[]>, next: NextFunction) => {
     try {
+      console.log("GET events");
       const events: Event[] = await getEventsUseCase.getEvents(
         +(req?.query?.limit ?? 0),
         +(req?.query?.page ?? 0)
@@ -100,6 +102,7 @@ router.patch(
     next: NextFunction
   ) => {
     try {
+      console.log("PATCH event /:id");
       const event: Event = eventControllerMapper.toEvent(req?.body);
       await updateEventUseCase.updateEvent(req?.params?.id, event);
       res.status(HttpStatus.OK).send();
@@ -118,6 +121,7 @@ router.delete(
     next: NextFunction
   ) => {
     try {
+      console.log("DELETE event /:id");
       await deleteEventUseCase.deleteEvent(req?.params?.id);
       res.status(HttpStatus.NO_CONTENT).send();
     } catch (err) {

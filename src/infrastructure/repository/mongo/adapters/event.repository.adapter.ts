@@ -2,39 +2,47 @@ import { Event } from "../../../../application/domain/event";
 import { GeneratedId } from "../../../../application/domain/generated-id";
 import { EventRepositoryPort } from "../../../../application/ports/out/event.repository.port";
 import { EventsCollection } from "../collections/events.collection";
-import { GeneratedIdDaoMapper } from "../mappers/generated-id.dao.mapper";
-import { EventDao } from "../models/event.dao";
-import { EventModelDaoMapper } from "../mappers/event.model.dao.mapper";
+import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
+import { EventModel } from "../models/event.model";
+import { EventModelModelMapper } from "../mappers/event.model.model.mapper";
+import { GeneratedIdModel } from "../models/generated-id.model";
 
 export class EventRepositoryAdapter implements EventRepositoryPort {
   private eventsCollection = new EventsCollection();
-  private eventModelMapper = new EventModelDaoMapper();
-  private generatedIdModelMapper = new GeneratedIdDaoMapper();
+  private eventModelMapper = new EventModelModelMapper();
+  private generatedIdModelMapper = new GeneratedIdModelMapper();
 
   async save(event: Event): Promise<GeneratedId> {
-    const response = await this.eventsCollection.save(event);
+    const eventModel: EventModel = this.eventModelMapper.toEventModel(event);
+    const response: GeneratedIdModel = await this.eventsCollection.save(
+      eventModel
+    );
     return this.generatedIdModelMapper.toGeneratedId(response);
   }
 
   async findOneById(id: string): Promise<Event> {
-    const response: EventDao = await this.eventsCollection.findOneById(id);
+    const response: EventModel = await this.eventsCollection.findOneById(id);
     return this.eventModelMapper.toEvent(response);
   }
 
   async findOneByTitle(title: string): Promise<Event> {
-    const response: EventDao = await this.eventsCollection.findOneByTitle(
+    const response: EventModel = await this.eventsCollection.findOneByTitle(
       title
     );
     return this.eventModelMapper.toEvent(response);
   }
 
   async find(limit: number, page: number): Promise<Event[]> {
-    const response: EventDao[] = await this.eventsCollection.find(limit, page);
+    const response: EventModel[] = await this.eventsCollection.find(
+      limit,
+      page
+    );
     return this.eventModelMapper.toEvents(response);
   }
 
-  async updateOne(id: string, event: Event): Promise<void> {
-    await this.eventsCollection.updateOne(id, event);
+  async updateOne(event: Event): Promise<void> {
+    const eventModel: EventModel = this.eventModelMapper.toEventModel(event);
+    await this.eventsCollection.updateOne(eventModel);
   }
 
   async deleteOne(id: string): Promise<void> {

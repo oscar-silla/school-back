@@ -1,7 +1,7 @@
 import { Section } from "../../../../application/domain/section";
 import { SectionDao } from "../models/section.dao";
 
-export class SectionDaoMapper {
+export class SectionModelMapper {
   toSection(sectionModel: SectionDao): Section {
     const { title, description, img, ref } = sectionModel ?? {};
     return new Section(title ?? "", description ?? "", img ?? "", ref ?? "");

@@ -38,8 +38,8 @@ export class EventService implements EventServicePort {
 
   async updateEvent(id: string, event: Event): Promise<void> {
     const eventToUpdate: Event = await this.getEvent(id);
-    const payload: Event = this.buildPayload(event, eventToUpdate);
-    await this.eventRepository.updateOne(id, payload);
+    const payload: Event = this.buildPayload(event, eventToUpdate, id);
+    await this.eventRepository.updateOne(payload);
   }
 
   async deleteEvent(id: string): Promise<void> {
@@ -47,14 +47,21 @@ export class EventService implements EventServicePort {
     await this.eventRepository.deleteOne(id);
   }
 
-  private buildPayload(event: Event, eventToUpdate: Event): Event {
-    return new Event(
-      event.getTitle() ? event.getTitle() : eventToUpdate.getTitle(),
+  private buildPayload(event: Event, eventToUpdate: Event, id: string): Event {
+    const payload: Event = new Event();
+    payload.setId(id);
+    payload.setTitle(
+      event.getTitle() ? event.getTitle() : eventToUpdate.getTitle()
+    );
+    payload.setDescription(
       event.getDescription()
         ? event.getDescription()
-        : eventToUpdate.getDescription(),
-      event.getImg() ? event.getImg() : eventToUpdate.getImg(),
+        : eventToUpdate.getDescription()
+    );
+    payload.setImg(event.getImg() ? event.getImg() : eventToUpdate.getImg());
+    payload.setContent(
       event.getContent() ? event.getContent() : eventToUpdate.getContent()
     );
+    return payload;
   }
 }
