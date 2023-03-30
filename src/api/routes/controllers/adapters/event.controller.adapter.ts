@@ -63,6 +63,7 @@ router.get(
     next: NextFunction
   ) => {
     try {
+      console.log("GET slogan /:id");
       const event: Event = await getEventUseCase.getEvent(req?.params?.id);
       const eventResponse: EventResponse =
         eventControllerMapper.toEventResponse(event);
