@@ -19,6 +19,9 @@ import { GeneratedIdMapper } from "../mappers/generated-id.mapper";
 import { LastNewControllerMapper } from "../mappers/last-new.controller.mapper";
 
 const router = express.Router();
+type idParam = {
+  id: string;
+};
 
 const createLastNewUseCase: CreateLastNewUseCasePort =
   new CreateLastNewUseCase();
@@ -75,18 +78,25 @@ router.get(
   }
 );
 
-router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const article: LastNew = await getLastNewUseCase.getLastNew(
-      req?.params?.id
-    );
-    const articleResponse: LastNewResponse =
-      lastNewMapper.toArticleResponse(article);
-    res.status(HttpStatus.OK).json(articleResponse);
-  } catch (err) {
-    next(err);
+router.get(
+  "/:id",
+  async (
+    req: Request<idParam, any, any, any>,
+    res: Response<LastNewResponse>,
+    next: NextFunction
+  ) => {
+    try {
+      const article: LastNew = await getLastNewUseCase.getLastNew(
+        req?.params?.id
+      );
+      const lastNewResponse: LastNewResponse =
+        lastNewMapper.toArticleResponse(article);
+      res.status(HttpStatus.OK).json(lastNewResponse);
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 router.patch(
   "/:id",
