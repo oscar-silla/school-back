@@ -9,7 +9,14 @@ import { mongo } from "../src/infrastructure/database/mongo";
 const httpServer = createServer();
 const request = agent(httpServer);
 
-const sectionMock = new Section("Home", "Home description", "home.jpg", "");
+const sectionMock = new Section("", "Home", "Home description", "home.jpg", "");
+const sectionMock_2 = new Section(
+  "",
+  "Account",
+  "Account description",
+  "account.jpg",
+  "account"
+);
 const fakeRef = "fake";
 
 const commonHeaders = {
@@ -40,57 +47,81 @@ describe("/sections", () => {
     expect(res.statusCode).toBe(HttpStatus.UNAUTHORIZED);
   });
   test("should respond with a 404 status code when not found sections", async () => {
-    const response = await request.get("/api/v1/sections").send();
-    expect(response.statusCode).toBe(HttpStatus.NOT_FOUND);
+    const res = await request.get(`${baseUrl}/sections`).send();
+    expect(res.statusCode).toBe(HttpStatus.NOT_FOUND);
   });
   test("should respond with a 404 status code when not found specific section", async () => {
-    const response = await request.get("/api/v1/sections/home").send();
-    expect(response.statusCode).toBe(HttpStatus.NOT_FOUND);
+    const res = await request.get(`${baseUrl}/sections/home`).send();
+    expect(res.statusCode).toBe(HttpStatus.NOT_FOUND);
   });
   test("should respond with a 404 status code when try to modify an inexisting section", async () => {
     sectionMock.setImg("nosection.jpg");
-    const response = await request
-      .patch("/api/v1/sections/nosection")
+    const res = await request
+      .patch(`${baseUrl}/sections/nosection`)
       .set(commonHeaders)
       .send(sectionMock);
-    expect(response.statusCode).toBe(HttpStatus.NOT_FOUND);
+    expect(res.statusCode).toBe(HttpStatus.NOT_FOUND);
     sectionMock.setImg("home.jpg");
   });
   test("should respond with a 201 status code when create a new section", async () => {
-    const response = await request
-      .post("/api/v1/sections")
+    const res = await request
+      .post(`${baseUrl}/sections`)
       .set(commonHeaders)
       .send(sectionMock);
-    expect(response.statusCode).toBe(HttpStatus.CREATED);
+    expect(res.statusCode).toBe(HttpStatus.CREATED);
   });
-  test("should response with a 200 status code when modify an existing section", async () => {
-    sectionMock.setImg("anotherImage.jpg");
-    const response = await request
-      .patch("/api/v1/sections/home")
+  test("should respond with a 409 status code when try create section with an existing ref", async () => {
+    const res = await request
+      .post(`${baseUrl}/sections`)
       .set(commonHeaders)
       .send(sectionMock);
-    expect(response.statusCode).toBe(HttpStatus.OK);
+    expect(res.statusCode).toBe(HttpStatus.CONFLICT);
+  });
+  test("should respond with a 200 status code when modify an existing section", async () => {
+    sectionMock.setImg("anotherImage.jpg");
+    const res = await request
+      .patch(`${baseUrl}/sections/home`)
+      .set(commonHeaders)
+      .send(sectionMock);
+    expect(res.statusCode).toBe(HttpStatus.OK);
+  });
+  test("should respond with a 409 status code when try to modify section ref and set an existing ref from another section", async () => {
+    const resCreation = await request
+      .post(`${baseUrl}/sections`)
+      .set(commonHeaders)
+      .send(sectionMock_2);
+    expect(resCreation.statusCode).toBe(HttpStatus.CREATED);
+    const resModify = await request
+      .patch(`${baseUrl}/sections/home`)
+      .set(commonHeaders)
+      .send(sectionMock_2);
+    expect(resModify.statusCode).toBe(HttpStatus.CONFLICT);
+    const resDelete = await request
+      .delete(`${baseUrl}/sections/account`)
+      .set(commonHeaders)
+      .send();
+    expect(resDelete.statusCode).toBe(HttpStatus.NO_CONTENT);
   });
   test("should respond with a 200 status code when find existing sections", async () => {
-    const response = await request.get("/api/v1/sections").send();
-    expect(response.statusCode).toBe(HttpStatus.OK);
+    const res = await request.get(`${baseUrl}/sections`).send();
+    expect(res.statusCode).toBe(HttpStatus.OK);
   });
   test("should respond with a 200 status code when find an existing section", async () => {
-    const response = await request.get("/api/v1/sections/home").send();
-    expect(response.statusCode).toBe(HttpStatus.OK);
+    const res = await request.get(`${baseUrl}/sections/home`).send();
+    expect(res.statusCode).toBe(HttpStatus.OK);
   });
   test("should respond with a 404 status code when try to delete an inexisting section", async () => {
-    const response = await request
-      .delete("/api/v1/sections/nosection")
+    const res = await request
+      .delete(`${baseUrl}/sections/nosection`)
       .set(commonHeaders)
       .send();
-    expect(response.statusCode).toBe(HttpStatus.NOT_FOUND);
+    expect(res.statusCode).toBe(HttpStatus.NOT_FOUND);
   });
   test("should respond with a 204 status code with delete an existing section", async () => {
-    const response = await request
-      .delete("/api/v1/sections/home")
+    const res = await request
+      .delete(`${baseUrl}/sections/home`)
       .set(commonHeaders)
       .send();
-    expect(response.statusCode).toBe(HttpStatus.NO_CONTENT);
+    expect(res.statusCode).toBe(HttpStatus.NO_CONTENT);
   });
 });

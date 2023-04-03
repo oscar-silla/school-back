@@ -1,24 +1,29 @@
-import { Section } from "../../../../application/domain/section";
-import { SectionDao } from "../models/section.dao";
+import { SectionModel } from "../models/section.model";
+import { SectionModelMapper } from "../mappers/section.model.mapper";
 
 export class SectionsCollection {
-  async save(section: Section): Promise<void> {
+  private sectionModelMapper = new SectionModelMapper();
+  async save(sectionModel: SectionModel): Promise<void> {
     const { mongo } = global.database;
-    return await mongo.collection("sections").insertOne(section);
+    await mongo.collection("sections").insertOne(sectionModel);
   }
-  async find(): Promise<SectionDao[]> {
+  async find(): Promise<SectionModel[]> {
     const { mongo } = global.database;
-    return await mongo.collection("sections").find({}).toArray();
+    return this.sectionModelMapper.toSectionModels(
+      await mongo.collection("sections").find({}).toArray()
+    );
   }
-  async findOne(ref: string): Promise<SectionDao> {
+  async findOne(ref: string): Promise<SectionModel> {
     const { mongo } = global.database;
-    return await mongo.collection("sections").findOne({ ref });
+    return this.sectionModelMapper.toSectionModel(
+      await mongo.collection("sections").findOne({ ref })
+    );
   }
-  async modifyOne(ref: string, section: Section): Promise<void> {
+  async modifyOne(sectionModel: SectionModel): Promise<void> {
     const { mongo } = global.database;
-    return await mongo
+    await mongo
       .collection("sections")
-      .updateOne({ ref }, { $set: section });
+      .updateOne({ ref: sectionModel.getRef() }, { $set: sectionModel });
   }
   async deleteOne(ref: string): Promise<void> {
     const { mongo } = global.database;
