@@ -1,4 +1,4 @@
-export class SectionDao {
+export class SectionModel {
   private _id?: string;
   private title!: string;
   private description?: string;

@@ -1,38 +1,51 @@
 export class Section {
-  private title: string;
-  private description: string;
-  private img: string;
-  private ref: string;
+  private _id?: string;
+  private title!: string;
+  private description?: string;
+  private img?: string;
+  private ref!: string;
 
-  constructor(title: string, description: string, img: string, ref: string) {
-    this.title = title;
-    this.description = description;
-    this.img = img;
-    this.ref = ref;
+  constructor(
+    _id?: string,
+    title?: string,
+    description?: string,
+    img?: string,
+    ref?: string
+  ) {
+    this._id = _id ?? "";
+    this.title = title ?? "";
+    this.description = description ?? "";
+    this.img = img ?? "";
+    this.ref = ref ?? "";
   }
-
-  getTitle() {
+  getId(): string | undefined {
+    return this._id;
+  }
+  getTitle(): string {
     return this.title;
   }
-  getDescription() {
+  getDescription(): string | undefined {
     return this.description;
   }
-  getImg() {
+  getImg(): string | undefined {
     return this.img;
   }
-  getRef() {
+  getRef(): string {
     return this.ref;
   }
-  setTitle(title: string) {
+  setId(_id: string): void {
+    this._id = _id;
+  }
+  setTitle(title: string): void {
     this.title = title;
   }
-  setDescription(description: string) {
+  setDescription(description: string): void {
     this.description = description;
   }
-  setImg(img: string) {
+  setImg(img: string): void {
     this.img = img;
   }
-  setRef(ref: string) {
+  setRef(ref: string): void {
     this.ref = ref;
   }
 }
