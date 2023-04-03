@@ -1,4 +1,4 @@
-export class LastNewDao {
+export class LastNewModel {
   private _id?: string;
   private title!: string;
   private description?: string;

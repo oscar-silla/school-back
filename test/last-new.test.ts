@@ -68,7 +68,7 @@ describe("Last new tests", () => {
       .send(emptyLastNewMock);
     expect(res.statusCode).toBe(HttpStatus.BAD_REQUEST);
   });
-  test("should respond with a 404 status code when try to get one nonexistent last new", async () => {
+  test("should respond with a 404 status code when try to get one last new that not exists", async () => {
     const res = await request.get(`${baseUrl}/lastNews/${fakeId}`).send();
     expect(res.statusCode).toBe(HttpStatus.NOT_FOUND);
   });
