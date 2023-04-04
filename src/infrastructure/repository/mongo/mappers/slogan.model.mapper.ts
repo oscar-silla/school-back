@@ -1,9 +1,9 @@
 import { Slogan } from "../../../../application/domain/slogan";
-import { SloganDao } from "../models/slogan.dao";
+import { SloganModel } from "../models/slogan.model";
 
 export class SloganModelMapper {
-  toSloganDao(slogan: Slogan): SloganDao {
-    const sloganDao: SloganDao = new SloganDao();
+  toSloganDao(slogan: Slogan): SloganModel {
+    const sloganDao: SloganModel = new SloganModel();
     sloganDao.setTitle(slogan.getTitle() ?? "");
     sloganDao.setDescription(slogan.getDescription() ?? "");
     sloganDao.setImg(slogan.getImg() ?? "");
@@ -11,9 +11,9 @@ export class SloganModelMapper {
     sloganDao.setUrl(slogan.getUrl() ?? "");
     return sloganDao;
   }
-  toSlogan(sloganDao: SloganDao | any): Slogan {
+  toSlogan(sloganDao: SloganModel | any): Slogan {
     const slogan: Slogan = new Slogan();
-    if (sloganDao instanceof SloganDao) {
+    if (sloganDao instanceof SloganModel) {
       slogan.setTitle(sloganDao?.getTitle() ?? "");
       slogan.setId(sloganDao?.getId() ?? "");
       slogan.setDescription(sloganDao?.getDescription() ?? "");
@@ -31,7 +31,7 @@ export class SloganModelMapper {
     return slogan;
   }
 
-  toSlogans(sloganDaoList: SloganDao[]): Slogan[] {
+  toSlogans(sloganDaoList: SloganModel[]): Slogan[] {
     return sloganDaoList.map((sloganDao) => this.toSlogan(sloganDao));
   }
 }
