@@ -1,25 +1,34 @@
 import { videosCollection } from "../../../../application/constants";
-import { Video } from "../../../../application/domain/video";
+import { VideoModel } from "../models/video.model";
+import { GeneratedIdModel } from "../models/generated-id.model";
+import { VideoModelMapper } from "../mappers/video.model.mapper";
+import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
 
 export class VideosCollection {
-  async save(video: Video) {
+  private videoModelMapper = new VideoModelMapper();
+  private generatedIdModelMapper = new GeneratedIdModelMapper();
+  async save(video: VideoModel): Promise<GeneratedIdModel> {
     const { mongo } = global.database;
-    return await mongo.collection(videosCollection).insertOne(video);
+    return this.generatedIdModelMapper.toGenerateIdModel(
+      await mongo.collection(videosCollection).insertOne(video)
+    );
   }
-  async getOneByRef(ref: string) {
+  async getOneByRef(ref: string): Promise<VideoModel> {
     const { mongo } = global.database;
-    return await mongo.collection(videosCollection).findOne({ ref });
+    return this.videoModelMapper.toVideoModel(
+      await mongo.collection(videosCollection).findOne({ ref })
+    );
   }
-  async getOneById(id: string) {
+  async getOneById(id: string): Promise<VideoModel> {
     const { ObjectId, mongo } = global.database;
-    return await mongo
-      .collection(videosCollection)
-      .findOne({ _id: ObjectId(id) });
+    return this.videoModelMapper.toVideoModel(
+      await mongo.collection(videosCollection).findOne({ _id: ObjectId(id) })
+    );
   }
-  async modify(id: string, payload: Video) {
-    const src = payload.getSrc();
+  async modify(id: string, videoModel: VideoModel): Promise<void> {
+    const src = videoModel.getSrc();
     const { ObjectId, mongo } = global.database;
-    return await mongo
+    await mongo
       .collection("videos")
       .updateOne({ _id: ObjectId(id) }, { $set: { src } });
   }
