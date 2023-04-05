@@ -1,23 +1,10 @@
-export class Section {
+export class LastNewModel {
   private _id?: string;
   private title!: string;
   private description?: string;
   private img?: string;
-  private ref!: string;
+  private content!: string;
 
-  constructor(
-    _id?: string,
-    title?: string,
-    description?: string,
-    img?: string,
-    ref?: string
-  ) {
-    this._id = _id ?? "";
-    this.title = title ?? "";
-    this.description = description ?? "";
-    this.img = img ?? "";
-    this.ref = ref ?? "";
-  }
   getId(): string | undefined {
     return this._id;
   }
@@ -30,8 +17,8 @@ export class Section {
   getImg(): string | undefined {
     return this.img;
   }
-  getRef(): string {
-    return this.ref;
+  getContent(): string {
+    return this.content;
   }
   setId(_id: string): void {
     this._id = _id;
@@ -45,7 +32,7 @@ export class Section {
   setImg(img: string): void {
     this.img = img;
   }
-  setRef(ref: string): void {
-    this.ref = ref;
+  setContent(content: string): void {
+    this.content = content;
   }
 }

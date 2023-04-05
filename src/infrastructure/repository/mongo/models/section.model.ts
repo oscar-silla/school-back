@@ -1,23 +1,10 @@
-export class Section {
+export class SectionModel {
   private _id?: string;
   private title!: string;
   private description?: string;
   private img?: string;
   private ref!: string;
 
-  constructor(
-    _id?: string,
-    title?: string,
-    description?: string,
-    img?: string,
-    ref?: string
-  ) {
-    this._id = _id ?? "";
-    this.title = title ?? "";
-    this.description = description ?? "";
-    this.img = img ?? "";
-    this.ref = ref ?? "";
-  }
   getId(): string | undefined {
     return this._id;
   }

@@ -1,24 +1,36 @@
-import { SloganDao } from "../models/slogan.dao";
-import { GeneratedIdDao } from "../models/generated-id.dao";
+import { SloganModel } from "../models/slogan.model";
+import { GeneratedIdModel } from "../models/generated-id.model";
+import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
+import { SloganModelMapper } from "../mappers/slogan.model.mapper";
 
 export class SlogansCollection {
-  async save(sloganDao: SloganDao): Promise<GeneratedIdDao> {
+  private sloganModelMapper = new SloganModelMapper();
+  private generatedIdModelMapper = new GeneratedIdModelMapper();
+  async save(sloganDao: SloganModel): Promise<GeneratedIdModel> {
     const { mongo } = global.database;
-    return await mongo.collection("slogans").insertOne(sloganDao);
+    return this.generatedIdModelMapper.toGenerateIdModel(
+      await mongo.collection("slogans").insertOne(sloganDao)
+    );
   }
-  async findAll(): Promise<SloganDao[]> {
+  async findAll(): Promise<SloganModel[]> {
     const { mongo } = global.database;
-    return await mongo.collection("slogans").find({}).toArray();
+    return this.sloganModelMapper.toSloganModels(
+      await mongo.collection("slogans").find({}).toArray()
+    );
   }
-  async findById(id: string): Promise<SloganDao> {
+  async findById(id: string): Promise<SloganModel> {
     const { ObjectId, mongo } = global.database;
-    return await mongo.collection("slogans").findOne({ _id: ObjectId(id) });
+    return this.sloganModelMapper.toSloganModel(
+      await mongo.collection("slogans").findOne({ _id: ObjectId(id) })
+    );
   }
-  async findByTitle(title: string) {
+  async findByTitle(title: string): Promise<SloganModel> {
     const { mongo } = global.database;
-    return await mongo.collection("slogans").findOne({ title });
+    return this.sloganModelMapper.toSloganModel(
+      await mongo.collection("slogans").findOne({ title })
+    );
   }
-  async modifyOneById(id: string, slogan: SloganDao): Promise<void> {
+  async modifyOneById(id: string, slogan: SloganModel): Promise<void> {
     const { ObjectId, mongo } = global.database;
     await mongo
       .collection("slogans")

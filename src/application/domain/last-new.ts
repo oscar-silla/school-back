@@ -1,9 +1,9 @@
 export class LastNew {
   private id?: string;
-  private title: string;
+  private title!: string;
   private description: string;
   private img: string;
-  private content: string;
+  private content!: string;
 
   constructor(
     title?: string,

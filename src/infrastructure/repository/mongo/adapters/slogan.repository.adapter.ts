@@ -1,43 +1,42 @@
 import { SloganRepositoryPort } from "../../../../application/ports/out/slogan.repository.port";
 import { Slogan } from "../../../../application/domain/slogan";
 import { GeneratedId } from "../../../../application/domain/generated-id";
-import { SloganDaoMapper } from "../mappers/slogan.dao.mapper";
+import { SloganModelMapper } from "../mappers/slogan.model.mapper";
 import { SlogansCollection } from "../collections/slogans.collection";
-import { GeneratedIdDao } from "../models/generated-id.dao";
-import { GeneratedIdDaoMapper } from "../mappers/generated-id.dao.mapper";
-import { SloganDao } from "../models/slogan.dao";
+import { GeneratedIdModel } from "../models/generated-id.model";
+import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
+import { SloganModel } from "../models/slogan.model";
 
 export class SloganRepositoryAdapter implements SloganRepositoryPort {
   private slogansCollection: SlogansCollection = new SlogansCollection();
-  private sloganDaoMapper: SloganDaoMapper = new SloganDaoMapper();
-  private generatedIdDaoMapper: GeneratedIdDaoMapper =
-    new GeneratedIdDaoMapper();
+  private sloganDaoMapper: SloganModelMapper = new SloganModelMapper();
+  private generatedIdDaoMapper: GeneratedIdModelMapper =
+    new GeneratedIdModelMapper();
 
   async save(slogan: Slogan): Promise<GeneratedId> {
-    const sloganDao = this.sloganDaoMapper.toSloganDao(slogan);
-    const generatedIdDao: GeneratedIdDao = await this.slogansCollection.save(
-      sloganDao
-    );
-    return this.generatedIdDaoMapper.toGeneratedId(generatedIdDao);
+    const sloganModel: SloganModel = this.sloganDaoMapper.toSloganModel(slogan);
+    const generatedIdModel: GeneratedIdModel =
+      await this.slogansCollection.save(sloganModel);
+    return this.generatedIdDaoMapper.toGeneratedId(generatedIdModel);
   }
   async findAll(): Promise<Slogan[]> {
-    const response: SloganDao[] = await this.slogansCollection.findAll();
+    const response: SloganModel[] = await this.slogansCollection.findAll();
     return this.sloganDaoMapper.toSlogans(response);
   }
   async findById(id: string): Promise<Slogan> {
-    const response: SloganDao = await this.slogansCollection.findById(id);
+    const response: SloganModel = await this.slogansCollection.findById(id);
     return this.sloganDaoMapper.toSlogan(response);
   }
   async modifyOneById(id: string, slogan: Slogan): Promise<void> {
-    const sloganDao: SloganDao = this.sloganDaoMapper.toSloganDao(slogan);
-    await this.slogansCollection.modifyOneById(id, sloganDao);
+    const sloganModel: SloganModel = this.sloganDaoMapper.toSloganModel(slogan);
+    await this.slogansCollection.modifyOneById(id, sloganModel);
   }
   async deleteOneById(id: string): Promise<void> {
     await this.slogansCollection.deleteOneById(id);
   }
 
   async findByTitle(title: string): Promise<Slogan> {
-    const sloganDao: SloganDao = await this.slogansCollection.findByTitle(
+    const sloganDao: SloganModel = await this.slogansCollection.findByTitle(
       title
     );
     return this.sloganDaoMapper.toSlogan(sloganDao);

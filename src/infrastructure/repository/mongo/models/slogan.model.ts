@@ -1,4 +1,4 @@
-export class SloganDao {
+export class SloganModel {
   private _id?: string;
   private title!: string;
   private description!: string;
@@ -6,41 +6,41 @@ export class SloganDao {
   private textButton?: string;
   private url?: string;
 
-  getId() {
+  getId(): string | undefined {
     return this._id;
   }
-  getTitle() {
+  getTitle(): string {
     return this.title;
   }
-  getDescription() {
+  getDescription(): string {
     return this.description;
   }
-  getImg() {
+  getImg(): string {
     return this.img;
   }
-  getTextButton() {
+  getTextButton(): string | undefined {
     return this.textButton;
   }
-  getUrl() {
+  getUrl(): string | undefined {
     return this.url;
   }
-  setId(id: string) {
+  setId(id: string): void {
     this._id = id;
   }
 
-  setTitle(title: string) {
+  setTitle(title: string): void {
     this.title = title;
   }
-  setDescription(description: string) {
+  setDescription(description: string): void {
     this.description = description;
   }
-  setImg(img: string) {
+  setImg(img: string): void {
     this.img = img;
   }
-  setTextButton(textButton: string) {
+  setTextButton(textButton: string): void {
     this.textButton = textButton;
   }
-  setUrl(url: string) {
+  setUrl(url: string): void {
     this.url = url;
   }
 }

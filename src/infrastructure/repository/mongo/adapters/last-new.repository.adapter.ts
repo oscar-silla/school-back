@@ -2,25 +2,27 @@ import { GeneratedId } from "../../../../application/domain/generated-id";
 import { LastNew } from "../../../../application/domain/last-new";
 import { LastNewRepositoryPort } from "../../../../application/ports/out/last-new.repository.port";
 import { LastNewsCollection } from "../collections/last-news.collection";
-import { GeneratedIdDaoMapper } from "../mappers/generated-id.dao.mapper";
-import { LastNewMapperModel } from "../mappers/last-new.dao.mapper";
-import { GeneratedIdDao } from "../models/generated-id.dao";
-import { LastNewDao } from "../models/last-new.dao";
+import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
+import { LastNewModelMapper } from "../mappers/last-new.model.mapper";
+import { GeneratedIdModel } from "../models/generated-id.model";
+import { LastNewModel } from "../models/last-new.model";
 
 export class LastNewRepositoryAdapter implements LastNewRepositoryPort {
   private lastNewsCollection = new LastNewsCollection();
-  private lastNewModelMapper = new LastNewMapperModel();
-  private generatedIdMapper = new GeneratedIdDaoMapper();
+  private lastNewModelMapper = new LastNewModelMapper();
+  private generatedIdMapper = new GeneratedIdModelMapper();
 
   async save(lastNew: LastNew): Promise<GeneratedId> {
-    const response: GeneratedIdDao = await this.lastNewsCollection.save(
-      lastNew
+    const lastNewModel: LastNewModel =
+      this.lastNewModelMapper.toLastNewModel(lastNew);
+    const response: GeneratedIdModel = await this.lastNewsCollection.save(
+      lastNewModel
     );
     return this.generatedIdMapper.toGeneratedId(response);
   }
 
   async find(limit: number, page: number): Promise<LastNew[]> {
-    const response: LastNewDao[] = await this.lastNewsCollection.find(
+    const response: LastNewModel[] = await this.lastNewsCollection.find(
       limit,
       page
     );
@@ -28,12 +30,14 @@ export class LastNewRepositoryAdapter implements LastNewRepositoryPort {
   }
 
   async findOne(id: string): Promise<LastNew> {
-    const response: LastNewDao = await this.lastNewsCollection.findOne(id);
+    const response: LastNewModel = await this.lastNewsCollection.findOne(id);
     return this.lastNewModelMapper.toLastNew(response);
   }
 
   async modifyOne(id: string, lastNew: LastNew): Promise<void> {
-    await this.lastNewsCollection.modifyOne(id, lastNew);
+    const lastNewModel: LastNewModel =
+      this.lastNewModelMapper.toLastNewModel(lastNew);
+    await this.lastNewsCollection.modifyOne(id, lastNewModel);
   }
 
   async deleteOne(id: string): Promise<void> {
