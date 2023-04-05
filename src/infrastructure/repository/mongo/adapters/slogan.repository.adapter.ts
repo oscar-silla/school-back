@@ -14,11 +14,10 @@ export class SloganRepositoryAdapter implements SloganRepositoryPort {
     new GeneratedIdModelMapper();
 
   async save(slogan: Slogan): Promise<GeneratedId> {
-    const sloganDao = this.sloganDaoMapper.toSloganDao(slogan);
-    const generatedIdDao: GeneratedIdModel = await this.slogansCollection.save(
-      sloganDao
-    );
-    return this.generatedIdDaoMapper.toGeneratedId(generatedIdDao);
+    const sloganModel: SloganModel = this.sloganDaoMapper.toSloganModel(slogan);
+    const generatedIdModel: GeneratedIdModel =
+      await this.slogansCollection.save(sloganModel);
+    return this.generatedIdDaoMapper.toGeneratedId(generatedIdModel);
   }
   async findAll(): Promise<Slogan[]> {
     const response: SloganModel[] = await this.slogansCollection.findAll();
@@ -29,8 +28,8 @@ export class SloganRepositoryAdapter implements SloganRepositoryPort {
     return this.sloganDaoMapper.toSlogan(response);
   }
   async modifyOneById(id: string, slogan: Slogan): Promise<void> {
-    const sloganDao: SloganModel = this.sloganDaoMapper.toSloganDao(slogan);
-    await this.slogansCollection.modifyOneById(id, sloganDao);
+    const sloganModel: SloganModel = this.sloganDaoMapper.toSloganModel(slogan);
+    await this.slogansCollection.modifyOneById(id, sloganModel);
   }
   async deleteOneById(id: string): Promise<void> {
     await this.slogansCollection.deleteOneById(id);

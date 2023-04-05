@@ -2,32 +2,35 @@ import { Slogan } from "../../../../application/domain/slogan";
 import { SloganModel } from "../models/slogan.model";
 
 export class SloganModelMapper {
-  toSloganDao(slogan: Slogan): SloganModel {
+  toSloganModel(slogan: Slogan | any): SloganModel {
     const sloganDao: SloganModel = new SloganModel();
-    sloganDao.setTitle(slogan.getTitle() ?? "");
-    sloganDao.setDescription(slogan.getDescription() ?? "");
-    sloganDao.setImg(slogan.getImg() ?? "");
-    sloganDao.setTextButton(slogan.getTextButton() ?? "");
-    sloganDao.setUrl(slogan.getUrl() ?? "");
+    if (slogan instanceof Slogan) {
+      sloganDao.setTitle(slogan?.getTitle() ?? "");
+      sloganDao.setDescription(slogan?.getDescription() ?? "");
+      sloganDao.setImg(slogan?.getImg() ?? "");
+      sloganDao.setTextButton(slogan?.getTextButton() ?? "");
+      sloganDao.setUrl(slogan?.getUrl() ?? "");
+    } else {
+      sloganDao.setId(slogan?._id ?? "");
+      sloganDao.setTitle(slogan?.title ?? "");
+      sloganDao.setDescription(slogan?.description ?? "");
+      sloganDao.setImg(slogan?.img ?? "");
+      sloganDao.setTextButton(slogan?.textButton ?? "");
+      sloganDao.setUrl(slogan?.url ?? "");
+    }
     return sloganDao;
   }
-  toSlogan(sloganDao: SloganModel | any): Slogan {
+  toSloganModels(slogans: Slogan[] | any[]): SloganModel[] {
+    return slogans.map((slogan: Slogan | any) => this.toSloganModel(slogan));
+  }
+  toSlogan(sloganModel: SloganModel): Slogan {
     const slogan: Slogan = new Slogan();
-    if (sloganDao instanceof SloganModel) {
-      slogan.setTitle(sloganDao?.getTitle() ?? "");
-      slogan.setId(sloganDao?.getId() ?? "");
-      slogan.setDescription(sloganDao?.getDescription() ?? "");
-      slogan.setImg(sloganDao?.getImg() ?? "");
-      slogan.setTextButton(sloganDao?.getTextButton() ?? "");
-      slogan.setUrl(sloganDao?.getUrl() ?? "");
-    } else {
-      slogan.setId(sloganDao?._id ?? "");
-      slogan.setTitle(sloganDao?.title ?? "");
-      slogan.setDescription(sloganDao?.description ?? "");
-      slogan.setImg(sloganDao?.img ?? "");
-      slogan.setTextButton(sloganDao?.textButton ?? "");
-      slogan.setUrl(sloganDao?.url ?? "");
-    }
+    slogan.setId(sloganModel?.getId() ?? "");
+    slogan.setTitle(sloganModel?.getTitle() ?? "");
+    slogan.setDescription(sloganModel?.getDescription() ?? "");
+    slogan.setImg(sloganModel?.getImg() ?? "");
+    slogan.setTextButton(sloganModel?.getTextButton() ?? "");
+    slogan.setUrl(sloganModel?.getUrl() ?? "");
     return slogan;
   }
 
