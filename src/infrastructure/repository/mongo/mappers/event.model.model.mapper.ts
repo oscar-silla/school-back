@@ -1,8 +1,9 @@
 import { EventModel } from "../models/event.model";
 import { Event } from "../../../../application/domain/event";
+import { EventType } from "../types/event.type";
 
 export class EventModelModelMapper {
-  toEventModel(event: Event | any): EventModel {
+  toEventModel(event: Event | EventType): EventModel {
     const eventModel: EventModel = new EventModel();
     if (event instanceof Event) {
       event?.getTitle() && eventModel.setTitle(event.getTitle());
