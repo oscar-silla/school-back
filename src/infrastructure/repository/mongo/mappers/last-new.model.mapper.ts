@@ -1,8 +1,9 @@
 import { LastNew } from "../../../../application/domain/last-new";
 import { LastNewModel } from "../models/last-new.model";
+import { LastNewType } from "../types/last-new.type";
 
 export class LastNewModelMapper {
-  toLastNewModel(lastNew: LastNew | any): LastNewModel {
+  toLastNewModel(lastNew: LastNew | LastNewType): LastNewModel {
     const lastNewModel: LastNewModel = new LastNewModel();
     if (lastNew instanceof LastNew) {
       lastNewModel.setTitle(lastNew.getTitle());
@@ -19,7 +20,7 @@ export class LastNewModelMapper {
     return lastNewModel;
   }
 
-  toLastNewModels(lastNews: LastNew[] | any[]): LastNewModel[] {
+  toLastNewModels(lastNews: LastNew[] | LastNewType[]): LastNewModel[] {
     return lastNews.map((lastNew: LastNew | any) =>
       this.toLastNewModel(lastNew)
     );
