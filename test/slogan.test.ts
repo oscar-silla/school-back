@@ -20,7 +20,7 @@ const slogan: Slogan = new Slogan(
 );
 
 const commonHeaders = {
-  authorization: process.env.token,
+  authorization: process.env.TOKEN,
 };
 
 describe("Slogan tests", () => {

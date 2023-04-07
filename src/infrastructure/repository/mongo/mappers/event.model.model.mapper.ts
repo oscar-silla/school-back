@@ -20,7 +20,7 @@ export class EventModelModelMapper {
     }
     return eventModel;
   }
-  toEventModels(events: Event[] | any[]): EventModel[] {
+  toEventModels(events: Event[] | EventType[]): EventModel[] {
     return events.map((event: Event | any) => this.toEventModel(event));
   }
   toEvent(eventModel: EventModel): Event {
