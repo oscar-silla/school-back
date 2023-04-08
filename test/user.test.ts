@@ -26,12 +26,12 @@ const commonHeaders = {
 };
 
 describe("User tests", () => {
-  beforeAll(() => {
-    mongo.createConnection();
+  beforeAll(async (): Promise<void> => {
+    await mongo.createConnection();
   });
-  afterAll(() => {
+  afterAll(async (): Promise<void> => {
     httpServer.close();
-    mongo.closeConnection();
+    await mongo.closeConnection();
   });
   test("should respond with a 401 status code when try to get one user without token in the request headers", async () => {
     const res = await request
