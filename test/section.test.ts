@@ -29,8 +29,8 @@ describe("/sections", () => {
   });
 
   afterAll(async () => {
-    httpServer.close();
     await mongo.closeConnection();
+    httpServer.close();
   });
   test("should respond with a 401 status code when try to create section with invalid auth in request headers", async () => {
     const res = await request.post(`${baseUrl}/sections`).send(sectionMock);

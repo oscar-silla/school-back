@@ -1,8 +1,9 @@
 import { User } from "../../../../application/domain/user";
 import { UserModel } from "../models/user.model";
+import { UserType } from "../types/user.type";
 
 export class UserModelMapper {
-  toUserModel(user: User | any): UserModel {
+  toUserModel(user: User | UserType): UserModel {
     const userModel: UserModel = new UserModel();
     if (user instanceof User) {
       userModel.setUsername(user?.getUsername() ?? "");
@@ -22,8 +23,8 @@ export class UserModelMapper {
     }
     return userModel;
   }
-  toUserModels(users: User[] | any[]): UserModel[] {
-    return users.map((user: User | any) => this.toUserModel(user));
+  toUserModels(users: User[] | UserType[]): UserModel[] {
+    return users.map((user: User | UserType) => this.toUserModel(user));
   }
   toUser(userModel: UserModel): User {
     const user: User = new User();
