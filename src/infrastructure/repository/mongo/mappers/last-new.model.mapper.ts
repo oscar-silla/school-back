@@ -21,7 +21,7 @@ export class LastNewModelMapper {
   }
 
   toLastNewModels(lastNews: LastNew[] | LastNewType[]): LastNewModel[] {
-    return lastNews.map((lastNew: LastNew | any) =>
+    return lastNews.map((lastNew: LastNew | LastNewType) =>
       this.toLastNewModel(lastNew)
     );
   }
