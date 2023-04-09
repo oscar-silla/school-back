@@ -1,8 +1,9 @@
 import { Section } from "../../../../application/domain/section";
 import { SectionModel } from "../models/section.model";
+import { SectionType } from "../types/section.type";
 
 export class SectionModelMapper {
-  toSectionModel(section: Section | any): SectionModel {
+  toSectionModel(section: Section | SectionType): SectionModel {
     const sectionModel: SectionModel = new SectionModel();
     if (section instanceof Section) {
       sectionModel.setTitle(section?.getTitle() ?? "");
@@ -19,8 +20,8 @@ export class SectionModelMapper {
     return sectionModel;
   }
 
-  toSectionModels(sections: Section[] | any[]): SectionModel[] {
-    return sections.map((section: Section | any) =>
+  toSectionModels(sections: Section[] | SectionType[]): SectionModel[] {
+    return sections.map((section: Section | SectionType) =>
       this.toSectionModel(section)
     );
   }
@@ -36,6 +37,8 @@ export class SectionModelMapper {
   }
 
   toSections(sectionModels: SectionModel[]): Section[] {
-    return sectionModels.map((sectionModel) => this.toSection(sectionModel));
+    return sectionModels.map((sectionModel: SectionModel) =>
+      this.toSection(sectionModel)
+    );
   }
 }
