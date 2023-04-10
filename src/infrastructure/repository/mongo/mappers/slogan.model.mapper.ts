@@ -1,8 +1,9 @@
 import { Slogan } from "../../../../application/domain/slogan";
 import { SloganModel } from "../models/slogan.model";
+import { SloganType } from "../types/slogan.type";
 
 export class SloganModelMapper {
-  toSloganModel(slogan: Slogan | any): SloganModel {
+  toSloganModel(slogan: Slogan | SloganType): SloganModel {
     const sloganDao: SloganModel = new SloganModel();
     if (slogan instanceof Slogan) {
       sloganDao.setTitle(slogan?.getTitle() ?? "");
@@ -20,8 +21,10 @@ export class SloganModelMapper {
     }
     return sloganDao;
   }
-  toSloganModels(slogans: Slogan[] | any[]): SloganModel[] {
-    return slogans.map((slogan: Slogan | any) => this.toSloganModel(slogan));
+  toSloganModels(slogans: Slogan[] | SloganType[]): SloganModel[] {
+    return slogans.map((slogan: Slogan | SloganType) =>
+      this.toSloganModel(slogan)
+    );
   }
   toSlogan(sloganModel: SloganModel): Slogan {
     const slogan: Slogan = new Slogan();
@@ -35,6 +38,8 @@ export class SloganModelMapper {
   }
 
   toSlogans(sloganDaoList: SloganModel[]): Slogan[] {
-    return sloganDaoList.map((sloganDao) => this.toSlogan(sloganDao));
+    return sloganDaoList.map((sloganDao: SloganModel) =>
+      this.toSlogan(sloganDao)
+    );
   }
 }
