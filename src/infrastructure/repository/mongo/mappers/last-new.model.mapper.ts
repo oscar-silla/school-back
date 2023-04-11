@@ -13,7 +13,7 @@ export class LastNewModelMapper {
     } else {
       lastNewModel.setId(lastNew?._id ?? "");
       lastNewModel.setTitle(lastNew?.title ?? "");
-      lastNewModel.setDescription(lastNew?.title ?? "");
+      lastNewModel.setDescription(lastNew?.description ?? "");
       lastNewModel.setImg(lastNew?.img ?? "");
       lastNewModel.setContent(lastNew?.content ?? "");
     }
