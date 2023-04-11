@@ -7,17 +7,17 @@ export class LoginCredentials {
     this.password = password ? password : "";
   }
 
-  getEmail() {
+  getEmail(): string {
     return this.email;
   }
-  getPassword() {
+  getPassword(): string {
     return this.password;
   }
 
-  setEmail(email: string) {
+  setEmail(email: string): void {
     this.email = email;
   }
-  setPassword(password: string) {
+  setPassword(password: string): void {
     this.password = password;
   }
 }

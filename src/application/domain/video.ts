@@ -8,23 +8,23 @@ export class Video {
     this.src = src ? src : "";
   }
 
-  getId() {
+  getId(): string {
     return this._id ?? "";
   }
-  getRef() {
+  getRef(): string {
     return this.ref;
   }
-  getSrc() {
+  getSrc(): string {
     return this.src;
   }
 
-  setId(_id: string) {
+  setId(_id: string): void {
     this._id = _id;
   }
-  setRef(ref: string) {
+  setRef(ref: string): void {
     this.ref = ref;
   }
-  setSrc(src: string) {
+  setSrc(src: string): void {
     this.src = src;
   }
 }

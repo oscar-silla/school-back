@@ -20,41 +20,41 @@ export class Slogan {
     this.url = url ? url : "";
   }
 
-  getId() {
+  getId(): string | undefined {
     return this.id;
   }
-  getTitle() {
+  getTitle(): string | undefined {
     return this.title;
   }
-  getDescription() {
+  getDescription(): string | undefined {
     return this.description;
   }
-  getImg() {
+  getImg(): string | undefined {
     return this.img;
   }
-  getTextButton() {
+  getTextButton(): string | undefined {
     return this.textButton;
   }
-  getUrl() {
+  getUrl(): string | undefined {
     return this.url;
   }
-  setId(id: string) {
+  setId(id: string): void {
     this.id = id;
   }
 
-  setTitle(title: string | undefined) {
+  setTitle(title: string | undefined): void {
     this.title = title;
   }
-  setDescription(description: string) {
+  setDescription(description: string): void {
     this.description = description;
   }
-  setImg(img: string) {
+  setImg(img: string): void {
     this.img = img;
   }
-  setTextButton(textButton: string) {
+  setTextButton(textButton: string): void {
     this.textButton = textButton;
   }
-  setUrl(url: string) {
+  setUrl(url: string): void {
     this.url = url;
   }
 }
