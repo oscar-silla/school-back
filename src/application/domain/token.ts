@@ -5,10 +5,10 @@ export class Token {
     this.token = token;
   }
 
-  get() {
+  get(): string {
     return this.token;
   }
-  set(token: string) {
+  set(token: string): void {
     this.token = token;
   }
 }

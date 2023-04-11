@@ -5,11 +5,11 @@ export class GeneratedId {
     this.generatedId = generatedId;
   }
 
-  getGeneratedId() {
+  getGeneratedId(): string {
     return this.generatedId;
   }
 
-  setGeneratedId(generatedId: string) {
+  setGeneratedId(generatedId: string): void {
     this.generatedId = generatedId;
   }
 }

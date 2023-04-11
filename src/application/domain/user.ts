@@ -24,47 +24,47 @@ export class User {
     this.avatar = avatar ? avatar : "";
   }
 
-  getId() {
+  getId(): string | undefined {
     return this.id;
   }
-  getUsername() {
+  getUsername(): string {
     return this.username;
   }
-  getPassword() {
+  getPassword(): string {
     return this.password;
   }
-  getName() {
+  getName(): string {
     return this.name;
   }
-  getEmail() {
+  getEmail(): string {
     return this.email;
   }
-  getSurnames() {
+  getSurnames(): string {
     return this.surnames;
   }
-  getAvatar() {
+  getAvatar(): string {
     return this.avatar;
   }
 
-  setId(id: string) {
+  setId(id: string): void {
     this.id = id;
   }
-  setUsername(username: string) {
+  setUsername(username: string): void {
     this.username = username;
   }
-  setPassword(password: string) {
+  setPassword(password: string): void {
     this.password = password;
   }
-  setName(name: string) {
+  setName(name: string): void {
     this.name = name;
   }
-  setEmail(email: string) {
+  setEmail(email: string): void {
     this.email = email;
   }
-  setSurnames(surnames: string) {
+  setSurnames(surnames: string): void {
     this.surnames = surnames;
   }
-  setAvatar(avatar: string) {
+  setAvatar(avatar: string): void {
     this.avatar = avatar;
   }
 }
