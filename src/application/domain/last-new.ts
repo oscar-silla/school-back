@@ -17,43 +17,43 @@ export class LastNew {
     this.content = content ?? "";
   }
 
-  getId() {
+  getId(): string | undefined {
     return this.id;
   }
 
-  getTitle() {
+  getTitle(): string {
     return this.title;
   }
 
-  getDescription() {
+  getDescription(): string {
     return this.description;
   }
 
-  getImg() {
+  getImg(): string {
     return this.img;
   }
 
-  getContent() {
+  getContent(): string {
     return this.content;
   }
 
-  setId(id: string) {
+  setId(id: string): void {
     this.id = id;
   }
 
-  setTitle(title: string) {
+  setTitle(title: string): void {
     this.title = title;
   }
 
-  setDescription(description: string) {
+  setDescription(description: string): void {
     this.description = description;
   }
 
-  setImg(img: string) {
+  setImg(img: string): void {
     this.img = img;
   }
 
-  setContent(content: string) {
+  setContent(content: string): void {
     this.content = content;
   }
 }

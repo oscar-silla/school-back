@@ -9,11 +9,11 @@ import { DeleteLastNewUseCasePort } from "../../../../application/ports/in/useca
 import { GetLastNewsUseCasePort } from "../../../../application/ports/in/usecases/story/get-last-news-use-case.port";
 import { GetLastNewUseCasePort } from "../../../../application/ports/in/usecases/story/get-last-new-use-case.port";
 import { ModifyLastNewUseCasePort } from "../../../../application/ports/in/usecases/story/modify-last-new-use-case.port";
-import { CreateLastNewUseCase } from "../../../../application/usecases/article/create-last-new.usecase";
-import { DeleteLastNewUseCase } from "../../../../application/usecases/article/delete-last-new.usecase";
-import { GetArticlesUseCase } from "../../../../application/usecases/article/get-articles.usecase";
-import { GetLastNewUseCase } from "../../../../application/usecases/article/get-last-new.usecase";
-import { ModifyLastNewUseCase } from "../../../../application/usecases/article/modify-last-new.usecase";
+import { CreateLastNewUseCase } from "../../../../application/usecases/lastnew/create-last-new.usecase";
+import { DeleteLastNewUseCase } from "../../../../application/usecases/lastnew/delete-last-new.usecase";
+import { GetArticlesUseCase } from "../../../../application/usecases/lastnew/get-articles.usecase";
+import { GetLastNewUseCase } from "../../../../application/usecases/lastnew/get-last-new.usecase";
+import { ModifyLastNewUseCase } from "../../../../application/usecases/lastnew/modify-last-new.usecase";
 import { useExtract } from "../../../middlewares/use-extract";
 import { GeneratedIdMapper } from "../mappers/generated-id.mapper";
 import { LastNewControllerMapper } from "../mappers/last-new.controller.mapper";

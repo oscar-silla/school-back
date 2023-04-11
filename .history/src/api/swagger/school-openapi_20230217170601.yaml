@@ -381,8 +381,8 @@ paths:
     post:
       tags:
         - "Articles"
-      summary: "Create article"
-      description: "Create article"
+      summary: "Create lastnew"
+      description: "Create lastnew"
       operationId: "createArticle"
       parameters:
         - $ref: "#/parameters/newBodyParam"
@@ -407,8 +407,8 @@ paths:
     get:
       tags:
         - "Articles"
-      summary: "Get article"
-      description: "Get article by id"
+      summary: "Get lastnew"
+      description: "Get lastnew by id"
       operationId: "getArticle"
       parameters:
         - $ref: "#/parameters/idParam"
@@ -428,8 +428,8 @@ paths:
     patch:
       tags:
         - "Articles"
-      summary: "Update article"
-      description: "Update article by id"
+      summary: "Update lastnew"
+      description: "Update lastnew by id"
       operationId: "updateArticle"
       parameters:
         - $ref: "#/parameters/idParam"
@@ -452,8 +452,8 @@ paths:
     delete:
       tags:
         - "Articles"
-      summary: "Delete article"
-      description: "Delete article by id"
+      summary: "Delete lastnew"
+      description: "Delete lastnew by id"
       operationId: "deleteArticle"
       parameters:
         - $ref: "#/parameters/idParam"
