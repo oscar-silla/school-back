@@ -9,16 +9,18 @@ export class EventControllerMapper {
     event.setImg(eventBody.img ?? "");
     event.setDescription(eventBody.description ?? "");
     event.setContent(eventBody.content ?? "");
+    event.setColor(eventBody.color ?? "");
     return event;
   }
 
   toEventResponse(event: Event): EventResponse {
-    const eventResponse = new EventResponse();
+    const eventResponse: EventResponse = new EventResponse();
     eventResponse.id = event.getId();
     eventResponse.title = event.getTitle();
     eventResponse.description = event.getDescription();
     eventResponse.img = event.getImg();
     eventResponse.content = event.getContent();
+    eventResponse.color = event.getColor();
     return eventResponse;
   }
 

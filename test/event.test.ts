@@ -16,10 +16,12 @@ const commonHeaders = {
 let generatedId: string = "";
 const fakeId: string = "63b04cf26cff5203de1659ca";
 const eventMock: Event = new Event(
-  "Event title",
+  "63b04cf26cff5203de1659cb",
   "Event description",
   "Event img",
-  "Event content"
+  "Event content",
+  "<h1>Event</h1>",
+  "#393B90B2"
 );
 
 describe("Event tests", () => {

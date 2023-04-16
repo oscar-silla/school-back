@@ -39,11 +39,11 @@ export class EventsCollection {
     );
   }
 
-  async updateOne(eventModel: EventModel): Promise<void> {
+  async updateOne(id: string, eventModel: EventModel): Promise<void> {
     const { ObjectId, mongo } = global.database;
     await mongo
       .collection("events")
-      .updateOne({ _id: ObjectId(eventModel.getId()) }, { $set: eventModel });
+      .updateOne({ _id: ObjectId(id) }, { $set: eventModel });
   }
 
   async deleteOne(id: string): Promise<void> {

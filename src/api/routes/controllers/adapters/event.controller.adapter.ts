@@ -40,9 +40,9 @@ router.post(
     req: Request<any, any, EventBody, any>,
     res: Response<GeneratedIdResponse>,
     next: NextFunction
-  ) => {
+  ): Promise<void> => {
     try {
-      console.log("POST event");
+      console.log("POST /events");
       const event: Event = eventControllerMapper.toEvent(req?.body);
       const generatedId: GeneratedId = await createEventUseCase.createEvent(
         event
@@ -62,9 +62,9 @@ router.get(
     req: Request<idParamType, any, any, any>,
     res: Response<EventResponse>,
     next: NextFunction
-  ) => {
+  ): Promise<void> => {
     try {
-      console.log("GET event /:id");
+      console.log("GET /events/:id");
       const event: Event = await getEventUseCase.getEvent(req?.params?.id);
       const eventResponse: EventResponse =
         eventControllerMapper.toEventResponse(event);
@@ -77,9 +77,13 @@ router.get(
 
 router.get(
   "/",
-  async (req: Request, res: Response<EventResponse[]>, next: NextFunction) => {
+  async (
+    req: Request,
+    res: Response<EventResponse[]>,
+    next: NextFunction
+  ): Promise<void> => {
     try {
-      console.log("GET events");
+      console.log("GET /events");
       const events: Event[] = await getEventsUseCase.getEvents(
         +(req?.query?.limit ?? 0),
         +(req?.query?.page ?? 0)
@@ -100,9 +104,9 @@ router.patch(
     req: Request<idParamType, any, EventBody, any>,
     res: Response<void>,
     next: NextFunction
-  ) => {
+  ): Promise<void> => {
     try {
-      console.log("PATCH event /:id");
+      console.log("PATCH /events/:id");
       const event: Event = eventControllerMapper.toEvent(req?.body);
       await updateEventUseCase.updateEvent(req?.params?.id, event);
       res.status(HttpStatus.OK).send();
@@ -119,9 +123,9 @@ router.delete(
     req: Request<idParamType, any, any, any>,
     res: Response<void>,
     next: NextFunction
-  ) => {
+  ): Promise<void> => {
     try {
-      console.log("DELETE event /:id");
+      console.log("DELETE /events/:id");
       await deleteEventUseCase.deleteEvent(req?.params?.id);
       res.status(HttpStatus.NO_CONTENT).send();
     } catch (err) {

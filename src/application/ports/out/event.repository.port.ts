@@ -10,7 +10,7 @@ export interface EventRepositoryPort {
 
   find(limit: number, page: number): Promise<Event[]>;
 
-  updateOne(event: Event): Promise<void>;
+  updateOne(id: string, event: Event): Promise<void>;
 
   deleteOne(id: string): Promise<void>;
 }
