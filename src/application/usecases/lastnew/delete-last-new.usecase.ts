@@ -2,7 +2,7 @@ import { HttpStatus } from "../../domain/http-status";
 import { HttpMessage } from "../../domain/http-message";
 import { CustomError } from "../../exceptions/CustomError";
 import { LastNewServicePort } from "../../ports/in/services/last-new.service.port";
-import { DeleteLastNewUseCasePort } from "../../ports/in/usecases/story/delete-last-new-use-case.port";
+import { DeleteLastNewUseCasePort } from "../../ports/in/usecases/lastnew/delete-last-new-use-case.port";
 import { LastNewService } from "../../services/last-new.service";
 import { checkObjectId } from "../../utils/check-objectid.util";
 

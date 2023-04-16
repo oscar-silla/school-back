@@ -4,4 +4,5 @@ export interface LastNewType {
   description: string;
   img: string;
   content: string;
+  color: string;
 }

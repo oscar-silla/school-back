@@ -3,7 +3,7 @@ import { HttpMessage } from "../../domain/http-message";
 import { LastNew } from "../../domain/last-new";
 import { CustomError } from "../../exceptions/CustomError";
 import { LastNewServicePort } from "../../ports/in/services/last-new.service.port";
-import { GetLastNewUseCasePort } from "../../ports/in/usecases/story/get-last-new-use-case.port";
+import { GetLastNewUseCasePort } from "../../ports/in/usecases/lastnew/get-last-new-use-case.port";
 import { LastNewService } from "../../services/last-new.service";
 import { checkObjectId } from "../../utils/check-objectid.util";
 

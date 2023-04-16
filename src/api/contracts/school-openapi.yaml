@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   title: School API
   description: School API
-  version: 1.0.8
+  version: 1.0.9
   contact:
     email: orscarsilla@outlook.com
 tags:
@@ -815,6 +815,7 @@ definitions:
     required:
       - "title"
       - "content"
+      - "color"
     properties:
       title:
         type: string
@@ -832,6 +833,10 @@ definitions:
         type: string
         format: string
         example: "<h1>Content</h1>"
+      color:
+        type: string
+        format: string
+        example: "#881515"
   LastNewsResponse:
     type: array
     items:
@@ -842,6 +847,7 @@ definitions:
       - "_id"
       - "title"
       - "content"
+      - "color"
     properties:
       _id:
         type: string
@@ -863,6 +869,10 @@ definitions:
         type: string
         format: string
         example: "<h1>Content</h1>"
+      color:
+        type: string
+        format: string
+        example: "#881515"
   VideoResponse:
     type: object
     required:

@@ -3,7 +3,7 @@ import { HttpMessage } from "../../domain/http-message";
 import { LastNew } from "../../domain/last-new";
 import { CustomError } from "../../exceptions/CustomError";
 import { LastNewServicePort } from "../../ports/in/services/last-new.service.port";
-import { ModifyLastNewUseCasePort } from "../../ports/in/usecases/story/modify-last-new-use-case.port";
+import { ModifyLastNewUseCasePort } from "../../ports/in/usecases/lastnew/modify-last-new-use-case.port";
 import { LastNewService } from "../../services/last-new.service";
 import { checkObjectId } from "../../utils/check-objectid.util";
 
@@ -25,7 +25,8 @@ export class ModifyLastNewUseCase implements ModifyLastNewUseCasePort {
       !lastNew.getTitle() &&
       !lastNew.getDescription() &&
       !lastNew.getImg() &&
-      !lastNew.getContent()
+      !lastNew.getContent() &&
+      !lastNew.getColor()
     ) {
       throw new CustomError(
         HttpMessage.MISSING_PARAMS,

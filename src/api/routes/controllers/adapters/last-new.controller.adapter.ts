@@ -4,11 +4,11 @@ import { LastNewResponse } from "../../../../../external-libraries/openapi/model
 import { GeneratedId } from "../../../../application/domain/generated-id";
 import { HttpStatus } from "../../../../application/domain/http-status";
 import { LastNew } from "../../../../application/domain/last-new";
-import { CreateLastNewUseCasePort } from "../../../../application/ports/in/usecases/story/create-last-new-use-case.port";
-import { DeleteLastNewUseCasePort } from "../../../../application/ports/in/usecases/story/delete-last-new-use-case.port";
-import { GetLastNewsUseCasePort } from "../../../../application/ports/in/usecases/story/get-last-news-use-case.port";
-import { GetLastNewUseCasePort } from "../../../../application/ports/in/usecases/story/get-last-new-use-case.port";
-import { ModifyLastNewUseCasePort } from "../../../../application/ports/in/usecases/story/modify-last-new-use-case.port";
+import { CreateLastNewUseCasePort } from "../../../../application/ports/in/usecases/lastnew/create-last-new-use-case.port";
+import { DeleteLastNewUseCasePort } from "../../../../application/ports/in/usecases/lastnew/delete-last-new-use-case.port";
+import { GetLastNewsUseCasePort } from "../../../../application/ports/in/usecases/lastnew/get-last-news-use-case.port";
+import { GetLastNewUseCasePort } from "../../../../application/ports/in/usecases/lastnew/get-last-new-use-case.port";
+import { ModifyLastNewUseCasePort } from "../../../../application/ports/in/usecases/lastnew/modify-last-new-use-case.port";
 import { CreateLastNewUseCase } from "../../../../application/usecases/lastnew/create-last-new.usecase";
 import { DeleteLastNewUseCase } from "../../../../application/usecases/lastnew/delete-last-new.usecase";
 import { GetArticlesUseCase } from "../../../../application/usecases/lastnew/get-articles.usecase";
@@ -42,11 +42,12 @@ router.post(
     req: Request,
     res: Response<GeneratedIdResponse>,
     next: NextFunction
-  ) => {
+  ): Promise<void> => {
     try {
-      const article = lastNewMapper.toArticle(req?.body);
+      console.log("POST /lastNews");
+      const lastNew: LastNew = lastNewMapper.toArticle(req?.body);
       const generatedId: GeneratedId = await createLastNewUseCase.createLastNew(
-        article
+        lastNew
       );
       const generatedIdResponse: GeneratedIdResponse =
         generatedIdMapper.toGeneratedIdResponse(generatedId);
@@ -63,15 +64,16 @@ router.get(
     req: Request,
     res: Response<LastNewResponse[]>,
     next: NextFunction
-  ) => {
+  ): Promise<void> => {
     try {
+      console.log("GET /lastNews");
       const articles: LastNew[] = await getLastNewsUseCase.getLastNews(
         +(req?.query?.limit as string) ?? 0,
         +(req?.query?.page as string) ?? 0
       );
-      const articlesResponse: LastNewResponse[] =
+      const lastNewsResponse: LastNewResponse[] =
         lastNewMapper.toArticlesResponse(articles);
-      res.status(HttpStatus.OK).json(articlesResponse);
+      res.status(HttpStatus.OK).json(lastNewsResponse);
     } catch (err) {
       next(err);
     }
@@ -84,13 +86,14 @@ router.get(
     req: Request<idParam, any, any, any>,
     res: Response<LastNewResponse>,
     next: NextFunction
-  ) => {
+  ): Promise<void> => {
     try {
-      const article: LastNew = await getLastNewUseCase.getLastNew(
+      console.log("GET /lastNews/:id");
+      const lastNew: LastNew = await getLastNewUseCase.getLastNew(
         req?.params?.id
       );
       const lastNewResponse: LastNewResponse =
-        lastNewMapper.toArticleResponse(article);
+        lastNewMapper.toArticleResponse(lastNew);
       res.status(HttpStatus.OK).json(lastNewResponse);
     } catch (err) {
       next(err);
@@ -101,10 +104,15 @@ router.get(
 router.patch(
   "/:id",
   useExtract,
-  async (req: Request, res: Response<void>, next: NextFunction) => {
+  async (
+    req: Request,
+    res: Response<void>,
+    next: NextFunction
+  ): Promise<void> => {
     try {
-      const story: LastNew = lastNewMapper.toArticle(req?.body);
-      await modifyLastNewUseCase.modifyLastNew(req?.params?.id, story);
+      console.log("PATCH /lastNews/:id");
+      const lastNew: LastNew = lastNewMapper.toArticle(req?.body);
+      await modifyLastNewUseCase.modifyLastNew(req?.params?.id, lastNew);
       res.status(HttpStatus.OK).send();
     } catch (err) {
       next(err);
@@ -115,8 +123,9 @@ router.patch(
 router.delete(
   "/:id",
   useExtract,
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
+      console.log("DELETE /lastNews/:id");
       await deleteLastNewUseCase.deleteLastNew(req?.params?.id);
       res.status(HttpStatus.NO_CONTENT).send();
     } catch (err) {
