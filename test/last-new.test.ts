@@ -15,7 +15,8 @@ const lastNewMock: LastNew = new LastNew(
   "Last new title",
   "Last new description",
   "lastNew.png",
-  "<h1>Last new</h1>"
+  "<h1>Last new</h1>",
+  "#393B90B2"
 );
 const emptyLastNewMock: LastNew = new LastNew();
 
@@ -23,7 +24,7 @@ const commonHeaders = {
   authorization: process.env.TOKEN,
 };
 
-describe("Last new tests", () => {
+describe("Last new tests", (): void => {
   beforeAll(async () => {
     await mongo.createConnection();
   });
@@ -31,52 +32,52 @@ describe("Last new tests", () => {
     await mongo.closeConnection();
     httpServer.close();
   });
-  test("should respond with a 401 status code when try to create last new with invalid auth in request headers", async () => {
+  test("should respond with a 401 status code when try to create last new with invalid auth in request headers", async (): Promise<void> => {
     const res = await request.post(`${baseUrl}/lastNews`).send(lastNewMock);
     expect(res.statusCode).toBe(HttpStatus.UNAUTHORIZED);
   });
-  test("should respond with a 401 status code when try to modify last new with invalid auth in request headers", async () => {
+  test("should respond with a 401 status code when try to modify last new with invalid auth in request headers", async (): Promise<void> => {
     const res = await request
       .patch(`${baseUrl}/lastNews/${lastNewMock.getId()}`)
       .send(lastNewMock);
     expect(res.statusCode).toBe(HttpStatus.UNAUTHORIZED);
   });
-  test("sould respond with a 401 status code when try to delete last new with invalid auth in request headers", async () => {
+  test("sould respond with a 401 status code when try to delete last new with invalid auth in request headers", async (): Promise<void> => {
     const res = await request
       .delete(`${baseUrl}/lastNews/${lastNewMock.getId()}`)
       .send();
     expect(res.statusCode).toBe(HttpStatus.UNAUTHORIZED);
   });
-  test("should respond with a 400 status code when try to modify last new with wrong id", async () => {
+  test("should respond with a 400 status code when try to modify last new with wrong id", async (): Promise<void> => {
     const res = await request
       .patch(`${baseUrl}/lastNews/1234`)
       .set(commonHeaders)
       .send(lastNewMock);
     expect(res.statusCode).toBe(HttpStatus.BAD_REQUEST);
   });
-  test("should respond with a 400 status code when try to delete last new with wrong id", async () => {
+  test("should respond with a 400 status code when try to delete last new with wrong id", async (): Promise<void> => {
     const res = await request
       .delete(`${baseUrl}/lastNews/1234`)
       .set(commonHeaders)
       .send();
     expect(res.statusCode).toBe(HttpStatus.BAD_REQUEST);
   });
-  test("should respond with a 400 status code when try to modify last new without body params", async () => {
+  test("should respond with a 400 status code when try to modify last new without body params", async (): Promise<void> => {
     const res = await request
       .patch(`${baseUrl}/lastNews/${fakeId}`)
       .set(commonHeaders)
       .send(emptyLastNewMock);
     expect(res.statusCode).toBe(HttpStatus.BAD_REQUEST);
   });
-  test("should respond with a 404 status code when try to get one last new that not exists", async () => {
+  test("should respond with a 404 status code when try to get one last new that not exists", async (): Promise<void> => {
     const res = await request.get(`${baseUrl}/lastNews/${fakeId}`).send();
     expect(res.statusCode).toBe(HttpStatus.NOT_FOUND);
   });
-  test("should respond with 400 status code when tr to get one last new with wrong id", async () => {
+  test("should respond with 400 status code when tr to get one last new with wrong id", async (): Promise<void> => {
     const res = await request.get(`${baseUrl}/lastNews/1234`).send();
     expect(res.statusCode).toBe(HttpStatus.BAD_REQUEST);
   });
-  test("should respond with a 400 status code when try to create new last new with null title", async () => {
+  test("should respond with a 400 status code when try to create new last new with null title", async (): Promise<void> => {
     lastNewMock.setTitle("");
     const res = await request
       .post(`${baseUrl}/lastNews`)

@@ -51,14 +51,17 @@ export class LastNewService implements LastNewServicePort {
     );
     payload.setDescription(
       lastNew.getDescription()
-        ? lastNew.getDescription()
-        : lastNewToModify.getDescription()
+        ? lastNew.getDescription()!
+        : lastNewToModify.getDescription() ?? ""
     );
     payload.setImg(
-      lastNew.getImg() ? lastNew.getImg() : lastNewToModify.getImg()
+      lastNew.getImg() ? lastNew.getImg()! : lastNewToModify.getImg() ?? ""
     );
     payload.setContent(
       lastNew.getContent() ? lastNew.getContent() : lastNewToModify.getContent()
+    );
+    payload.setColor(
+      lastNew.getColor() ? lastNew.getColor() : lastNewToModify.getColor()
     );
     return payload;
   }
