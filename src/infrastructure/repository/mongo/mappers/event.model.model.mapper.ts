@@ -6,17 +6,18 @@ export class EventModelModelMapper {
   toEventModel(event: Event | EventType): EventModel {
     const eventModel: EventModel = new EventModel();
     if (event instanceof Event) {
-      event?.getTitle() && eventModel.setTitle(event.getTitle());
       eventModel.setTitle(event.getTitle());
       eventModel.setDescription(event.getDescription());
       eventModel.setImg(event.getImg());
-      eventModel.setContent(eventModel.getContent() ?? "");
+      eventModel.setContent(event.getContent() ?? "");
+      eventModel.setColor(event.getColor() ?? "");
     } else {
       eventModel.setId(event?._id ?? "");
       eventModel.setTitle(event?.title ?? "");
       eventModel.setDescription(event?.description ?? "");
       eventModel.setImg(event?.img ?? "");
       eventModel.setContent(event?.content ?? "");
+      eventModel.setColor(event?.color ?? "");
     }
     return eventModel;
   }
@@ -30,6 +31,7 @@ export class EventModelModelMapper {
     event.setDescription(eventModel?.getDescription() ?? "");
     event.setImg(eventModel?.getImg() ?? "");
     event.setContent(eventModel?.getContent() ?? "");
+    event.setColor(eventModel?.getColor() ?? "");
     return event;
   }
 
