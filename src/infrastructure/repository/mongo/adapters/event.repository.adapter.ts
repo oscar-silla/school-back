@@ -41,9 +41,9 @@ export class EventRepositoryAdapter implements EventRepositoryPort {
     return this.eventModelMapper.toEvents(response);
   }
 
-  async updateOne(event: Event): Promise<void> {
+  async updateOne(id: string, event: Event): Promise<void> {
     const eventModel: EventModel = this.eventModelMapper.toEventModel(event);
-    await this.eventsCollection.updateOne(eventModel);
+    await this.eventsCollection.updateOne(id, eventModel);
   }
 
   async deleteOne(id: string): Promise<void> {

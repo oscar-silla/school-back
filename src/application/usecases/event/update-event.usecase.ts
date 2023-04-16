@@ -25,7 +25,8 @@ export class UpdateEventUseCase implements UpdateEventUseCasePort {
       !event.getTitle() &&
       !event.getDescription() &&
       !event.getImg() &&
-      !event.getContent()
+      !event.getContent() &&
+      !event.getColor()
     ) {
       throw new CustomError(
         HttpMessage.MISSING_PARAMS,

@@ -38,7 +38,7 @@
     "jsonwebtoken": "9.0.0",
     "mongodb": "4.11.0",
     "node-fetch": "^2.6.7",
-    "request": "^2.88.2",
+    "request": "2.88.2",
     "ts-node-dev": "^2.0.0"
   }
 }

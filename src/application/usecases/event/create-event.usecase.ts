@@ -11,7 +11,12 @@ export class CreateEventUseCase implements CreateEventUseCasePort {
   private eventService: EventServicePort = new EventService();
 
   private checkBodyParams(event: Event): void {
-    if (!event.getTitle() || !event.getImg() || !event.getDescription()) {
+    if (
+      !event.getTitle() ||
+      !event.getImg() ||
+      !event.getDescription() ||
+      !event.getColor()
+    ) {
       throw new CustomError(
         HttpMessage.MISSING_PARAMS,
         HttpStatus.BAD_REQUEST,
