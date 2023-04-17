@@ -16,10 +16,10 @@ export class SloganService implements SloganServicePort {
     return await this.sloganRepository.save(slogan);
   }
 
-  async findSlogans(): Promise<Slogan[]> {
-    const slogans: Slogan[] = await this.sloganRepository.findAll();
-    this.checkSlogansSize(slogans);
-    return slogans;
+  async findFirstSlogan(): Promise<Slogan> {
+    const slogan: Slogan = await this.sloganRepository.findFirst();
+    this.checkIfSloganIsPresent(slogan);
+    return slogan;
   }
 
   async findSloganById(id: string): Promise<Slogan> {
@@ -45,12 +45,6 @@ export class SloganService implements SloganServicePort {
     );
     if (possibleSlogan.getTitle()) {
       throw new CustomError(HttpMessage.CONFLICT, HttpStatus.CONFLICT, {});
-    }
-  }
-
-  private checkSlogansSize(slogans: Slogan[]): void {
-    if (slogans.length === 0) {
-      throw new CustomError(HttpMessage.NOT_FOUND, HttpStatus.NOT_FOUND, {});
     }
   }
 

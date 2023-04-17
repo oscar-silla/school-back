@@ -15,6 +15,6 @@ router.use("/users", userControllerAdapter);
 router.use("/login", loginControllerAdapter);
 router.use("/lastNews", lastNewControllerAdapter);
 router.use("/events", eventControllerAdapter);
-router.use("/slogan", sloganControllerAdapter);
+router.use("/slogans", sloganControllerAdapter);
 
 export default router;
