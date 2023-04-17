@@ -12,10 +12,10 @@ export class SlogansCollection {
       await mongo.collection("slogans").insertOne(sloganDao)
     );
   }
-  async findAll(): Promise<SloganModel[]> {
+  async findFirst(): Promise<SloganModel> {
     const { mongo } = global.database;
-    return this.sloganModelMapper.toSloganModels(
-      await mongo.collection("slogans").find({}).toArray()
+    return this.sloganModelMapper.toSloganModel(
+      await mongo.collection("slogans").findOne({})
     );
   }
   async findById(id: string): Promise<SloganModel> {

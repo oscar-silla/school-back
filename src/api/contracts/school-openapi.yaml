@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   title: School API
   description: School API
-  version: 1.0.9
+  version: 1.0.10
   contact:
     email: orscarsilla@outlook.com
 tags:
@@ -569,14 +569,14 @@ paths:
     get:
       tags:
         - "Slogan"
-      summary: "Get slogans"
-      description: "Get all slogans"
-      operationId: "getSlogans"
+      summary: "Get slogan"
+      description: "Get first slogan"
+      operationId: "getFirstSlogan"
       responses:
         '200':
           description: Ok.
           schema:
-            $ref: "#/definitions/SlogansResponse"
+            $ref: "#/definitions/SloganResponse"
         '400':
           description: Bad request.
           schema:
@@ -688,10 +688,6 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 definitions:
-  SlogansResponse:
-    type: array
-    items:
-      $ref: "#/definitions/SloganResponse"
   SloganResponse:
     type: object
     required:

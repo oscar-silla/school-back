@@ -19,9 +19,9 @@ export class SloganRepositoryAdapter implements SloganRepositoryPort {
       await this.slogansCollection.save(sloganModel);
     return this.generatedIdDaoMapper.toGeneratedId(generatedIdModel);
   }
-  async findAll(): Promise<Slogan[]> {
-    const response: SloganModel[] = await this.slogansCollection.findAll();
-    return this.sloganDaoMapper.toSlogans(response);
+  async findFirst(): Promise<Slogan> {
+    const response: SloganModel = await this.slogansCollection.findFirst();
+    return this.sloganDaoMapper.toSlogan(response);
   }
   async findById(id: string): Promise<Slogan> {
     const response: SloganModel = await this.slogansCollection.findById(id);

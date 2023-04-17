@@ -9,8 +9,8 @@ import { GeneratedId } from "../../../../application/domain/generated-id";
 import { GeneratedIdMapper } from "../mappers/generated-id.mapper";
 import { HttpStatus } from "../../../../application/domain/http-status";
 import { SloganResponse } from "../../../../../external-libraries/openapi/models/SloganResponse";
-import { GetSlogansUseCase } from "../../../../application/usecases/slogan/get-slogans.usecase";
-import { GetSlogansUseCasePort } from "../../../../application/ports/in/usecases/slogan/get-slogans.usecase.port";
+import { GetFirstSloganUseCase } from "../../../../application/usecases/slogan/get-first-slogan-use.case";
+import { GetFirstSloganUseCasePort } from "../../../../application/ports/in/usecases/slogan/get-first-slogan-use-case.port";
 import { GetSloganUseCase } from "../../../../application/usecases/slogan/get-slogan.usecase";
 import { GetSloganUseCasePort } from "../../../../application/ports/in/usecases/slogan/get-slogan.usecase.port";
 import { ModifySloganUseCasePort } from "../../../../application/ports/in/usecases/slogan/modify-slogan.usecase.port";
@@ -26,7 +26,8 @@ type idParamType = {
 };
 
 const saveSloganUseCase: SaveSloganUseCasePort = new SaveSloganUseCase();
-const getSlogansUseCase: GetSlogansUseCasePort = new GetSlogansUseCase();
+const getFirstSloganUseCase: GetFirstSloganUseCasePort =
+  new GetFirstSloganUseCase();
 const getSloganUseCase: GetSloganUseCasePort = new GetSloganUseCase();
 const modifySloganUseCase: ModifySloganUseCasePort = new ModifySloganUseCase();
 const deleteSloganUseCase: DeleteSloganUseCasePort = new DeleteSloganUseCase();
@@ -42,8 +43,9 @@ router.post(
     req: Request<any, any, SloganBody, any>,
     res: Response<GeneratedIdResponse>,
     next: NextFunction
-  ) => {
+  ): Promise<void> => {
     try {
+      console.log("POST /slogans");
       const slogan: Slogan = sloganControllerMapper.toSlogan(req.body);
       const generatedId: GeneratedId = await saveSloganUseCase.execute(slogan);
       const generatedIdResponse: GeneratedIdResponse =
@@ -59,13 +61,14 @@ router.get(
   "/",
   async (
     _req: Request,
-    res: Response<SloganResponse[]>,
+    res: Response<SloganResponse>,
     next: NextFunction
-  ) => {
+  ): Promise<void> => {
     try {
-      const slogans: Slogan[] = await getSlogansUseCase.execute();
-      const sloganResponse: SloganResponse[] =
-        sloganControllerMapper.toSlogansResponse(slogans);
+      console.log("GET /slogans");
+      const slogan: Slogan = await getFirstSloganUseCase.execute();
+      const sloganResponse: SloganResponse =
+        sloganControllerMapper.toSloganResponse(slogan);
       res.status(HttpStatus.OK).json(sloganResponse);
     } catch (err) {
       next(err);
@@ -79,8 +82,9 @@ router.get(
     req: Request<any, any, idParamType, any>,
     res: Response<SloganResponse>,
     next: NextFunction
-  ) => {
+  ): Promise<void> => {
     try {
+      console.log("GET /slogans/:id");
       const slogan: Slogan = await getSloganUseCase.execute(req?.params?.id);
       const sloganResponse: SloganResponse =
         sloganControllerMapper.toSloganResponse(slogan);
@@ -98,8 +102,9 @@ router.patch(
     req: Request<idParamType, any, SloganBody, any>,
     res: Response<void>,
     next: NextFunction
-  ) => {
+  ): Promise<void> => {
     try {
+      console.log("PATCH /slogans/:id");
       const slogan: Slogan = sloganControllerMapper.toSlogan(req?.body);
       const id: string = req?.params?.id;
       await modifySloganUseCase.execute(id, slogan);
@@ -117,8 +122,9 @@ router.delete(
     req: Request<idParamType, any, any, any>,
     res: Response,
     next: NextFunction
-  ) => {
+  ): Promise<void> => {
     try {
+      console.log("DELETE /slogans/:id");
       const id: string = req?.params?.id;
       await deleteSloganUseCase.execute(id);
       res.status(HttpStatus.NO_CONTENT).send();
