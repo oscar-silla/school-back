@@ -3,7 +3,7 @@ import { LastNewModel } from "../models/last-new.model";
 import { LastNewType } from "../types/last-new.type";
 
 export class LastNewModelMapper {
-  toLastNewModel(lastNew: LastNew | LastNewType): LastNewModel {
+  toLastNewModel(lastNew: LastNew | LastNewType): LastNewModel | null {
     const lastNewModel: LastNewModel = new LastNewModel();
     if (lastNew instanceof LastNew) {
       lastNewModel.setTitle(lastNew.getTitle());
@@ -11,25 +11,34 @@ export class LastNewModelMapper {
       lastNewModel.setImg(lastNew.getImg() ?? "");
       lastNewModel.setContent(lastNew.getContent());
       lastNewModel.setColor(lastNew.getColor());
-    } else {
-      lastNewModel.setId(lastNew?._id ?? "");
-      lastNewModel.setTitle(lastNew?.title ?? "");
+    } else if (lastNew?._id) {
+      lastNewModel.setId(lastNew._id);
+      lastNewModel.setTitle(lastNew.title);
       lastNewModel.setDescription(lastNew?.description ?? "");
       lastNewModel.setImg(lastNew?.img ?? "");
-      lastNewModel.setContent(lastNew?.content ?? "");
-      lastNewModel.setColor(lastNew?.color ?? "");
+      lastNewModel.setContent(lastNew.content);
+      lastNewModel.setColor(lastNew.color);
+    } else {
+      return null;
     }
     return lastNewModel;
   }
 
-  toLastNewModels(lastNews: LastNew[] | LastNewType[]): LastNewModel[] {
-    return lastNews.map((lastNew: LastNew | LastNewType) =>
-      this.toLastNewModel(lastNew)
-    );
+  toLastNewModels(lastNews: LastNew[] | LastNewType[]): LastNewModel[] | null {
+    if (lastNews.length > 0) {
+      return lastNews.map(
+        (lastNew: LastNew | LastNewType) => this.toLastNewModel(lastNew)!
+      );
+    } else {
+      return null;
+    }
   }
 
-  toLastNew(lastNewModel: LastNewModel): LastNew {
+  toLastNew(lastNewModel: LastNewModel | null): LastNew | null {
     const lastNew: LastNew = new LastNew();
+    if (!lastNewModel) {
+      return null;
+    }
     lastNew.setId(lastNewModel.getId()!);
     lastNew.setTitle(lastNewModel.getTitle());
     lastNew.setDescription(lastNewModel?.getDescription() ?? "");
@@ -39,9 +48,12 @@ export class LastNewModelMapper {
     return lastNew;
   }
 
-  toLastNews(lastNewModels: LastNewModel[]): LastNew[] {
-    return lastNewModels.map((lastNewModel: LastNewModel) =>
-      this.toLastNew(lastNewModel)
+  toLastNews(lastNewModels: LastNewModel[] | null): LastNew[] | null {
+    if (!lastNewModels) {
+      return null;
+    }
+    return lastNewModels.map(
+      (lastNewModel: LastNewModel) => this.toLastNew(lastNewModel)!
     );
   }
 }

@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from "express";
+import express, { NextFunction, Request, Response, Router } from "express";
 import { GeneratedIdResponse } from "../../../../../external-libraries/openapi/models/GeneratedIdResponse";
 import { LastNewResponse } from "../../../../../external-libraries/openapi/models/LastNewResponse";
 import { GeneratedId } from "../../../../application/domain/generated-id";
@@ -17,8 +17,9 @@ import { ModifyLastNewUseCase } from "../../../../application/usecases/lastnew/m
 import { useExtract } from "../../../middlewares/use-extract";
 import { GeneratedIdMapper } from "../mappers/generated-id.mapper";
 import { LastNewControllerMapper } from "../mappers/last-new.controller.mapper";
+import { LastNewBody } from "../../../../../external-libraries/openapi/models/LastNewBody";
 
-const router = express.Router();
+const router: Router = express.Router();
 type idParam = {
   id: string;
 };
@@ -32,21 +33,21 @@ const modifyLastNewUseCase: ModifyLastNewUseCasePort =
 const deleteLastNewUseCase: DeleteLastNewUseCasePort =
   new DeleteLastNewUseCase();
 
-const lastNewMapper = new LastNewControllerMapper();
-const generatedIdMapper = new GeneratedIdMapper();
+const lastNewMapper: LastNewControllerMapper = new LastNewControllerMapper();
+const generatedIdMapper: GeneratedIdMapper = new GeneratedIdMapper();
 
 router.post(
   "/",
   useExtract,
   async (
-    req: Request,
+    req: Request<any, any, LastNewBody, any>,
     res: Response<GeneratedIdResponse>,
     next: NextFunction
   ): Promise<void> => {
     try {
       console.log("POST /lastNews");
       const lastNew: LastNew = lastNewMapper.toArticle(req?.body);
-      const generatedId: GeneratedId = await createLastNewUseCase.createLastNew(
+      const generatedId: GeneratedId = await createLastNewUseCase.execute(
         lastNew
       );
       const generatedIdResponse: GeneratedIdResponse =
@@ -67,7 +68,7 @@ router.get(
   ): Promise<void> => {
     try {
       console.log("GET /lastNews");
-      const articles: LastNew[] = await getLastNewsUseCase.getLastNews(
+      const articles: LastNew[] = await getLastNewsUseCase.execute(
         +(req?.query?.limit as string) ?? 0,
         +(req?.query?.page as string) ?? 0
       );
@@ -89,9 +90,7 @@ router.get(
   ): Promise<void> => {
     try {
       console.log("GET /lastNews/:id");
-      const lastNew: LastNew = await getLastNewUseCase.getLastNew(
-        req?.params?.id
-      );
+      const lastNew: LastNew = await getLastNewUseCase.execute(req?.params?.id);
       const lastNewResponse: LastNewResponse =
         lastNewMapper.toArticleResponse(lastNew);
       res.status(HttpStatus.OK).json(lastNewResponse);
@@ -105,14 +104,14 @@ router.patch(
   "/:id",
   useExtract,
   async (
-    req: Request,
+    req: Request<idParam, any, any, any>,
     res: Response<void>,
     next: NextFunction
   ): Promise<void> => {
     try {
       console.log("PATCH /lastNews/:id");
       const lastNew: LastNew = lastNewMapper.toArticle(req?.body);
-      await modifyLastNewUseCase.modifyLastNew(req?.params?.id, lastNew);
+      await modifyLastNewUseCase.execute(req?.params?.id, lastNew);
       res.status(HttpStatus.OK).send();
     } catch (err) {
       next(err);
@@ -123,10 +122,14 @@ router.patch(
 router.delete(
   "/:id",
   useExtract,
-  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  async (
+    req: Request<idParam, any, any, any>,
+    res: Response<void>,
+    next: NextFunction
+  ): Promise<void> => {
     try {
       console.log("DELETE /lastNews/:id");
-      await deleteLastNewUseCase.deleteLastNew(req?.params?.id);
+      await deleteLastNewUseCase.execute(req?.params?.id);
       res.status(HttpStatus.NO_CONTENT).send();
     } catch (err) {
       next(err);
