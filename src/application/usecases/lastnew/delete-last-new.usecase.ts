@@ -19,7 +19,7 @@ export class DeleteLastNewUseCase implements DeleteLastNewUseCasePort {
     }
   }
 
-  async deleteLastNew(id: string): Promise<void> {
+  async execute(id: string): Promise<void> {
     this.checkPathParams(id);
     await this.lastNewService.deleteLastNew(id);
   }

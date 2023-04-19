@@ -20,7 +20,7 @@ export class CreateLastNewUseCase implements CreateLastNewUseCasePort {
     }
   }
 
-  async createLastNew(lastNew: LastNew): Promise<GeneratedId> {
+  async execute(lastNew: LastNew): Promise<GeneratedId> {
     this.checkBodyParams(lastNew);
     return this.lastNewService.createLastNew(lastNew);
   }

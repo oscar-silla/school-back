@@ -25,10 +25,10 @@ const commonHeaders = {
 };
 
 describe("Last new tests", (): void => {
-  beforeAll(async () => {
+  beforeAll(async (): Promise<void> => {
     await mongo.createConnection();
   });
-  afterAll(async () => {
+  afterAll(async (): Promise<void> => {
     await mongo.closeConnection();
     httpServer.close();
   });
@@ -86,7 +86,7 @@ describe("Last new tests", (): void => {
     expect(res.statusCode).toBe(HttpStatus.BAD_REQUEST);
     lastNewMock.setTitle("Last new title");
   });
-  test("should respond with a 400 status code when try to create new last new with null content", async () => {
+  test("should respond with a 400 status code when try to create new last new with null content", async (): Promise<void> => {
     lastNewMock.setContent("");
     const res = await request
       .post(`${baseUrl}/lastNews`)
@@ -95,7 +95,7 @@ describe("Last new tests", (): void => {
     expect(res.statusCode).toBe(HttpStatus.BAD_REQUEST);
     lastNewMock.setContent("<h1>Last new</h1>");
   });
-  test("should respond with a 201 status code when create a new last new", async () => {
+  test("should respond with a 201 status code when create a new last new", async (): Promise<void> => {
     const res = await request
       .post(`${baseUrl}/lastNews`)
       .set(commonHeaders)
@@ -104,11 +104,18 @@ describe("Last new tests", (): void => {
     expect(generatedId).not.toBeNull();
     expect(res.statusCode).toBe(HttpStatus.CREATED);
   });
-  test("should respond with a 200 status code when get one last new", async () => {
+  test("should respond with a 409 status code when try to create an existing last new", async (): Promise<void> => {
+    const res = await request
+      .post(`${baseUrl}/lastNews`)
+      .set(commonHeaders)
+      .send(lastNewMock);
+    expect(res.statusCode).toBe(HttpStatus.CONFLICT);
+  });
+  test("should respond with a 200 status code when get one last new", async (): Promise<void> => {
     const res = await request.get(`${baseUrl}/lastNews/${generatedId}`).send();
     expect(res.statusCode).toBe(HttpStatus.OK);
   });
-  test("should respond with a 200 status code when modify an existing last new", async () => {
+  test("should respond with a 200 status code when modify an existing last new", async (): Promise<void> => {
     lastNewMock.setTitle("Title updated");
     const res = await request
       .patch(`${baseUrl}/lastNews/${generatedId}`)
@@ -116,18 +123,18 @@ describe("Last new tests", (): void => {
       .send(lastNewMock);
     expect(res.statusCode).toBe(HttpStatus.OK);
   });
-  test("should respond with a 200 status code when get all last news", async () => {
+  test("should respond with a 200 status code when get all last news", async (): Promise<void> => {
     const res = await request.get(`${baseUrl}/lastNews`).send();
     expect(res.statusCode).toBe(HttpStatus.OK);
   });
-  test("should respond with a 204 status code when delete an existing last new", async () => {
+  test("should respond with a 204 status code when delete an existing last new", async (): Promise<void> => {
     const res = await request
       .delete(`${baseUrl}/lastNews/${generatedId}`)
       .set(commonHeaders)
       .send();
     expect(res.statusCode).toBe(HttpStatus.NO_CONTENT);
   });
-  test("should respond with a 404 status code when try to get all last news but them don't exists", async () => {
+  test("should respond with a 404 status code when try to get all last news but them don't exists", async (): Promise<void> => {
     const res = await request.get(`${baseUrl}/lastNews`).send();
     expect(res.statusCode).toBe(HttpStatus.NOT_FOUND);
   });

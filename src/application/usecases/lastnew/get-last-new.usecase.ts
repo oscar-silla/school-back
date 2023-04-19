@@ -20,7 +20,7 @@ export class GetLastNewUseCase implements GetLastNewUseCasePort {
     }
   }
 
-  async getLastNew(id: string): Promise<LastNew> {
+  async execute(id: string): Promise<LastNew> {
     this.checkPathParams(id);
     return await this.lastNewService.getLastNew(id);
   }
