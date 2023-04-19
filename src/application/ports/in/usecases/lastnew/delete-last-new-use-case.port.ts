@@ -1,3 +1,3 @@
 export interface DeleteLastNewUseCasePort {
-  deleteLastNew(id: string): Promise<void>;
+  execute(id: string): Promise<void>;
 }

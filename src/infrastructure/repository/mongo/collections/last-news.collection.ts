@@ -13,7 +13,7 @@ export class LastNewsCollection {
     );
   }
 
-  async find(limit: number, page: number): Promise<LastNewModel[]> {
+  async find(limit: number, page: number): Promise<LastNewModel[] | null> {
     const { mongo } = global.database;
     return this.lastNewModelMapper.toLastNewModels(
       await mongo
@@ -25,10 +25,17 @@ export class LastNewsCollection {
     );
   }
 
-  async findOne(id: string): Promise<LastNewModel> {
+  async findById(id: string): Promise<LastNewModel | null> {
     const { ObjectId, mongo } = global.database;
     return this.lastNewModelMapper.toLastNewModel(
       await mongo.collection("last_news").findOne({ _id: ObjectId(id) })
+    );
+  }
+
+  async findByTitle(title: string): Promise<LastNewModel | null> {
+    const { mongo } = global.database;
+    return this.lastNewModelMapper.toLastNewModel(
+      await mongo.collection("last_news").findOne({ title: title })
     );
   }
 

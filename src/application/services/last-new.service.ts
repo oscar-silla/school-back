@@ -12,19 +12,25 @@ export class LastNewService implements LastNewServicePort {
     new LastNewRepositoryAdapter();
 
   async createLastNew(lastNew: LastNew): Promise<GeneratedId> {
+    const possibleLastNew: LastNew | null =
+      await this.lastNewRepository.findByTitle(lastNew.getTitle());
+    this.throwConflictExceptionIfAlreadyExistsLastNew(possibleLastNew);
     return await this.lastNewRepository.save(lastNew);
   }
 
   async getLastNews(limit: number, page: number): Promise<LastNew[]> {
-    const lastNews: LastNew[] = await this.lastNewRepository.find(limit, page);
-    this.checkIfIsItAnEmptyLastNewsList(lastNews);
-    return lastNews;
+    const lastNews: LastNew[] | null = await this.lastNewRepository.find(
+      limit,
+      page
+    );
+    this.throwExceptionIfNotFoundLastNew(lastNews);
+    return lastNews!;
   }
 
   async getLastNew(id: string): Promise<LastNew> {
-    const lastNew: LastNew = await this.lastNewRepository.findOne(id);
-    this.checkIfLastNewIsPresent(lastNew);
-    return lastNew;
+    const lastNew: LastNew | null = await this.lastNewRepository.findById(id);
+    this.throwExceptionIfNotFoundLastNew(lastNew);
+    return lastNew!;
   }
 
   async modifyLastNew(id: string, lastNew: LastNew): Promise<void> {
@@ -66,15 +72,19 @@ export class LastNewService implements LastNewServicePort {
     return payload;
   }
 
-  private checkIfLastNewIsPresent(lastNew: LastNew): void {
-    if (!lastNew.getId()) {
+  private throwExceptionIfNotFoundLastNew(
+    lastNew: LastNew | LastNew[] | null
+  ): void {
+    if (!lastNew) {
       throw new CustomError(HttpMessage.NOT_FOUND, HttpStatus.NOT_FOUND, {});
     }
   }
 
-  private checkIfIsItAnEmptyLastNewsList(lastNews: LastNew[]): void {
-    if (lastNews.length === 0) {
-      throw new CustomError(HttpMessage.NOT_FOUND, HttpStatus.NOT_FOUND, {});
+  private throwConflictExceptionIfAlreadyExistsLastNew(
+    lastNew: LastNew | null
+  ): void {
+    if (lastNew) {
+      throw new CustomError(HttpMessage.CONFLICT, HttpStatus.CONFLICT, {});
     }
   }
 }

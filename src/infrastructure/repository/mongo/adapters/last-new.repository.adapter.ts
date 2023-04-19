@@ -14,29 +14,36 @@ export class LastNewRepositoryAdapter implements LastNewRepositoryPort {
 
   async save(lastNew: LastNew): Promise<GeneratedId> {
     const lastNewModel: LastNewModel =
-      this.lastNewModelMapper.toLastNewModel(lastNew);
+      this.lastNewModelMapper.toLastNewModel(lastNew)!;
     const response: GeneratedIdModel = await this.lastNewsCollection.save(
       lastNewModel
     );
     return this.generatedIdMapper.toGeneratedId(response);
   }
 
-  async find(limit: number, page: number): Promise<LastNew[]> {
-    const response: LastNewModel[] = await this.lastNewsCollection.find(
+  async find(limit: number, page: number): Promise<LastNew[] | null> {
+    const response: LastNewModel[] | null = await this.lastNewsCollection.find(
       limit,
       page
     );
     return this.lastNewModelMapper.toLastNews(response);
   }
 
-  async findOne(id: string): Promise<LastNew> {
-    const response: LastNewModel = await this.lastNewsCollection.findOne(id);
+  async findById(id: string): Promise<LastNew | null> {
+    const response: LastNewModel | null =
+      await this.lastNewsCollection.findById(id);
+    return this.lastNewModelMapper.toLastNew(response);
+  }
+
+  async findByTitle(title: string): Promise<LastNew | null> {
+    const response: LastNewModel | null =
+      await this.lastNewsCollection.findByTitle(title);
     return this.lastNewModelMapper.toLastNew(response);
   }
 
   async modifyOne(id: string, lastNew: LastNew): Promise<void> {
     const lastNewModel: LastNewModel =
-      this.lastNewModelMapper.toLastNewModel(lastNew);
+      this.lastNewModelMapper.toLastNewModel(lastNew)!;
     await this.lastNewsCollection.modifyOne(id, lastNewModel);
   }
 

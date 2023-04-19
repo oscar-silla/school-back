@@ -41,7 +41,7 @@ export class ModifyLastNewUseCase implements ModifyLastNewUseCasePort {
     this.checkBodyParams(lastNew);
   }
 
-  async modifyLastNew(id: string, lastNew: LastNew): Promise<void> {
+  async execute(id: string, lastNew: LastNew): Promise<void> {
     this.checkParams(id, lastNew);
     return this.lastNewService.modifyLastNew(id, lastNew);
   }

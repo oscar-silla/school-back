@@ -379,6 +379,10 @@ paths:
           description: Not found.
           schema:
             $ref: "#/definitions/ErrorResponse"
+        '409':
+          description: Conflict.
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /lastNews/{id}:
     get:
       tags:
