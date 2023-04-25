@@ -4,8 +4,9 @@ import { EventModelModelMapper } from "../mappers/event.model.model.mapper";
 import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
 
 export class EventsCollection {
-  private eventModelMapper = new EventModelModelMapper();
-  private generateIdModelMapper = new GeneratedIdModelMapper();
+  private eventModelMapper: EventModelModelMapper = new EventModelModelMapper();
+  private generateIdModelMapper: GeneratedIdModelMapper =
+    new GeneratedIdModelMapper();
   async save(eventModel: EventModel): Promise<GeneratedIdModel> {
     const { mongo } = global.database;
     return this.generateIdModelMapper.toGenerateIdModel(
@@ -13,21 +14,21 @@ export class EventsCollection {
     );
   }
 
-  async findOneById(id: string): Promise<EventModel> {
+  async findOneById(id: string): Promise<EventModel | null> {
     const { ObjectId, mongo } = global.database;
     return this.eventModelMapper.toEventModel(
       await mongo.collection("events").findOne({ _id: ObjectId(id) })
     );
   }
 
-  async findOneByTitle(title: string): Promise<EventModel> {
+  async findOneByTitle(title: string): Promise<EventModel | null> {
     const { mongo } = global.database;
     return this.eventModelMapper.toEventModel(
       await mongo.collection("events").findOne({ title })
     );
   }
 
-  async find(limit: number, page: number): Promise<EventModel[]> {
+  async find(limit: number, page: number): Promise<EventModel[] | null> {
     const { mongo } = global.database;
     return this.eventModelMapper.toEventModels(
       await mongo
