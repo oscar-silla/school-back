@@ -10,31 +10,33 @@ import { GeneratedIdModel } from "../models/generated-id.model";
 
 export class EventRepositoryAdapter implements EventRepositoryPort {
   private eventsCollection = new EventsCollection();
-  private eventModelMapper = new EventModelModelMapper();
-  private generatedIdModelMapper = new GeneratedIdModelMapper();
+  private eventModelMapper: EventModelModelMapper = new EventModelModelMapper();
+  private generatedIdModelMapper: GeneratedIdModelMapper =
+    new GeneratedIdModelMapper();
 
   async save(event: Event): Promise<GeneratedId> {
-    const eventModel: EventModel = this.eventModelMapper.toEventModel(event);
+    const eventModel: EventModel = this.eventModelMapper.toEventModel(event)!;
     const response: GeneratedIdModel = await this.eventsCollection.save(
       eventModel
     );
     return this.generatedIdModelMapper.toGeneratedId(response);
   }
 
-  async findOneById(id: string): Promise<Event> {
-    const response: EventModel = await this.eventsCollection.findOneById(id);
-    return this.eventModelMapper.toEvent(response);
-  }
-
-  async findOneByTitle(title: string): Promise<Event> {
-    const response: EventModel = await this.eventsCollection.findOneByTitle(
-      title
+  async findOneById(id: string): Promise<Event | null> {
+    const response: EventModel | null = await this.eventsCollection.findOneById(
+      id
     );
     return this.eventModelMapper.toEvent(response);
   }
 
-  async find(limit: number, page: number): Promise<Event[]> {
-    const response: EventModel[] = await this.eventsCollection.find(
+  async findOneByTitle(title: string): Promise<Event | null> {
+    const response: EventModel | null =
+      await this.eventsCollection.findOneByTitle(title);
+    return this.eventModelMapper.toEvent(response);
+  }
+
+  async find(limit: number, page: number): Promise<Event[] | null> {
+    const response: EventModel[] | null = await this.eventsCollection.find(
       limit,
       page
     );
@@ -42,7 +44,7 @@ export class EventRepositoryAdapter implements EventRepositoryPort {
   }
 
   async updateOne(id: string, event: Event): Promise<void> {
-    const eventModel: EventModel = this.eventModelMapper.toEventModel(event);
+    const eventModel: EventModel = this.eventModelMapper.toEventModel(event)!;
     await this.eventsCollection.updateOne(id, eventModel);
   }
 
