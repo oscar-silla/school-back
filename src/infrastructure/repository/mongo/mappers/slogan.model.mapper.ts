@@ -3,43 +3,50 @@ import { SloganModel } from "../models/slogan.model";
 import { SloganType } from "../types/slogan.type";
 
 export class SloganModelMapper {
-  toSloganModel(slogan: Slogan | SloganType): SloganModel {
-    const sloganDao: SloganModel = new SloganModel();
+  toSloganModel(slogan: Slogan | SloganType | null): SloganModel | null {
+    const sloganModel: SloganModel = new SloganModel();
     if (slogan instanceof Slogan) {
-      sloganDao.setTitle(slogan?.getTitle() ?? "");
-      sloganDao.setDescription(slogan?.getDescription() ?? "");
-      sloganDao.setImg(slogan?.getImg() ?? "");
-      sloganDao.setTextButton(slogan?.getTextButton() ?? "");
-      sloganDao.setUrl(slogan?.getUrl() ?? "");
+      sloganModel.setTitle(slogan?.getTitle() ?? "");
+      sloganModel.setDescription(slogan?.getDescription() ?? "");
+      sloganModel.setImg(slogan?.getImg() ?? "");
+      sloganModel.setTextButton(slogan?.getTextButton() ?? "");
+      sloganModel.setUrl(slogan?.getUrl() ?? "");
+    } else if (slogan?._id) {
+      sloganModel.setId(slogan?._id ?? "");
+      sloganModel.setTitle(slogan.title);
+      sloganModel.setDescription(slogan.description);
+      sloganModel.setImg(slogan.img);
+      sloganModel.setTextButton(slogan?.textButton ?? "");
+      sloganModel.setUrl(slogan?.url ?? "");
     } else {
-      sloganDao.setId(slogan?._id ?? "");
-      sloganDao.setTitle(slogan?.title ?? "");
-      sloganDao.setDescription(slogan?.description ?? "");
-      sloganDao.setImg(slogan?.img ?? "");
-      sloganDao.setTextButton(slogan?.textButton ?? "");
-      sloganDao.setUrl(slogan?.url ?? "");
+      return null;
     }
-    return sloganDao;
+    return sloganModel;
   }
-  toSloganModels(slogans: Slogan[] | SloganType[]): SloganModel[] {
-    return slogans.map((slogan: Slogan | SloganType) =>
-      this.toSloganModel(slogan)
-    );
+  toSloganModels(slogans: Slogan[] | SloganType[]): SloganModel[] | null {
+    return slogans.length > 0
+      ? slogans.map(
+          (slogan: Slogan | SloganType) => this.toSloganModel(slogan)!
+        )
+      : null;
   }
-  toSlogan(sloganModel: SloganModel): Slogan {
+  toSlogan(sloganModel: SloganModel | null): Slogan | null {
+    if (!sloganModel) {
+      return null;
+    }
     const slogan: Slogan = new Slogan();
-    slogan.setId(sloganModel?.getId() ?? "");
-    slogan.setTitle(sloganModel?.getTitle() ?? "");
-    slogan.setDescription(sloganModel?.getDescription() ?? "");
-    slogan.setImg(sloganModel?.getImg() ?? "");
+    slogan.setId(sloganModel.getId()!);
+    slogan.setTitle(sloganModel.getTitle());
+    slogan.setDescription(sloganModel.getDescription());
+    slogan.setImg(sloganModel.getImg());
     slogan.setTextButton(sloganModel?.getTextButton() ?? "");
     slogan.setUrl(sloganModel?.getUrl() ?? "");
     return slogan;
   }
 
-  toSlogans(sloganDaoList: SloganModel[]): Slogan[] {
-    return sloganDaoList.map((sloganDao: SloganModel) =>
-      this.toSlogan(sloganDao)
-    );
+  toSlogans(sloganDaoList: SloganModel[] | null): Slogan[] | null {
+    return sloganDaoList && sloganDaoList.length > 0
+      ? sloganDaoList.map((sloganDao: SloganModel) => this.toSlogan(sloganDao)!)
+      : null;
   }
 }
