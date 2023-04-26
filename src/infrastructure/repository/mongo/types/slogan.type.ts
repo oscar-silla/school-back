@@ -3,6 +3,6 @@ export interface SloganType {
   title: string;
   description: string;
   img: string;
-  textButton?: string;
-  url?: string;
+  textButton: string;
+  url: string;
 }

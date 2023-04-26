@@ -12,20 +12,23 @@ export class SloganService implements SloganServicePort {
     new SloganRepositoryAdapter();
 
   async createSlogan(slogan: Slogan): Promise<GeneratedId> {
-    await this.checkIfAlreadyExistsSlogan(slogan);
+    const existsSlogan: Slogan | null = await this.sloganRepository.findByTitle(
+      slogan.getTitle()
+    );
+    await this.throwConflictExceptionIfSloganAlreadyExists(existsSlogan);
     return await this.sloganRepository.save(slogan);
   }
 
   async findFirstSlogan(): Promise<Slogan> {
-    const slogan: Slogan = await this.sloganRepository.findFirst();
-    this.checkIfSloganIsPresent(slogan);
-    return slogan;
+    const slogan: Slogan | null = await this.sloganRepository.findFirst();
+    this.throwExceptionIfNotFoundSlogan(slogan);
+    return slogan!;
   }
 
   async findSloganById(id: string): Promise<Slogan> {
-    const slogan: Slogan = await this.sloganRepository.findById(id);
-    this.checkIfSloganIsPresent(slogan);
-    return slogan;
+    const slogan: Slogan | null = await this.sloganRepository.findById(id);
+    this.throwExceptionIfNotFoundSlogan(slogan);
+    return slogan!;
   }
 
   async modifySloganById(id: string, newSlogan: Slogan): Promise<void> {
@@ -39,17 +42,18 @@ export class SloganService implements SloganServicePort {
     await this.sloganRepository.deleteOneById(id);
   }
 
-  private async checkIfAlreadyExistsSlogan(slogan: Slogan): Promise<void> {
-    const possibleSlogan: Slogan = await this.sloganRepository.findByTitle(
-      slogan.getTitle() ?? ""
-    );
-    if (possibleSlogan.getTitle()) {
+  private throwConflictExceptionIfSloganAlreadyExists(
+    slogan: Slogan | null
+  ): void {
+    if (slogan) {
       throw new CustomError(HttpMessage.CONFLICT, HttpStatus.CONFLICT, {});
     }
   }
 
-  private checkIfSloganIsPresent(slogan: Slogan) {
-    if (!slogan.getId()) {
+  private throwExceptionIfNotFoundSlogan(
+    slogan: Slogan | Slogan[] | null
+  ): void {
+    if (!slogan) {
       throw new CustomError(HttpMessage.NOT_FOUND, HttpStatus.NOT_FOUND, {});
     }
   }

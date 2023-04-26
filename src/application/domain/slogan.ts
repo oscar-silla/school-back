@@ -1,8 +1,8 @@
 export class Slogan {
   private id?: string;
-  private title?: string;
-  private description?: string;
-  private img?: string;
+  private title!: string;
+  private description!: string;
+  private img!: string;
   private textButton?: string;
   private url?: string;
 
@@ -23,13 +23,13 @@ export class Slogan {
   getId(): string | undefined {
     return this.id;
   }
-  getTitle(): string | undefined {
+  getTitle(): string {
     return this.title;
   }
-  getDescription(): string | undefined {
+  getDescription(): string {
     return this.description;
   }
-  getImg(): string | undefined {
+  getImg(): string {
     return this.img;
   }
   getTextButton(): string | undefined {
@@ -42,7 +42,7 @@ export class Slogan {
     this.id = id;
   }
 
-  setTitle(title: string | undefined): void {
+  setTitle(title: string): void {
     this.title = title;
   }
   setDescription(description: string): void {

@@ -12,19 +12,19 @@ export class SlogansCollection {
       await mongo.collection("slogans").insertOne(sloganDao)
     );
   }
-  async findFirst(): Promise<SloganModel> {
+  async findFirst(): Promise<SloganModel | null> {
     const { mongo } = global.database;
     return this.sloganModelMapper.toSloganModel(
       await mongo.collection("slogans").findOne({})
     );
   }
-  async findById(id: string): Promise<SloganModel> {
+  async findById(id: string): Promise<SloganModel | null> {
     const { ObjectId, mongo } = global.database;
     return this.sloganModelMapper.toSloganModel(
       await mongo.collection("slogans").findOne({ _id: ObjectId(id) })
     );
   }
-  async findByTitle(title: string): Promise<SloganModel> {
+  async findByTitle(title: string): Promise<SloganModel | null> {
     const { mongo } = global.database;
     return this.sloganModelMapper.toSloganModel(
       await mongo.collection("slogans").findOne({ title })
