@@ -11,33 +11,35 @@ import { UserRepositoryPort } from "../ports/out/user.repository.port";
 export class UserService implements UserServicePort {
   private userRepository: UserRepositoryPort = new UserRepositoryAdapter();
 
-  private async hashPassword(password: string): Promise<string> {
-    return await bcrypt.hash(password, 10);
+  private async hashPassword(user: User): Promise<void> {
+    user.setPassword(await bcrypt.hash(user.getPassword(), 10));
   }
 
   async createUser(user: User): Promise<GeneratedId> {
-    await this.checkIfUserExists(user.getEmail());
-    const passwordHashed = await this.hashPassword(user.getPassword());
-    user.setPassword(passwordHashed);
+    const existsUser: User | null = await this.userRepository.findOneByEmail(
+      user.getEmail()
+    );
+    this.throwConflictExceptionIfUserAlreadyExists(existsUser);
+    await this.hashPassword(user);
     return await this.userRepository.save(user);
   }
 
   async getUserById(id: string): Promise<User> {
-    const user: User = await this.userRepository.findOneById(id);
-    this.checkIfUserNotExists(user);
-    return user;
+    const user: User | null = await this.userRepository.findOneById(id);
+    this.throwExceptionIfNotFoundUser(user);
+    return user!;
   }
 
   async getUserByEmail(email: string): Promise<User> {
-    const user: User = await this.userRepository.findOneByEmail(email);
-    this.checkIfUserNotExists(user);
-    return user;
+    const user: User | null = await this.userRepository.findOneByEmail(email);
+    this.throwExceptionIfNotFoundUser(user);
+    return user!;
   }
 
   async getAllUsers(): Promise<User[]> {
-    const users: User[] = await this.userRepository.find();
-    this.checkIfUserListIsEmpty(users);
-    return users;
+    const users: User[] | null = await this.userRepository.find();
+    this.throwExceptionIfNotFoundUser(users);
+    return users!;
   }
 
   async deleteUser(id: string): Promise<void> {
@@ -45,21 +47,14 @@ export class UserService implements UserServicePort {
     await this.userRepository.deleteOneById(id);
   }
 
-  private async checkIfUserExists(email: string) {
-    const user: User = await this.userRepository.findOneByEmail(email);
-    if (user.getId()) {
+  private throwConflictExceptionIfUserAlreadyExists(user: User | null): void {
+    if (user) {
       throw new CustomError(HttpMessage.CONFLICT, HttpStatus.CONFLICT, {});
     }
   }
 
-  private checkIfUserNotExists(user: User) {
-    if (!user.getId()) {
-      throw new CustomError(HttpMessage.NOT_FOUND, HttpStatus.NOT_FOUND, {});
-    }
-  }
-
-  private checkIfUserListIsEmpty(users: User[]) {
-    if (users.length === 0) {
+  private throwExceptionIfNotFoundUser(user: User | User[] | null): void {
+    if (!user) {
       throw new CustomError(HttpMessage.NOT_FOUND, HttpStatus.NOT_FOUND, {});
     }
   }

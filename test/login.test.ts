@@ -9,16 +9,16 @@ import { mongo } from "../src/infrastructure/database/mongo";
 const httpServer = createServer();
 const request = agent(httpServer);
 
-const baseUrl = "/api/v1";
+const baseUrl: string = "/api/v1";
 
-const id = "";
-const email = "osilla@outlook.com";
-const password = "1234";
-const wrongPassword = "4567";
-const username = "osilla";
-const name = "Óscar";
-const surnames = "Silla";
-const avatar = "avatar.jpg";
+const id: string = "";
+const email: string = "osilla@outlook.com";
+const password: string = "1234";
+const wrongPassword: string = "4567";
+const username: string = "osilla";
+const name: string = "Óscar";
+const surnames: string = "Silla";
+const avatar: string = "avatar.jpg";
 const loginCredentialsMock: LoginCredentials = new LoginCredentials(
   email,
   password
@@ -36,17 +36,17 @@ const commonHeaders = {
   authorization: process.env.TOKEN,
 };
 
-describe("login tests", () => {
-  beforeAll(async () => {
+describe("login tests", (): void => {
+  beforeAll(async (): Promise<void> => {
     await mongo.createConnection();
   });
 
-  afterAll(async () => {
+  afterAll(async (): Promise<void> => {
     await mongo.closeConnection();
     httpServer.close();
   });
 
-  test("should respond with 400 status code when try login send null email in body params", async () => {
+  test("should respond with 400 status code when try login send null email in body params", async (): Promise<void> => {
     loginCredentialsMock.setEmail("");
     const res = await request
       .post(`${baseUrl}/login`)
@@ -54,7 +54,7 @@ describe("login tests", () => {
     expect(res.statusCode).toBe(HttpStatus.BAD_REQUEST);
     loginCredentialsMock.setEmail(email);
   });
-  test("should respond with 400 status code when try login send null password in body params", async () => {
+  test("should respond with 400 status code when try login send null password in body params", async (): Promise<void> => {
     loginCredentialsMock.setPassword("");
     const res = await request
       .post(`${baseUrl}/login`)
@@ -62,13 +62,13 @@ describe("login tests", () => {
     expect(res.statusCode).toBe(HttpStatus.BAD_REQUEST);
     loginCredentialsMock.setPassword(password);
   });
-  test("should respond with 404 status code when try to login with user that not exists", async () => {
+  test("should respond with 404 status code when try to login with user that not exists", async (): Promise<void> => {
     const res = await request
       .post(`${baseUrl}/login`)
       .send(loginCredentialsMock);
     expect(res.statusCode).toBe(HttpStatus.NOT_FOUND);
   });
-  test("should respond with 401 status code when try to login with an existing user but wrong password", async () => {
+  test("should respond with 401 status code when try to login with an existing user but wrong password", async (): Promise<void> => {
     const userResponse = await request.post(`${baseUrl}/users`).send(userMock);
     const { generatedId } = userResponse?.body;
     const res = await request
@@ -80,7 +80,7 @@ describe("login tests", () => {
       .set(commonHeaders)
       .send();
   });
-  test("should respond with 404 status code when try to generate token without secret key", async () => {
+  test("should respond with 404 status code when try to generate token without secret key", async (): Promise<void> => {
     userMock.setPassword(password);
     const userResponse = await request.post(`${baseUrl}/users`).send(userMock);
     const { generatedId } = userResponse?.body;
@@ -95,7 +95,7 @@ describe("login tests", () => {
       .set(commonHeaders)
       .send();
   });
-  test("should respond with 200 status code when login is success", async () => {
+  test("should respond with 200 status code when login is success", async (): Promise<void> => {
     userMock.setPassword(password);
     const userResponse = await request.post(`${baseUrl}/users`).send(userMock);
     const { generatedId } = userResponse?.body;
