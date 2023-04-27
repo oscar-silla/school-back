@@ -19,7 +19,7 @@ router.post(
     req: Request<LoginBody>,
     res: Response<LoginResponse>,
     next: NextFunction
-  ) => {
+  ): Promise<void> => {
     try {
       const loginCredentials: LoginCredentials = loginMapper.toLoginCredentials(
         req?.body

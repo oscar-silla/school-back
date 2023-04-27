@@ -1,9 +1,9 @@
 export class User {
   private id?: string;
-  private username: string;
-  private password: string;
-  private name: string;
-  private email: string;
+  private username!: string;
+  private password!: string;
+  private name!: string;
+  private email!: string;
   private surnames: string;
   private avatar: string;
 

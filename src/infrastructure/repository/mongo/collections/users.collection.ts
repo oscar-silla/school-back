@@ -4,27 +4,28 @@ import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
 import { UserModelMapper } from "../mappers/user.model.mapper";
 
 export class UsersCollection {
-  private userModelMapper = new UserModelMapper();
-  private generatedIdModelMapper = new GeneratedIdModelMapper();
+  private userModelMapper: UserModelMapper = new UserModelMapper();
+  private generatedIdModelMapper: GeneratedIdModelMapper =
+    new GeneratedIdModelMapper();
   async save(userModel: UserModel): Promise<GeneratedIdModel> {
     const { mongo } = global.database;
     return this.generatedIdModelMapper.toGenerateIdModel(
       await mongo.collection("users").insertOne(userModel)
     );
   }
-  async findOneById(id: string): Promise<UserModel> {
+  async findOneById(id: string): Promise<UserModel | null> {
     const { ObjectId, mongo } = global.database;
     return this.userModelMapper.toUserModel(
       await mongo.collection("users").findOne({ _id: ObjectId(id) })
     );
   }
-  async findOneByEmail(email: string): Promise<UserModel> {
+  async findOneByEmail(email: string): Promise<UserModel | null> {
     const { mongo } = global.database;
     return this.userModelMapper.toUserModel(
       await mongo.collection("users").findOne({ email })
     );
   }
-  async find(): Promise<UserModel[]> {
+  async find(): Promise<UserModel[] | null> {
     const { mongo } = global.database;
     return this.userModelMapper.toUserModels(
       await mongo.collection("users").find().toArray()

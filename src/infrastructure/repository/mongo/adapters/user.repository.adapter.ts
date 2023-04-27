@@ -10,31 +10,33 @@ import { GeneratedIdModel } from "../models/generated-id.model";
 export class UserRepositoryAdapter implements UserRepositoryPort {
   private usersCollection = new UsersCollection();
 
-  private userModelMapper = new UserModelMapper();
-  private generatedIdModelMapper = new GeneratedIdModelMapper();
+  private userModelMapper: UserModelMapper = new UserModelMapper();
+  private generatedIdModelMapper: GeneratedIdModelMapper =
+    new GeneratedIdModelMapper();
 
   async save(user: User): Promise<GeneratedId> {
-    const userModel: UserModel = this.userModelMapper.toUserModel(user);
+    const userModel: UserModel = this.userModelMapper.toUserModel(user)!;
     const response: GeneratedIdModel = await this.usersCollection.save(
       userModel
     );
     return this.generatedIdModelMapper.toGeneratedId(response);
   }
 
-  async find(): Promise<User[]> {
-    const response: UserModel[] = await this.usersCollection.find();
+  async find(): Promise<User[] | null> {
+    const response: UserModel[] | null = await this.usersCollection.find();
     return this.userModelMapper.toUsers(response);
   }
 
-  async findOneById(id: string): Promise<User> {
-    const response: UserModel = await this.usersCollection.findOneById(id);
+  async findOneById(id: string): Promise<User | null> {
+    const response: UserModel | null = await this.usersCollection.findOneById(
+      id
+    );
     return this.userModelMapper.toUser(response);
   }
 
-  async findOneByEmail(email: string): Promise<User> {
-    const response: UserModel = await this.usersCollection.findOneByEmail(
-      email
-    );
+  async findOneByEmail(email: string): Promise<User | null> {
+    const response: UserModel | null =
+      await this.usersCollection.findOneByEmail(email);
     return this.userModelMapper.toUser(response);
   }
 
