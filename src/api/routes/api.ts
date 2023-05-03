@@ -1,6 +1,5 @@
 import express from "express";
 import videoControllerAdapter from "./controllers/adapters/video.controller.adapter";
-import sectionControllerAdapter from "./controllers/adapters/section.controller.adapter";
 import userControllerAdapter from "./controllers/adapters/user.controller.adapter";
 import loginControllerAdapter from "./controllers/adapters/login.controller.adapter";
 import lastNewControllerAdapter from "./controllers/adapters/last-new.controller.adapter";
@@ -10,7 +9,6 @@ import sloganControllerAdapter from "./controllers/adapters/slogan.controller.ad
 const router = express.Router();
 
 router.use("/video", videoControllerAdapter);
-router.use("/sections", sectionControllerAdapter);
 router.use("/users", userControllerAdapter);
 router.use("/login", loginControllerAdapter);
 router.use("/lastNews", lastNewControllerAdapter);
