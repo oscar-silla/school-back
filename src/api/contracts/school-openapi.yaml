@@ -8,8 +8,6 @@ info:
 tags:
   - name: Video
     description: Manage videos from school web page
-  - name: Sections
-    description: Manage sections from school web page
   - name: Users
     description: Manage users from school web page
   - name: Login
@@ -182,126 +180,6 @@ paths:
       operationId: "deleteVideo"
       parameters:
         - $ref: "#/parameters/idParam"
-      responses:
-        '204':
-          description: No content.
-        '400':
-          description: Bad request.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '401':
-          description: Unauthorized.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '404':
-          description: Not found.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-  /sections:
-    post:
-      tags:
-        - "Sections"
-      summary: "Create section"
-      description: "Create section"
-      operationId: "createSection"
-      parameters:
-        - $ref: "#/parameters/sectionBodyParam"
-      responses:
-        '201':
-          description: Created successfully.
-        '400':
-          description: Bad request.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '401':
-          description: Unauthorized.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '404':
-          description: Not found.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-    get:
-      tags:
-        - "Sections"
-      summary: "Get sections"
-      description: "Get all sections"
-      operationId: "getSections"
-      responses:
-        '200':
-          description: OK.
-          schema:
-            $ref: "#/definitions/SectionsResponse"
-        '400':
-          description: Bad request.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '401':
-          description: Unauthorized.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '404':
-          description: Not found.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-  /sections/{ref}:
-    get:
-      tags:
-        - "Sections"
-      summary: "Get an existing section"
-      description: "Get an existing section by ObjectId."
-      operationId: "getSection"
-      parameters:
-        - $ref: "#/parameters/sectionReference"
-      responses:
-        '200':
-          description: OK.
-          schema:
-            $ref: '#/definitions/SectionResponse'
-        '400':
-          description: Bad request.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '401':
-          description: Unauthorized.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '404':
-          description: Not found.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-    patch:
-      tags:
-        - "Sections"
-      summary: "Modify an existing section"
-      description: "Modify an existing section by ObjectId"
-      operationId: "modifySection"
-      parameters:
-        - $ref: "#/parameters/sectionReference"
-        - $ref: "#/parameters/sectionBodyParam"
-      responses:
-        '200':
-          description: OK.
-        '400':
-          description: Bad request.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '401':
-          description: Unauthorized.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        '404':
-          description: Not found.
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-    delete:
-      tags:
-        - "Sections"
-      summary: "Delete an existing section"
-      description: "Delete an existing section by ObjectId"
-      operationId: "deleteSection"
-      parameters:
-        - $ref: "#/parameters/sectionReference"
       responses:
         '204':
           description: No content.
@@ -927,23 +805,6 @@ definitions:
         type: string
         format: string
         example: <iframe width="560" height="315" src="https://www.youtube.com/embed/d6q8T2jfjm0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  SectionBody:
-    type: object
-    required:
-      - "title"
-    properties:
-      title:
-        type: string
-        format: string
-        example: "Educational Principles"
-      description:
-        type: string
-        format: string
-        example: "Educational principles are the core of the school."
-      img:
-        type: string
-        format: string
-        example: "example.png"
   UserBody:
     type: object
     required:
@@ -999,33 +860,6 @@ definitions:
         type: string
         format: string
         example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-  SectionsResponse:
-    type: array
-    items:
-      $ref: "#/definitions/SectionResponse"
-  SectionResponse:
-    type: object
-    properties:
-      _id:
-        type: string
-        format: string
-        example: "507f191e810c19729de860ea"
-      title:
-        type: string
-        format: string
-        example: "Educational Principles"
-      description:
-        type: string
-        format: string
-        example: "Educational principles are the core of the school."
-      img:
-        type: string
-        format: string
-        example: "example.png"
-      ref:
-        type: string
-        format: string
-        example: "educational_principles"
   UsersResponse:
     type: array
     items:
@@ -1076,13 +910,6 @@ parameters:
     required: true
     type: string
     format: string
-  sectionReference:
-    name: "ref"
-    description: "Section reference filter to find, update and delete a section."
-    in: path
-    required: true
-    type: string
-    format: string
   videoBodyParam:
     name: "body"
     description: "Video body"
@@ -1097,13 +924,6 @@ parameters:
     required: true
     schema:
       $ref: "#/definitions/VideoSourceBody"
-  sectionBodyParam:
-    name: "body"
-    description: "Section body"
-    in: body
-    required: true
-    schema:
-      $ref: "#/definitions/SectionBody"
   userBodyParam:
     name: "body"
     description: "User body param"
