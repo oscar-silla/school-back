@@ -1,5 +1,5 @@
-import { GeneratedId } from "../../domain/generated-id";
-import { LastNew } from "../../domain/last-new";
+import { GeneratedId } from "../../../domain/generated-id";
+import { LastNew } from "../../../domain/last-new";
 
 export interface LastNewRepositoryPort {
   save(lastNew: LastNew): Promise<GeneratedId>;

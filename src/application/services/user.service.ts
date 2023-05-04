@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
 import { CustomError } from "../exceptions/CustomError";
 import { HttpMessage } from "../domain/http-message";
 import { HttpStatus } from "../domain/http-status";
-import { UserRepositoryPort } from "../ports/out/user.repository.port";
+import { UserRepositoryPort } from "../ports/out/repository/user.repository.port";
 
 export class UserService implements UserServicePort {
   private userRepository: UserRepositoryPort = new UserRepositoryAdapter();

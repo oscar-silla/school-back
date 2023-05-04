@@ -1,15 +1,16 @@
 import { Event } from "../../../../application/domain/event";
 import { EventModel } from "../models/event.model";
 import { GeneratedId } from "../../../../application/domain/generated-id";
-import { EventRepositoryPort } from "../../../../application/ports/out/event.repository.port";
+import { EventRepositoryPort } from "../../../../application/ports/out/repository/event.repository.port";
 import { EventsCollection } from "../collections/events.collection";
 
 import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
 import { EventModelModelMapper } from "../mappers/event.model.model.mapper";
 import { GeneratedIdModel } from "../models/generated-id.model";
+import { EventsCollectionPort } from "../../../../application/ports/out/collection/events.collection.port";
 
 export class EventRepositoryAdapter implements EventRepositoryPort {
-  private eventsCollection = new EventsCollection();
+  private eventsCollection: EventsCollectionPort = new EventsCollection();
   private eventModelMapper: EventModelModelMapper = new EventModelModelMapper();
   private generatedIdModelMapper: GeneratedIdModelMapper =
     new GeneratedIdModelMapper();

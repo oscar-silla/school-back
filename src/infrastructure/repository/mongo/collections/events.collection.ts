@@ -2,8 +2,9 @@ import { EventModel } from "../models/event.model";
 import { GeneratedIdModel } from "../models/generated-id.model";
 import { EventModelModelMapper } from "../mappers/event.model.model.mapper";
 import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
+import { EventsCollectionPort } from "../../../../application/ports/out/collection/events.collection.port";
 
-export class EventsCollection {
+export class EventsCollection implements EventsCollectionPort {
   private eventModelMapper: EventModelModelMapper = new EventModelModelMapper();
   private generateIdModelMapper: GeneratedIdModelMapper =
     new GeneratedIdModelMapper();
