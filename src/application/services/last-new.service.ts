@@ -5,7 +5,7 @@ import { HttpMessage } from "../domain/http-message";
 import { LastNew } from "../domain/last-new";
 import { CustomError } from "../exceptions/CustomError";
 import { LastNewServicePort } from "../ports/in/services/last-new.service.port";
-import { LastNewRepositoryPort } from "../ports/out/last-new.repository.port";
+import { LastNewRepositoryPort } from "../ports/out/repository/last-new.repository.port";
 
 export class LastNewService implements LastNewServicePort {
   private lastNewRepository: LastNewRepositoryPort =

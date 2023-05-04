@@ -1,6 +1,6 @@
 import { GeneratedId } from "../../../../application/domain/generated-id";
 import { LastNew } from "../../../../application/domain/last-new";
-import { LastNewRepositoryPort } from "../../../../application/ports/out/last-new.repository.port";
+import { LastNewRepositoryPort } from "../../../../application/ports/out/repository/last-new.repository.port";
 import { LastNewsCollection } from "../collections/last-news.collection";
 import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
 import { LastNewModelMapper } from "../mappers/last-new.model.mapper";
