@@ -2,7 +2,7 @@ import { EventRepositoryAdapter } from "../../infrastructure/repository/mongo/ad
 import { Event } from "../domain/event";
 import { GeneratedId } from "../domain/generated-id";
 import { EventServicePort } from "../ports/in/services/event.service.port";
-import { EventRepositoryPort } from "../ports/out/event.repository.port";
+import { EventRepositoryPort } from "../ports/out/repository/event.repository.port";
 import { CustomError } from "../exceptions/CustomError";
 import { HttpStatus } from "../domain/http-status";
 import { HttpMessage } from "../domain/http-message";

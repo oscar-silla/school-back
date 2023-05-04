@@ -1,6 +1,6 @@
 import { GeneratedId } from "../../../../application/domain/generated-id";
 import { User } from "../../../../application/domain/user";
-import { UserRepositoryPort } from "../../../../application/ports/out/user.repository.port";
+import { UserRepositoryPort } from "../../../../application/ports/out/repository/user.repository.port";
 import { UsersCollection } from "../collections/users.collection";
 import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
 import { UserModelMapper } from "../mappers/user.model.mapper";
