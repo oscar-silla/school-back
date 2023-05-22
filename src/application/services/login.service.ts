@@ -9,7 +9,10 @@ import { HttpStatus } from "../domain/http-status";
 
 export class LoginService implements LoginServicePort {
   private async checkPassword(password: string, passworToCompare: string) {
-    const samePassword = await bcrypt.compare(password, passworToCompare);
+    const samePassword: boolean = await bcrypt.compare(
+      password,
+      passworToCompare
+    );
     if (!samePassword) {
       throw new CustomError(
         HttpMessage.UNAUTHORIZED,
@@ -19,7 +22,7 @@ export class LoginService implements LoginServicePort {
     }
   }
 
-  private generateToken(loginCredentials: LoginCredentials): Token {
+  private generateToken(): Token {
     if (!process.env.SECRET) {
       throw new CustomError(
         HttpMessage.ENVIRONMENT_VAR_NOT_FOUND,
@@ -27,7 +30,9 @@ export class LoginService implements LoginServicePort {
         {}
       );
     }
-    const token = jwt.sign({ loginCredentials }, process.env.SECRET);
+    const expirationTime: number = Math.floor(Date.now() / 1000) + 60 * 60;
+    const payload = { exp: expirationTime };
+    const token: string = jwt.sign(payload, process.env.SECRET);
     return new Token(token);
   }
 
@@ -36,6 +41,6 @@ export class LoginService implements LoginServicePort {
     passwordToCompare: string
   ): Promise<Token> {
     await this.checkPassword(loginCredentials.getPassword(), passwordToCompare);
-    return this.generateToken(loginCredentials);
+    return this.generateToken();
   }
 }
