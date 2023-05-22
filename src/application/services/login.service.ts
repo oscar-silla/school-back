@@ -8,10 +8,10 @@ import { HttpMessage } from "../domain/http-message";
 import { HttpStatus } from "../domain/http-status";
 
 export class LoginService implements LoginServicePort {
-  private async checkPassword(password: string, passworToCompare: string) {
+  private async checkPassword(password: string, passwordToCompare: string) {
     const samePassword: boolean = await bcrypt.compare(
       password,
-      passworToCompare
+      passwordToCompare
     );
     if (!samePassword) {
       throw new CustomError(

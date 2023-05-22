@@ -2,10 +2,13 @@ import { GeneratedIdModel } from "../models/generated-id.model";
 import { LastNewModel } from "../models/last-new.model";
 import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
 import { LastNewModelMapper } from "../mappers/last-new.model.mapper";
+import { LastNewsCollectionPort } from "../../../../application/ports/out/collection/last-news.collection.port";
 
-export class LastNewsCollection {
-  private lastNewModelMapper = new LastNewModelMapper();
-  private generateIdModelMapper = new GeneratedIdModelMapper();
+export class LastNewsCollection implements LastNewsCollectionPort {
+  private lastNewModelMapper: LastNewModelMapper = new LastNewModelMapper();
+  private generateIdModelMapper: GeneratedIdModelMapper =
+    new GeneratedIdModelMapper();
+
   async save(lastNewModel: LastNewModel): Promise<GeneratedIdModel> {
     const { mongo } = global.database;
     return this.generateIdModelMapper.toGenerateIdModel(

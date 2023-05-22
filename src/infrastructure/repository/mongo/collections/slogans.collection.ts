@@ -2,10 +2,12 @@ import { SloganModel } from "../models/slogan.model";
 import { GeneratedIdModel } from "../models/generated-id.model";
 import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
 import { SloganModelMapper } from "../mappers/slogan.model.mapper";
+import { SlogansCollectionPort } from "../../../../application/ports/out/collection/slogans.collection.port";
 
-export class SlogansCollection {
-  private sloganModelMapper = new SloganModelMapper();
-  private generatedIdModelMapper = new GeneratedIdModelMapper();
+export class SlogansCollection implements SlogansCollectionPort {
+  private sloganModelMapper: SloganModelMapper = new SloganModelMapper();
+  private generatedIdModelMapper: GeneratedIdModelMapper =
+    new GeneratedIdModelMapper();
   async save(sloganDao: SloganModel): Promise<GeneratedIdModel> {
     const { mongo } = global.database;
     return this.generatedIdModelMapper.toGenerateIdModel(
