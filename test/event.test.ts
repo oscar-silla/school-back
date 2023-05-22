@@ -24,15 +24,15 @@ const eventMock: Event = new Event(
   "#393B90B2"
 );
 
-describe("Event tests", () => {
-  beforeAll(async () => {
+describe("Event tests", (): void => {
+  beforeAll(async (): Promise<void> => {
     await mongo.createConnection();
   });
-  afterAll(async () => {
+  afterAll(async (): Promise<void> => {
     await mongo.closeConnection();
     httpServer.close();
   });
-  test("should respond with a 401 status code when try to create Event without token in request headers", async () => {
+  test("should respond with a 401 status code when try to create Event without token in request headers", async (): Promise<void> => {
     const res = await request.post(`${baseUrl}/events`).send(eventMock);
     expect(res.statusCode).toBe(HttpStatus.UNAUTHORIZED);
   });
