@@ -6,11 +6,13 @@ import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
 import { LastNewModelMapper } from "../mappers/last-new.model.mapper";
 import { GeneratedIdModel } from "../models/generated-id.model";
 import { LastNewModel } from "../models/last-new.model";
+import { LastNewsCollectionPort } from "../../../../application/ports/out/collection/last-news.collection.port";
 
 export class LastNewRepositoryAdapter implements LastNewRepositoryPort {
-  private lastNewsCollection = new LastNewsCollection();
-  private lastNewModelMapper = new LastNewModelMapper();
-  private generatedIdMapper = new GeneratedIdModelMapper();
+  private lastNewsCollection: LastNewsCollectionPort = new LastNewsCollection();
+  private lastNewModelMapper: LastNewModelMapper = new LastNewModelMapper();
+  private generatedIdMapper: GeneratedIdModelMapper =
+    new GeneratedIdModelMapper();
 
   async save(lastNew: LastNew): Promise<GeneratedId> {
     const lastNewModel: LastNewModel =

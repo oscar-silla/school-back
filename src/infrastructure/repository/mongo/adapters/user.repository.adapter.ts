@@ -6,9 +6,10 @@ import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
 import { UserModelMapper } from "../mappers/user.model.mapper";
 import { UserModel } from "../models/user.model";
 import { GeneratedIdModel } from "../models/generated-id.model";
+import { UsersCollectionPort } from "../../../../application/ports/out/collection/users.collection.port";
 
 export class UserRepositoryAdapter implements UserRepositoryPort {
-  private usersCollection = new UsersCollection();
+  private usersCollection: UsersCollectionPort = new UsersCollection();
 
   private userModelMapper: UserModelMapper = new UserModelMapper();
   private generatedIdModelMapper: GeneratedIdModelMapper =

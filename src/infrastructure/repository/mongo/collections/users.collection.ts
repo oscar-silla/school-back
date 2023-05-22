@@ -2,8 +2,9 @@ import { UserModel } from "../models/user.model";
 import { GeneratedIdModel } from "../models/generated-id.model";
 import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
 import { UserModelMapper } from "../mappers/user.model.mapper";
+import { UsersCollectionPort } from "../../../../application/ports/out/collection/users.collection.port";
 
-export class UsersCollection {
+export class UsersCollection implements UsersCollectionPort {
   private userModelMapper: UserModelMapper = new UserModelMapper();
   private generatedIdModelMapper: GeneratedIdModelMapper =
     new GeneratedIdModelMapper();
