@@ -6,9 +6,10 @@ import { SlogansCollection } from "../collections/slogans.collection";
 import { GeneratedIdModel } from "../models/generated-id.model";
 import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
 import { SloganModel } from "../models/slogan.model";
+import { SlogansCollectionPort } from "../../../../application/ports/out/collection/slogans.collection.port";
 
 export class SloganRepositoryAdapter implements SloganRepositoryPort {
-  private slogansCollection: SlogansCollection = new SlogansCollection();
+  private slogansCollection: SlogansCollectionPort = new SlogansCollection();
   private sloganDaoMapper: SloganModelMapper = new SloganModelMapper();
   private generatedIdDaoMapper: GeneratedIdModelMapper =
     new GeneratedIdModelMapper();

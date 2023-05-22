@@ -6,9 +6,10 @@ import { GeneratedIdModelMapper } from "../mappers/generated-id.model.mapper";
 import { VideoModelMapper } from "../mappers/video.model.mapper";
 import { VideoModel } from "../models/video.model";
 import { GeneratedIdModel } from "../models/generated-id.model";
+import { VideosCollectionPort } from "../../../../application/ports/out/collection/videos.collection.port";
 
 export class VideoRepositoryAdapter implements VideoRepositoryPort {
-  private videosCollection = new VideosCollection();
+  private videosCollection: VideosCollectionPort = new VideosCollection();
   private videoModelMapper: VideoModelMapper = new VideoModelMapper();
   private generatedIdModelMapper: GeneratedIdModelMapper =
     new GeneratedIdModelMapper();
